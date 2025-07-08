@@ -10,13 +10,13 @@ export default function HomePage() {
           <div className="lg:grid lg:grid-cols-12 lg:gap-8">
             <div className="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left">
               <h1 className="text-4xl font-bold text-gray-900 tracking-tight sm:text-5xl md:text-6xl">
-                Build Your SaaS
-                <span className="block text-orange-500">Faster Than Ever</span>
+                Découvrez votre
+                <span className="block text-orange-500">Mot du jour</span>
               </h1>
               <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
-                Launch your SaaS product in record time with our powerful,
-                ready-to-use template. Packed with modern technologies and
-                essential integrations.
+                Transformez votre mental en 2 minutes par jour. Recevez un
+                message personnalisé qui rewire votre cerveau pour plus de
+                bonheur, de confiance et de sérénité.
               </p>
               <div className="mt-8 sm:max-w-lg sm:mx-auto sm:text-center lg:text-left lg:mx-0">
                 <a
@@ -28,7 +28,7 @@ export default function HomePage() {
                     variant="outline"
                     className="text-lg rounded-full"
                   >
-                    Deploy your own
+                    Commencer
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </a>
@@ -55,11 +55,11 @@ export default function HomePage() {
               </div>
               <div className="mt-5">
                 <h2 className="text-lg font-medium text-gray-900">
-                  Next.js and React
+                  Apprentissage quotidien
                 </h2>
                 <p className="mt-2 text-base text-gray-500">
-                  Leverage the power of modern web technologies for optimal
-                  performance and developer experience.
+                  Découvrez un nouveau mot français chaque jour avec des
+                  définitions claires et des exemples d'usage.
                 </p>
               </div>
             </div>
@@ -70,11 +70,11 @@ export default function HomePage() {
               </div>
               <div className="mt-5">
                 <h2 className="text-lg font-medium text-gray-900">
-                  Postgres and Drizzle ORM
+                  Suivi personnalisé
                 </h2>
                 <p className="mt-2 text-base text-gray-500">
-                  Robust database solution with an intuitive ORM for efficient
-                  data management and scalability.
+                  Suivez vos progrès et créez votre propre collection de
+                  mots favoris pour enrichir votre vocabulaire.
                 </p>
               </div>
             </div>
@@ -85,11 +85,11 @@ export default function HomePage() {
               </div>
               <div className="mt-5">
                 <h2 className="text-lg font-medium text-gray-900">
-                  Stripe Integration
+                  Expérience premium
                 </h2>
                 <p className="mt-2 text-base text-gray-500">
-                  Seamless payment processing and subscription management with
-                  industry-leading Stripe integration.
+                  Accédez à des fonctionnalités avancées avec notre abonnement
+                  premium pour une expérience d'apprentissage optimale.
                 </p>
               </div>
             </div>
@@ -102,12 +102,12 @@ export default function HomePage() {
           <div className="lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center">
             <div>
               <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
-                Ready to launch your SaaS?
+                Prêt à enrichir votre vocabulaire?
               </h2>
               <p className="mt-3 max-w-3xl text-lg text-gray-500">
-                Our template provides everything you need to get your SaaS up
-                and running quickly. Don't waste time on boilerplate - focus on
-                what makes your product unique.
+                Rejoignez des milliers d'utilisateurs qui découvrent un nouveau
+                mot français chaque jour. Commencez votre voyage
+                d'apprentissage dès aujourd'hui.
               </p>
             </div>
             <div className="mt-8 lg:mt-0 flex justify-center lg:justify-end">
@@ -117,7 +117,7 @@ export default function HomePage() {
                   variant="outline"
                   className="text-lg rounded-full"
                 >
-                  View the code
+                  En savoir plus
                   <ArrowRight className="ml-3 h-6 w-6" />
                 </Button>
               </a>

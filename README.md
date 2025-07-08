@@ -1,8 +1,8 @@
-# Next.js SaaS Starter
+# Mot du jour
 
-This is a starter template for building a SaaS application using **Next.js** with support for authentication, Stripe integration for payments, and a dashboard for logged-in users.
+A daily word discovery application built with **Next.js**, featuring user authentication, subscription management via Stripe, and a personalized dashboard experience.
 
-**Demo: [https://next-saas-start.vercel.app/](https://next-saas-start.vercel.app/)**
+**Repository: [https://github.com/lilsouris/mot.du.jour.git](https://github.com/lilsouris/mot.du.jour.git)**
 
 ## Features
 
@@ -27,8 +27,8 @@ This is a starter template for building a SaaS application using **Next.js** wit
 ## Getting Started
 
 ```bash
-git clone https://github.com/nextjs/saas-starter
-cd saas-starter
+git clone https://github.com/lilsouris/mot.du.jour.git
+cd mot.du.jour
 pnpm install
 ```
 
