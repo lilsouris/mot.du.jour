@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -281,10 +281,25 @@ export function CountrySelector({
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [mounted, setMounted] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+        setSearchTerm('');
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+      return () => document.removeEventListener('mousedown', handleClickOutside);
+    }
+  }, [isOpen]);
 
   const filteredCountries = countries.filter(country =>
     country.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -297,7 +312,7 @@ export function CountrySelector({
         Numéro de téléphone
       </Label>
       <div className="mt-1 flex rounded-full border border-gray-300 overflow-hidden">
-        <div className="relative">
+        <div className="relative" ref={dropdownRef}>
           <Button
             type="button"
             variant="ghost"
@@ -310,8 +325,8 @@ export function CountrySelector({
           </Button>
           
           {mounted && isOpen && (
-            <div className="absolute top-full left-0 z-50 w-80 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
-              <div className="p-2">
+            <div className="absolute top-full left-0 z-[9999] w-80 bg-white border border-gray-300 rounded-md shadow-lg">
+              <div className="p-2 border-b border-gray-200">
                 <Input
                   placeholder="Rechercher un pays..."
                   value={searchTerm}
@@ -319,7 +334,7 @@ export function CountrySelector({
                   className="w-full"
                 />
               </div>
-              <div className="max-h-48 overflow-y-auto">
+              <div className="max-h-60 overflow-y-auto">
                 {filteredCountries.map((country) => (
                   <button
                     key={country.code}
