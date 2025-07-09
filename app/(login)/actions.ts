@@ -45,13 +45,16 @@ async function logActivity(
 }
 
 const signInSchema = z.object({
-  email: z.string().email().min(3).max(255),
+  email: z.string().min(3).max(255),
   password: z.string().min(8).max(100)
 });
 
 export const signIn = validatedAction(signInSchema, async (data, formData) => {
   const { email, password } = data;
 
+  // Check if input is email or phone number
+  const isPhoneNumber = /^\+?[1-9]\d{1,14}$/.test(email.replace(/\s/g, ''));
+  
   const userWithTeam = await db
     .select({
       user: users,
@@ -60,7 +63,7 @@ export const signIn = validatedAction(signInSchema, async (data, formData) => {
     .from(users)
     .leftJoin(teamMembers, eq(users.id, teamMembers.userId))
     .leftJoin(teams, eq(teamMembers.teamId, teams.id))
-    .where(eq(users.email, email))
+    .where(isPhoneNumber ? eq(users.phoneNumber, email) : eq(users.email, email))
     .limit(1);
 
   if (userWithTeam.length === 0) {
@@ -103,11 +106,13 @@ export const signIn = validatedAction(signInSchema, async (data, formData) => {
 const signUpSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
+  phoneNumber: z.string().optional(),
+  phoneCountry: z.string().optional(),
   inviteId: z.string().optional()
 });
 
 export const signUp = validatedAction(signUpSchema, async (data, formData) => {
-  const { email, password, inviteId } = data;
+  const { email, password, phoneNumber, phoneCountry, inviteId } = data;
 
   const existingUser = await db
     .select()
@@ -128,6 +133,8 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
   const newUser: NewUser = {
     email,
     passwordHash,
+    phoneNumber: phoneNumber || null,
+    phoneCountry: phoneCountry || null,
     role: 'owner' // Default role, will be overridden if there's an invitation
   };
 

@@ -3,9 +3,9 @@ import { redirect } from 'next/navigation';
 import { Team } from '@/lib/db/schema';
 import {
   getTeamByStripeCustomerId,
-  getUser,
   updateTeamSubscription
 } from '@/lib/db/queries';
+import { getCurrentUser } from '@/lib/supabase/queries';
 
 export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2024-11-20.acacia'
@@ -18,7 +18,7 @@ export async function createCheckoutSession({
   team: Team | null;
   priceId: string;
 }) {
-  const user = await getUser();
+  const user = await getCurrentUser();
 
   if (!team || !user) {
     redirect(`/inscription?redirect=checkout&priceId=${priceId}`);

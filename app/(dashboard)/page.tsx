@@ -117,7 +117,7 @@ export default function HomePage() {
       </section>
 
       {/* Pricing Section */}
-      <section className="py-20 bg-white">
+      <section id="pricing" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
@@ -149,7 +149,7 @@ export default function HomePage() {
                 </li>
                 <li className="flex items-start">
                   <span className="text-green-500 mr-3">✓</span>
-                  <span className="text-gray-700">Suivi de progression</span>
+                  <span className="text-gray-700">7 jours d'essai gratuit</span>
                 </li>
               </ul>
               <button className="mt-8 w-full bg-orange-500 text-white py-3 px-6 rounded-full font-semibold hover:bg-orange-600 transition-colors">
@@ -204,7 +204,7 @@ export default function HomePage() {
               <ul className="mt-8 space-y-4">
                 <li className="flex items-start">
                   <span className="text-green-500 mr-3">✓</span>
-                  <span className="text-gray-700">Comptes famille illimités</span>
+                  <span className="text-gray-700">Comptes illimités</span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-green-500 mr-3">✓</span>
@@ -212,7 +212,7 @@ export default function HomePage() {
                 </li>
                 <li className="flex items-start">
                   <span className="text-green-500 mr-3">✓</span>
-                  <span className="text-gray-700">Gestion parentale</span>
+                  <span className="text-gray-700">Parfait pour les familles et entreprises</span>
                 </li>
               </ul>
               <button className="mt-8 w-full bg-orange-500 text-white py-3 px-6 rounded-full font-semibold hover:bg-orange-600 transition-colors">

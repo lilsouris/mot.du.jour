@@ -12,10 +12,11 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { signOut } from '@/app/(login)/actions';
+import { signOut } from '@/app/(login)/supabase-actions';
 import { useRouter } from 'next/navigation';
 import { User } from '@/lib/db/schema';
 import useSWR, { mutate } from 'swr';
+import { createClient } from '@/lib/supabase/client';
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -25,7 +26,8 @@ function UserMenu() {
   const router = useRouter();
 
   async function handleSignOut() {
-    await signOut();
+    const supabase = createClient();
+    await supabase.auth.signOut();
     mutate('/api/user');
     router.push('/');
   }
@@ -33,12 +35,16 @@ function UserMenu() {
   if (!user) {
     return (
       <>
-        <Link
-          href="/pricing"
+        <button
+          onClick={() => {
+            document.getElementById('pricing')?.scrollIntoView({ 
+              behavior: 'smooth' 
+            });
+          }}
           className="text-sm font-medium text-gray-700 hover:text-gray-900"
         >
           Tarifs
-        </Link>
+        </button>
         <Button asChild variant="outline" className="rounded-full border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white">
           <Link href="/connection">Se connecter</Link>
         </Button>

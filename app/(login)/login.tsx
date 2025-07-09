@@ -1,14 +1,15 @@
 'use client';
 
 import Link from 'next/link';
-import { useActionState } from 'react';
+import { useActionState, useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { CircleIcon, Loader2 } from 'lucide-react';
-import { signIn, signUp } from './actions';
+import { signIn, signUp } from './supabase-actions';
 import { ActionState } from '@/lib/auth/middleware';
+import { CountrySelector, countries, Country } from '@/components/country-selector';
 
 export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
   const searchParams = useSearchParams();
@@ -16,9 +17,22 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
   const priceId = searchParams.get('priceId');
   const inviteId = searchParams.get('inviteId');
   const [state, formAction, pending] = useActionState<ActionState, FormData>(
-    mode === 'signin' ? signIn : signUp,
+    async (prevState: ActionState, formData: FormData) => {
+      const result = await (mode === 'signin' ? signIn : signUp)(formData);
+      return result || { error: '' };
+    },
     { error: '' }
   );
+  
+  const [selectedCountry, setSelectedCountry] = useState<Country>(
+    countries.find(c => c.code === 'FR') || countries[0]
+  );
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   return (
     <div className="min-h-[100dvh] flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
@@ -43,22 +57,33 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
               htmlFor="email"
               className="block text-sm font-medium text-gray-700"
             >
-              Email
+              {mode === 'signin' ? 'Email ou téléphone' : 'Email'}
             </Label>
             <div className="mt-1">
               <Input
                 id="email"
                 name="email"
-                type="email"
+                type={mode === 'signin' ? 'text' : 'email'}
                 autoComplete="email"
                 defaultValue={state.email}
                 required
                 maxLength={50}
                 className="appearance-none rounded-full relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm"
-                placeholder="Entrez votre email"
+                placeholder={mode === 'signin' ? 'Entrez votre email ou téléphone' : 'Entrez votre email'}
               />
             </div>
           </div>
+
+          {mode === 'signup' && mounted && (
+            <div>
+              <CountrySelector
+                selectedCountry={selectedCountry}
+                onCountryChange={setSelectedCountry}
+                phoneNumber={phoneNumber}
+                onPhoneNumberChange={setPhoneNumber}
+              />
+            </div>
+          )}
 
           <div>
             <Label
