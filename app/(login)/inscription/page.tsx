@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import { Login } from '../login';
 
-export default function SignUpPage() {
+export default function InscriptionPage() {
   return (
     <Suspense>
       <Login mode="signup" />

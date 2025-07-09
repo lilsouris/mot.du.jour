@@ -65,7 +65,7 @@ export const signIn = validatedAction(signInSchema, async (data, formData) => {
 
   if (userWithTeam.length === 0) {
     return {
-      error: 'Invalid email or password. Please try again.',
+      error: 'Email ou mot de passe invalide. Veuillez réessayer.',
       email,
       password
     };
@@ -80,7 +80,7 @@ export const signIn = validatedAction(signInSchema, async (data, formData) => {
 
   if (!isPasswordValid) {
     return {
-      error: 'Invalid email or password. Please try again.',
+      error: 'Email ou mot de passe invalide. Veuillez réessayer.',
       email,
       password
     };
@@ -117,7 +117,7 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
 
   if (existingUser.length > 0) {
     return {
-      error: 'Failed to create user. Please try again.',
+      error: 'Échec de la création de l\'utilisateur. Veuillez réessayer.',
       email,
       password
     };
@@ -135,7 +135,7 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
 
   if (!createdUser) {
     return {
-      error: 'Failed to create user. Please try again.',
+      error: 'Échec de la création de l\'utilisateur. Veuillez réessayer.',
       email,
       password
     };
@@ -176,7 +176,7 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
         .where(eq(teams.id, teamId))
         .limit(1);
     } else {
-      return { error: 'Invalid or expired invitation.', email, password };
+      return { error: 'Invitation invalide ou expirée.', email, password };
     }
   } else {
     // Create a new team if there's no invitation
@@ -188,7 +188,7 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
 
     if (!createdTeam) {
       return {
-        error: 'Failed to create team. Please try again.',
+        error: 'Échec de la création de l\'équipe. Veuillez réessayer.',
         email,
         password
       };
@@ -249,7 +249,7 @@ export const updatePassword = validatedActionWithUser(
         currentPassword,
         newPassword,
         confirmPassword,
-        error: 'Current password is incorrect.'
+        error: 'Le mot de passe actuel est incorrect.'
       };
     }
 
@@ -258,7 +258,7 @@ export const updatePassword = validatedActionWithUser(
         currentPassword,
         newPassword,
         confirmPassword,
-        error: 'New password must be different from the current password.'
+        error: 'Le nouveau mot de passe doit être différent du mot de passe actuel.'
       };
     }
 
@@ -267,7 +267,7 @@ export const updatePassword = validatedActionWithUser(
         currentPassword,
         newPassword,
         confirmPassword,
-        error: 'New password and confirmation password do not match.'
+        error: 'Le nouveau mot de passe et la confirmation ne correspondent pas.'
       };
     }
 
@@ -283,7 +283,7 @@ export const updatePassword = validatedActionWithUser(
     ]);
 
     return {
-      success: 'Password updated successfully.'
+      success: 'Mot de passe mis à jour avec succès.'
     };
   }
 );
@@ -301,7 +301,7 @@ export const deleteAccount = validatedActionWithUser(
     if (!isPasswordValid) {
       return {
         password,
-        error: 'Incorrect password. Account deletion failed.'
+        error: 'Mot de passe incorrect. Suppression du compte échouée.'
       };
     }
 
@@ -334,7 +334,7 @@ export const deleteAccount = validatedActionWithUser(
     }
 
     (await cookies()).delete('session');
-    redirect('/sign-in');
+    redirect('/connection');
   }
 );
 
@@ -354,7 +354,7 @@ export const updateAccount = validatedActionWithUser(
       logActivity(userWithTeam?.teamId, user.id, ActivityType.UPDATE_ACCOUNT)
     ]);
 
-    return { name, success: 'Account updated successfully.' };
+    return { name, success: 'Compte mis à jour avec succès.' };
   }
 );
 
@@ -369,7 +369,7 @@ export const removeTeamMember = validatedActionWithUser(
     const userWithTeam = await getUserWithTeam(user.id);
 
     if (!userWithTeam?.teamId) {
-      return { error: 'User is not part of a team' };
+      return { error: 'L\'utilisateur ne fait pas partie d\'une équipe' };
     }
 
     await db
@@ -387,7 +387,7 @@ export const removeTeamMember = validatedActionWithUser(
       ActivityType.REMOVE_TEAM_MEMBER
     );
 
-    return { success: 'Team member removed successfully' };
+    return { success: 'Membre de l\'équipe supprimé avec succès' };
   }
 );
 
@@ -403,7 +403,7 @@ export const inviteTeamMember = validatedActionWithUser(
     const userWithTeam = await getUserWithTeam(user.id);
 
     if (!userWithTeam?.teamId) {
-      return { error: 'User is not part of a team' };
+      return { error: 'L\'utilisateur ne fait pas partie d\'une équipe' };
     }
 
     const existingMember = await db
@@ -416,7 +416,7 @@ export const inviteTeamMember = validatedActionWithUser(
       .limit(1);
 
     if (existingMember.length > 0) {
-      return { error: 'User is already a member of this team' };
+      return { error: 'L\'utilisateur est déjà membre de cette équipe' };
     }
 
     // Check if there's an existing invitation
@@ -433,7 +433,7 @@ export const inviteTeamMember = validatedActionWithUser(
       .limit(1);
 
     if (existingInvitation.length > 0) {
-      return { error: 'An invitation has already been sent to this email' };
+      return { error: 'Une invitation a déjà été envoyée à cette adresse email' };
     }
 
     // Create a new invitation
@@ -454,6 +454,6 @@ export const inviteTeamMember = validatedActionWithUser(
     // TODO: Send invitation email and include ?inviteId={id} to sign-up URL
     // await sendInvitationEmail(email, userWithTeam.team.name, role)
 
-    return { success: 'Invitation sent successfully' };
+    return { success: 'Invitation envoyée avec succès' };
   }
 );

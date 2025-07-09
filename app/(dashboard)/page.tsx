@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
-import { ArrowRight, CreditCard, Database } from 'lucide-react';
-import { Terminal } from './terminal';
+import { ArrowRight, BookOpen, Brain, MessageSquare } from 'lucide-react';
+import { PhoneVisuals } from './phone-visuals';
 
 export default function HomePage() {
   return (
@@ -26,16 +26,16 @@ export default function HomePage() {
                   <Button
                     size="lg"
                     variant="outline"
-                    className="text-lg rounded-full"
+                    className="text-lg rounded-full bg-[#7C3AED] text-white border-[#7C3AED] hover:bg-transparent hover:text-[#7C3AED]"
                   >
-                    Commencer
+                    Essayez gratuitement
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </a>
               </div>
             </div>
             <div className="mt-12 relative sm:max-w-lg sm:mx-auto lg:mt-0 lg:max-w-none lg:mx-0 lg:col-span-6 lg:flex lg:items-center">
-              <Terminal />
+              <PhoneVisuals />
             </div>
           </div>
         </div>
@@ -46,50 +46,42 @@ export default function HomePage() {
           <div className="lg:grid lg:grid-cols-3 lg:gap-8">
             <div>
               <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
-                <svg viewBox="0 0 24 24" className="h-6 w-6">
-                  <path
-                    fill="currentColor"
-                    d="M14.23 12.004a2.236 2.236 0 0 1-2.235 2.236 2.236 2.236 0 0 1-2.236-2.236 2.236 2.236 0 0 1 2.235-2.236 2.236 2.236 0 0 1 2.236 2.236zm2.648-10.69c-1.346 0-3.107.96-4.888 2.622-1.78-1.653-3.542-2.602-4.887-2.602-.41 0-.783.093-1.106.278-1.375.793-1.683 3.264-.973 6.365C1.98 8.917 0 10.42 0 12.004c0 1.59 1.99 3.097 5.043 4.03-.704 3.113-.39 5.588.988 6.38.32.187.69.275 1.102.275 1.345 0 3.107-.96 4.888-2.624 1.78 1.654 3.542 2.603 4.887 2.603.41 0 .783-.09 1.106-.275 1.374-.792 1.683-3.263.973-6.365C22.02 15.096 24 13.59 24 12.004c0-1.59-1.99-3.097-5.043-4.032.704-3.11.39-5.587-.988-6.38-.318-.184-.688-.277-1.092-.278zm-.005 1.09v.006c.225 0 .406.044.558.127.666.382.955 1.835.73 3.704-.054.46-.142.945-.25 1.44-.96-.236-2.006-.417-3.107-.534-.66-.905-1.345-1.727-2.035-2.447 1.592-1.48 3.087-2.292 4.105-2.295zm-9.77.02c1.012 0 2.514.808 4.11 2.28-.686.72-1.37 1.537-2.02 2.442-1.107.117-2.154.298-3.113.538-.112-.49-.195-.964-.254-1.42-.23-1.868.054-3.32.714-3.707.19-.09.4-.127.563-.132zm4.882 3.05c.455.468.91.992 1.36 1.564-.44-.02-.89-.034-1.345-.034-.46 0-.915.01-1.36.034.44-.572.895-1.096 1.345-1.565zM12 8.1c.74 0 1.477.034 2.202.093.406.582.802 1.203 1.183 1.86.372.64.71 1.29 1.018 1.946-.308.655-.646 1.31-1.013 1.95-.38.66-.773 1.288-1.18 1.87-.728.063-1.466.098-2.21.098-.74 0-1.477-.035-2.202-.093-.406-.582-.802-1.204-1.183-1.86-.372-.64-.71-1.29-1.018-1.946.303-.657.646-1.313 1.013-1.954.38-.66.773-1.286 1.18-1.868.728-.064 1.466-.098 2.21-.098zm-3.635.254c-.24.377-.48.763-.704 1.16-.225.39-.435.782-.635 1.174-.265-.656-.49-1.31-.676-1.947.64-.15 1.315-.283 2.015-.386zm7.26 0c.695.103 1.365.23 2.006.387-.18.632-.405 1.282-.66 1.933-.2-.39-.41-.783-.64-1.174-.225-.392-.465-.774-.705-1.146zm3.063.675c.484.15.944.317 1.375.498 1.732.74 2.852 1.708 2.852 2.476-.005.768-1.125 1.74-2.857 2.475-.42.18-.88.342-1.355.493-.28-.958-.646-1.956-1.1-2.98.45-1.017.81-2.01 1.085-2.964zm-13.395.004c.278.96.645 1.957 1.1 2.98-.45 1.017-.812 2.01-1.086 2.964-.484-.15-.944-.318-1.37-.5-1.732-.737-2.852-1.706-2.852-2.474 0-.768 1.12-1.742 2.852-2.476.42-.18.88-.342 1.356-.494zm11.678 4.28c.265.657.49 1.312.676 1.948-.64.157-1.316.29-2.016.39.24-.375.48-.762.705-1.158.225-.39.435-.788.636-1.18zm-9.945.02c.2.392.41.783.64 1.175.23.39.465.772.705 1.143-.695-.102-1.365-.23-2.006-.386.18-.63.406-1.282.66-1.933zM17.92 16.32c.112.493.2.968.254 1.423.23 1.868-.054 3.32-.714 3.708-.147.09-.338.128-.563.128-1.012 0-2.514-.807-4.11-2.28.686-.72 1.37-1.536 2.02-2.44 1.107-.118 2.154-.3 3.113-.54zm-11.83.01c.96.234 2.006.415 3.107.532.66.905 1.345 1.727 2.035 2.446-1.595 1.483-3.092 2.295-4.11 2.295-.22-.005-.406-.05-.553-.132-.666-.38-.955-1.834-.73-3.703.054-.46.142-.944.25-1.438zm4.56.64c.44.02.89.034 1.345.034.46 0 .915-.01 1.36-.034-.44.572-.895 1.095-1.345 1.565-.455-.47-.91-.993-1.36-1.565z"
-                  />
-                </svg>
+                <Brain className="h-6 w-6" />
               </div>
               <div className="mt-5">
                 <h2 className="text-lg font-medium text-gray-900">
-                  Apprentissage quotidien
+                  Rewiring neuroplastique
                 </h2>
                 <p className="mt-2 text-base text-gray-500">
-                  Découvrez un nouveau mot français chaque jour avec des
-                  définitions claires et des exemples d'usage.
+                  Chaque message est conçu pour créer de nouveaux circuits neuronaux positifs. 21 jours suffisent pour voir un changement durable.
                 </p>
               </div>
             </div>
 
             <div className="mt-10 lg:mt-0">
               <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
-                <Database className="h-6 w-6" />
+                <MessageSquare className="h-6 w-6" />
               </div>
               <div className="mt-5">
                 <h2 className="text-lg font-medium text-gray-900">
-                  Suivi personnalisé
+                  Messages uniques
                 </h2>
                 <p className="mt-2 text-base text-gray-500">
-                  Suivez vos progrès et créez votre propre collection de
-                  mots favoris pour enrichir votre vocabulaire.
+                  Aucun abonné ne reçoit le même texte en même temps.
                 </p>
               </div>
             </div>
 
             <div className="mt-10 lg:mt-0">
               <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
-                <CreditCard className="h-6 w-6" />
+                <BookOpen className="h-6 w-6" />
               </div>
               <div className="mt-5">
                 <h2 className="text-lg font-medium text-gray-900">
-                  Expérience premium
+                  Journal numérique
                 </h2>
                 <p className="mt-2 text-base text-gray-500">
-                  Accédez à des fonctionnalités avancées avec notre abonnement
-                  premium pour une expérience d'apprentissage optimale.
+                  Vide ton sac. Exprime-toi. Parle sans retenue. Envoie-nous tes pensées, quand l'envie te prend.
                 </p>
               </div>
             </div>
@@ -102,12 +94,10 @@ export default function HomePage() {
           <div className="lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center">
             <div>
               <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
-                Prêt à enrichir votre vocabulaire?
+                Prêt à acquérir Un esprit plus zen, plus motivé et plus ancré
               </h2>
               <p className="mt-3 max-w-3xl text-lg text-gray-500">
-                Rejoignez des milliers d'utilisateurs qui découvrent un nouveau
-                mot français chaque jour. Commencez votre voyage
-                d'apprentissage dès aujourd'hui.
+                Rejoignez des milliers d'utilisateurs qui transforment leur bien-être mental grâce à un message quotidien personnalisé. Commencez votre voyage vers la sérénité dès aujourd'hui.
               </p>
             </div>
             <div className="mt-8 lg:mt-0 flex justify-center lg:justify-end">
@@ -115,9 +105,9 @@ export default function HomePage() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="text-lg rounded-full"
+                  className="text-lg rounded-full bg-[#7C3AED] text-white border-[#7C3AED] hover:bg-transparent hover:text-[#7C3AED]"
                 >
-                  En savoir plus
+                  Essayez gratuitement
                   <ArrowRight className="ml-3 h-6 w-6" />
                 </Button>
               </a>
@@ -125,6 +115,187 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Pricing Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
+              Choisissez votre formule
+            </h2>
+            <p className="mt-4 text-xl text-gray-500">
+              Commencez gratuitement, puis choisissez la formule qui vous convient
+            </p>
+          </div>
+          <div className="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-3">
+            {/* Personal Plan */}
+            <div className="relative bg-white rounded-2xl shadow-lg border border-gray-200 p-8">
+              <div className="text-center">
+                <h3 className="text-2xl font-bold text-gray-900">Personnel</h3>
+                <div className="mt-4 flex items-center justify-center">
+                  <span className="text-4xl font-bold text-gray-900">4,99€</span>
+                  <span className="ml-2 text-lg text-gray-500">/mois</span>
+                </div>
+                <p className="mt-2 text-sm text-gray-500">ou 49,99€ facturé annuellement</p>
+              </div>
+              <ul className="mt-8 space-y-4">
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3">✓</span>
+                  <span className="text-gray-700">Messages quotidiens personnalisés</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3">✓</span>
+                  <span className="text-gray-700">Journal numérique illimité</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3">✓</span>
+                  <span className="text-gray-700">Suivi de progression</span>
+                </li>
+              </ul>
+              <button className="mt-8 w-full bg-orange-500 text-white py-3 px-6 rounded-full font-semibold hover:bg-orange-600 transition-colors">
+                Commencer gratuitement
+              </button>
+            </div>
+
+            {/* Gift Plan */}
+            <div className="relative bg-white rounded-2xl shadow-lg border-2 border-orange-500 p-8">
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                <span className="bg-orange-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                  Plus populaire
+                </span>
+              </div>
+              <div className="text-center">
+                <h3 className="text-2xl font-bold text-gray-900">Cadeau</h3>
+                <div className="mt-4 flex items-center justify-center">
+                  <span className="text-4xl font-bold text-gray-900">4,99€</span>
+                  <span className="ml-2 text-lg text-gray-500">/mois</span>
+                </div>
+                <p className="mt-2 text-sm text-gray-500">ou 49,99€ facturé annuellement</p>
+              </div>
+              <ul className="mt-8 space-y-4">
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3">✓</span>
+                  <span className="text-gray-700">Parfait pour offrir</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3">✓</span>
+                  <span className="text-gray-700">Toutes les fonctionnalités personnelles</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3">✓</span>
+                  <span className="text-gray-700">Activation facile</span>
+                </li>
+              </ul>
+              <button className="mt-8 w-full bg-orange-500 text-white py-3 px-6 rounded-full font-semibold hover:bg-orange-600 transition-colors">
+                Offrir maintenant
+              </button>
+            </div>
+
+            {/* Family Plan */}
+            <div className="relative bg-white rounded-2xl shadow-lg border border-gray-200 p-8">
+              <div className="text-center">
+                <h3 className="text-2xl font-bold text-gray-900">Famille</h3>
+                <div className="mt-4 flex items-center justify-center">
+                  <span className="text-4xl font-bold text-gray-900">3,99€</span>
+                  <span className="ml-2 text-lg text-gray-500">/utilisateur/mois</span>
+                </div>
+                <p className="mt-2 text-sm text-gray-500">utilisateurs illimités</p>
+              </div>
+              <ul className="mt-8 space-y-4">
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3">✓</span>
+                  <span className="text-gray-700">Comptes famille illimités</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3">✓</span>
+                  <span className="text-gray-700">Toutes les fonctionnalités personnelles</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3">✓</span>
+                  <span className="text-gray-700">Gestion parentale</span>
+                </li>
+              </ul>
+              <button className="mt-8 w-full bg-orange-500 text-white py-3 px-6 rounded-full font-semibold hover:bg-orange-600 transition-colors">
+                Commencer gratuitement
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-50 border-t border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            {/* Company Info */}
+            <div className="space-y-4">
+              <div className="flex items-center">
+                <span className="text-xl font-semibold text-gray-900">Mot du jour</span>
+              </div>
+              <p className="text-gray-600 text-sm">
+                Transformez votre bien-être mental avec des messages quotidiens personnalisés.
+              </p>
+            </div>
+
+            {/* Product */}
+            <div className="space-y-4">
+              <h4 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">
+                Produit
+              </h4>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-gray-600 hover:text-gray-900 text-sm">Fonctionnalités</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-gray-900 text-sm">Tarifs</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-gray-900 text-sm">Télécharger</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-gray-900 text-sm">FAQ</a></li>
+              </ul>
+            </div>
+
+            {/* Support */}
+            <div className="space-y-4">
+              <h4 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">
+                Support
+              </h4>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-gray-600 hover:text-gray-900 text-sm">Centre d'aide</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-gray-900 text-sm">Contact</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-gray-900 text-sm">Statut</a></li>
+              </ul>
+            </div>
+
+            {/* Legal */}
+            <div className="space-y-4">
+              <h4 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">
+                Légal
+              </h4>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-gray-600 hover:text-gray-900 text-sm">Confidentialité</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-gray-900 text-sm">Conditions</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-gray-900 text-sm">Cookies</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="mt-8 pt-8 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center">
+            <p className="text-gray-600 text-sm">
+              © 2024 Mot du jour. Tous droits réservés.
+            </p>
+            <div className="flex space-x-6 mt-4 sm:mt-0">
+              <a href="#" className="text-gray-400 hover:text-gray-600">
+                <span className="sr-only">Twitter</span>
+                <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+                </svg>
+              </a>
+              <a href="#" className="text-gray-400 hover:text-gray-600">
+                <span className="sr-only">Instagram</span>
+                <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path fillRule="evenodd" d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.621 5.367 11.987 11.988 11.987s11.987-5.366 11.987-11.987C24.014 5.367 18.647.001 12.017.001zM8.449 16.988c-1.297 0-2.448-.49-3.323-1.291a4.513 4.513 0 01-1.291-3.323c0-1.297.49-2.448 1.291-3.323a4.513 4.513 0 013.323-1.291c1.297 0 2.448.49 3.323 1.291.8.875 1.291 2.026 1.291 3.323 0 1.297-.49 2.448-1.291 3.323a4.513 4.513 0 01-3.323 1.291z" clipRule="evenodd" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }
