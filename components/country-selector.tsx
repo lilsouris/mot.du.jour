@@ -311,21 +311,37 @@ export function CountrySelector({
       <Label htmlFor="phone" className="block text-sm font-medium text-gray-700">
         Numéro de téléphone
       </Label>
-      <div className="mt-1 flex rounded-full border border-gray-300 overflow-hidden">
+      <div className="mt-1 flex rounded-full border border-gray-300">
         <div className="relative" ref={dropdownRef}>
           <Button
             type="button"
             variant="ghost"
             className="h-full px-3 py-2 flex items-center space-x-2 hover:bg-gray-50 rounded-none"
-            onClick={() => setIsOpen(!isOpen)}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setIsOpen(!isOpen);
+            }}
           >
             <span className="text-lg">{selectedCountry.flag}</span>
             <span className="text-sm font-medium">{selectedCountry.dialCode}</span>
             <ChevronDown className="h-4 w-4" />
           </Button>
           
-          {mounted && isOpen && (
-            <div className="absolute top-full left-0 z-[9999] w-80 bg-white border border-gray-300 rounded-md shadow-lg">
+          {isOpen && (
+            <div 
+              className="absolute top-full left-0 z-[9999] w-80 bg-white border border-gray-300 rounded-md shadow-xl"
+              style={{ 
+                position: 'absolute',
+                top: '100%',
+                left: '0',
+                zIndex: 9999,
+                backgroundColor: 'white',
+                border: '1px solid #d1d5db',
+                borderRadius: '6px',
+                boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)'
+              }}
+            >
               <div className="p-2 border-b border-gray-200">
                 <Input
                   placeholder="Rechercher un pays..."

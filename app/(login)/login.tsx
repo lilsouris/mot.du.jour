@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { CircleIcon, Loader2 } from 'lucide-react';
 import { signIn, signUp } from './supabase-actions';
+import { testAction } from './test-action';
 import { ActionState } from '@/lib/auth/middleware';
 import { CountrySelector, countries, Country } from '@/components/country-selector';
 
@@ -18,8 +19,20 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
   const inviteId = searchParams.get('inviteId');
   const [state, formAction, pending] = useActionState<ActionState, FormData>(
     async (prevState: ActionState, formData: FormData) => {
-      const result = await (mode === 'signin' ? signIn : signUp)(formData);
-      return result || { error: '' };
+      try {
+        console.log('🔄 Client: About to call server action');
+        
+        // Test if server actions work at all
+        const testResult = await testAction();
+        console.log('🧪 Test action result:', testResult);
+        
+        const result = await (mode === 'signin' ? signIn : signUp)(formData);
+        console.log('✅ Client: Server action completed', result);
+        return result || { error: '' };
+      } catch (error) {
+        console.error('❌ Client: Server action failed', error);
+        return { error: 'Échec de la création de l\'utilisateur. Veuillez réessayer.' };
+      }
     },
     { error: '' }
   );
@@ -74,7 +87,7 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
             </div>
           </div>
 
-          {mode === 'signup' && mounted && (
+          {mode === 'signup' && (
             <div>
               <CountrySelector
                 selectedCountry={selectedCountry}
