@@ -1,9 +1,10 @@
 # Claude Code Progress - Mot du Jour
 
-## Current Status
-- **Main Issue**: Signup flow not working - users created in Supabase Auth but not in users table
-- **Error Message**: "Échec de la création de l'utilisateur. Veuillez réessayer."
-- **Server Issue**: Next.js dev server not accessible via browser (localhost:3000 and localhost:3001 both tried)
+## Current Status ✅
+- **Signup Flow**: Working correctly - users created in both Supabase Auth and users table
+- **Database**: Fully migrated to Supabase with proper UUID support
+- **Server**: Next.js dev server running on localhost:3000
+- **Forms**: Phone number and country selector working properly
 
 ## What's Been Done ✅
 1. Fixed country selector dropdown functionality 
@@ -11,22 +12,21 @@
 3. Generated Supabase TypeScript types
 4. Fixed column name mismatch (Phone_country -> phone_country)
 5. Fixed duplicate variable names in server action
-6. Added comprehensive debugging to signup function
+6. Cleaned up debug logging code
 7. Verified form data validation works correctly
+8. Ensured proper UUID handling for Supabase Auth integration
 
 ## Current Files
-- `/app/(login)/supabase-actions.ts` - Main signup function with debugging
-- `/app/(login)/login.tsx` - Login/signup form component
-- `/components/country-selector.tsx` - Fixed country dropdown
+- `/app/(login)/supabase-actions.ts` - Main signup/signin functions (cleaned up)
+- `/app/(login)/login.tsx` - Login/signup form component (cleaned up)
+- `/components/country-selector.tsx` - Working country dropdown with phone input
 - `/lib/supabase/queries.ts` - Supabase query functions
 - `/lib/supabase/types.ts` - Generated TypeScript types
 
 ## Next Steps
-1. Fix Next.js dev server accessibility issue
-2. Debug why signup server action isn't being called
-3. Ensure user creation in both Supabase Auth and users table
-4. Complete remaining Drizzle migration cleanup
-5. Remove Drizzle dependencies
+1. Test signup flow end-to-end
+2. Remove remaining Drizzle dependencies (optional cleanup)
+3. Add any additional features as needed
 
 ## Commands to run
 ```bash

@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Claude/ChatGPT Message Generator",
+  "version": "1.0",
+  "description": "Generate mental health messages from Claude or ChatGPT",
+  "permissions": [
+    "activeTab",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://claude.ai/*",
+    "https://chat.openai.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Generate Message"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://claude.ai/*", "https://chat.openai.com/*"],
+      "js": ["content.js"]
+    }
+  ]
+}

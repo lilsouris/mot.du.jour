@@ -160,6 +160,41 @@ export interface Database {
           created_at?: string
         }
       }
+      daily_message_logs: {
+        Row: {
+          id: number
+          user_id: number
+          phone_number: string
+          message_content: string
+          message_hash: string
+          sent_at: string
+          status: string
+          twilio_sid: string | null
+          error_message: string | null
+        }
+        Insert: {
+          id?: number
+          user_id: number
+          phone_number: string
+          message_content: string
+          message_hash: string
+          sent_at?: string
+          status?: string
+          twilio_sid?: string | null
+          error_message?: string | null
+        }
+        Update: {
+          id?: number
+          user_id?: number
+          phone_number?: string
+          message_content?: string
+          message_hash?: string
+          sent_at?: string
+          status?: string
+          twilio_sid?: string | null
+          error_message?: string | null
+        }
+      }
     }
     Views: {
       [_ in never]: never
@@ -208,9 +243,8 @@ export type UserWithTeam = {
   teamMember: TeamMember | null
 }
 
-export type TeamWithMembers = {
-  team: Team
-  members: (TeamMember & { user: User })[]
+export type TeamWithMembers = Team & {
+  teamMembers: (TeamMember & { user: User })[]
 }
 
 // Activity types enum
