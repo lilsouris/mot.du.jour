@@ -1,0 +1,304 @@
+import { Button } from '@/components/ui/button';
+import { ArrowRight, BookOpen, Brain, MessageSquare } from 'lucide-react';
+import { PhoneVisuals } from './phone-visuals';
+
+export default function HomePage() {
+  return (
+    <main>
+      <section className="py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="lg:grid lg:grid-cols-12 lg:gap-8">
+            <div className="sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left">
+              <h1 className="text-4xl font-bold text-gray-900 tracking-tight sm:text-5xl md:text-6xl">
+                Découvrez votre
+                <span className="block text-orange-500">Mot du jour</span>
+              </h1>
+              <p className="mt-3 text-base text-gray-500 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
+                Transformez votre mental en 2 minutes par jour. Recevez un
+                message personnalisé qui rewire votre cerveau pour plus de
+                bonheur, de confiance et de sérénité.
+              </p>
+              <div className="mt-8 sm:max-w-lg sm:mx-auto sm:text-center lg:text-left lg:mx-0">
+                <a href="/inscription">
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="text-lg rounded-full bg-[#7C3AED] text-white border-[#7C3AED] hover:bg-transparent hover:text-[#7C3AED]"
+                  >
+                    Essayez gratuitement
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
+                </a>
+              </div>
+            </div>
+            <div className="mt-12 relative sm:max-w-lg sm:mx-auto lg:mt-0 lg:max-w-none lg:mx-0 lg:col-span-6 lg:flex lg:items-center">
+              <PhoneVisuals />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 bg-white w-full">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="lg:grid lg:grid-cols-3 lg:gap-8">
+            <div>
+              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
+                <Brain className="h-6 w-6" />
+              </div>
+              <div className="mt-5">
+                <h2 className="text-lg font-medium text-gray-900">
+                  Rewiring neuroplastique
+                </h2>
+                <p className="mt-2 text-base text-gray-500">
+                  Chaque message est conçu pour créer de nouveaux circuits neuronaux positifs. 21 jours suffisent pour voir un changement durable.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-10 lg:mt-0">
+              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
+                <MessageSquare className="h-6 w-6" />
+              </div>
+              <div className="mt-5">
+                <h2 className="text-lg font-medium text-gray-900">
+                  Messages uniques
+                </h2>
+                <p className="mt-2 text-base text-gray-500">
+                  Aucun abonné ne reçoit le même texte en même temps.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-10 lg:mt-0">
+              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white">
+                <BookOpen className="h-6 w-6" />
+              </div>
+              <div className="mt-5">
+                <h2 className="text-lg font-medium text-gray-900">
+                  Journal numérique
+                </h2>
+                <p className="mt-2 text-base text-gray-500">
+                  Vide ton sac. Exprime-toi. Parle sans retenue. Envoie-nous tes pensées, quand l'envie te prend.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center">
+            <div>
+              <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
+                Prêt à acquérir Un esprit plus zen, plus motivé et plus ancré
+              </h2>
+              <p className="mt-3 max-w-3xl text-lg text-gray-500">
+                Rejoignez des milliers d'utilisateurs qui transforment leur bien-être mental grâce à un message quotidien personnalisé. Commencez votre voyage vers la sérénité dès aujourd'hui.
+              </p>
+            </div>
+            <div className="mt-8 lg:mt-0 flex justify-center lg:justify-end">
+              <a href="/inscription">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="text-lg rounded-full bg-[#7C3AED] text-white border-[#7C3AED] hover:bg-transparent hover:text-[#7C3AED]"
+                >
+                  Essayez gratuitement
+                  <ArrowRight className="ml-3 h-6 w-6" />
+                </Button>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">
+              Choisissez votre formule
+            </h2>
+            <p className="mt-4 text-xl text-gray-500">
+              Commencez gratuitement, puis choisissez la formule qui vous convient
+            </p>
+          </div>
+          <div className="mt-16 grid grid-cols-1 gap-8 lg:grid-cols-3">
+            {/* Personal Plan */}
+            <div className="relative bg-white rounded-2xl shadow-lg border border-gray-200 p-8">
+              <div className="text-center">
+                <h3 className="text-2xl font-bold text-gray-900">Personnel</h3>
+                <div className="mt-4 flex items-center justify-center">
+                  <span className="text-4xl font-bold text-gray-900">4,99€</span>
+                  <span className="ml-2 text-lg text-gray-500">/mois</span>
+                </div>
+                <p className="mt-2 text-sm text-gray-500">ou 49,99€ facturé annuellement</p>
+              </div>
+              <ul className="mt-8 space-y-4">
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3">✓</span>
+                  <span className="text-gray-700">Messages quotidiens personnalisés</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3">✓</span>
+                  <span className="text-gray-700">Journal numérique illimité</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3">✓</span>
+                  <span className="text-gray-700">Suivi de progression</span>
+                </li>
+              </ul>
+              <a href="/inscription">
+                <button className="mt-8 w-full bg-orange-500 text-white py-3 px-6 rounded-full font-semibold hover:bg-orange-600 transition-colors">
+                  Commencer gratuitement
+                </button>
+              </a>
+            </div>
+
+            {/* Gift Plan */}
+            <div className="relative bg-white rounded-2xl shadow-lg border-2 border-orange-500 p-8">
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                <span className="bg-orange-500 text-white px-4 py-1 rounded-full text-sm font-semibold">
+                  Plus populaire
+                </span>
+              </div>
+              <div className="text-center">
+                <h3 className="text-2xl font-bold text-gray-900">Cadeau</h3>
+                <div className="mt-4 flex items-center justify-center">
+                  <span className="text-4xl font-bold text-gray-900">4,99€</span>
+                  <span className="ml-2 text-lg text-gray-500">/mois</span>
+                </div>
+                <p className="mt-2 text-sm text-gray-500">ou 49,99€ facturé annuellement</p>
+              </div>
+              <ul className="mt-8 space-y-4">
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3">✓</span>
+                  <span className="text-gray-700">Parfait pour offrir</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3">✓</span>
+                  <span className="text-gray-700">Toutes les fonctionnalités personnelles</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3">✓</span>
+                  <span className="text-gray-700">Activation facile</span>
+                </li>
+              </ul>
+              <a href="/inscription?plan=cadeau">
+                <button className="mt-8 w-full bg-orange-500 text-white py-3 px-6 rounded-full font-semibold hover:bg-orange-600 transition-colors">
+                  Offrir maintenant
+                </button>
+              </a>
+            </div>
+
+            {/* Family Plan */}
+            <div className="relative bg-white rounded-2xl shadow-lg border border-gray-200 p-8">
+              <div className="text-center">
+                <h3 className="text-2xl font-bold text-gray-900">Famille</h3>
+                <div className="mt-4 flex items-center justify-center">
+                  <span className="text-4xl font-bold text-gray-900">3,99€</span>
+                  <span className="ml-2 text-lg text-gray-500">/utilisateur/mois</span>
+                </div>
+                <p className="mt-2 text-sm text-gray-500">utilisateurs illimités</p>
+              </div>
+              <ul className="mt-8 space-y-4">
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3">✓</span>
+                  <span className="text-gray-700">Comptes famille illimités</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3">✓</span>
+                  <span className="text-gray-700">Toutes les fonctionnalités personnelles</span>
+                </li>
+                <li className="flex items-start">
+                  <span className="text-green-500 mr-3">✓</span>
+                  <span className="text-gray-700">Gestion parentale</span>
+                </li>
+              </ul>
+              <a href="/inscription?plan=famille">
+                <button className="mt-8 w-full bg-orange-500 text-white py-3 px-6 rounded-full font-semibold hover:bg-orange-600 transition-colors">
+                  Commencer gratuitement
+                </button>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-50 border-t border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            {/* Company Info */}
+            <div className="space-y-4">
+              <div className="flex items-center">
+                <span className="text-xl font-semibold text-gray-900">Mot du jour</span>
+              </div>
+              <p className="text-gray-600 text-sm">
+                Transformez votre bien-être mental avec des messages quotidiens personnalisés.
+              </p>
+            </div>
+
+            {/* Product */}
+            <div className="space-y-4">
+              <h4 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">
+                Produit
+              </h4>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-gray-600 hover:text-gray-900 text-sm">Fonctionnalités</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-gray-900 text-sm">Tarifs</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-gray-900 text-sm">Télécharger</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-gray-900 text-sm">FAQ</a></li>
+              </ul>
+            </div>
+
+            {/* Support */}
+            <div className="space-y-4">
+              <h4 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">
+                Support
+              </h4>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-gray-600 hover:text-gray-900 text-sm">Centre d'aide</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-gray-900 text-sm">Contact</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-gray-900 text-sm">Statut</a></li>
+              </ul>
+            </div>
+
+            {/* Legal */}
+            <div className="space-y-4">
+              <h4 className="text-sm font-semibold text-gray-900 uppercase tracking-wide">
+                Légal
+              </h4>
+              <ul className="space-y-2">
+                <li><a href="#" className="text-gray-600 hover:text-gray-900 text-sm">Confidentialité</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-gray-900 text-sm">Conditions</a></li>
+                <li><a href="#" className="text-gray-600 hover:text-gray-900 text-sm">Cookies</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="mt-8 pt-8 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center">
+            <p className="text-gray-600 text-sm">
+              © 2024 Mot du jour. Tous droits réservés.
+            </p>
+            <div className="flex space-x-6 mt-4 sm:mt-0">
+              <a href="#" className="text-gray-400 hover:text-gray-600">
+                <span className="sr-only">Twitter</span>
+                <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" />
+                </svg>
+              </a>
+              <a href="#" className="text-gray-400 hover:text-gray-600">
+                <span className="sr-only">Instagram</span>
+                <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                  <path fillRule="evenodd" d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.621 5.367 11.987 11.988 11.987s11.987-5.366 11.987-11.987C24.014 5.367 18.647.001 12.017.001zM8.449 16.988c-1.297 0-2.448-.49-3.323-1.291a4.513 4.513 0 01-1.291-3.323c0-1.297.49-2.448 1.291-3.323a4.513 4.513 0 013.323-1.291c1.297 0 2.448.49 3.323 1.291.8.875 1.291 2.026 1.291 3.323 0 1.297-.49 2.448-1.291 3.323a4.513 4.513 0 01-3.323 1.291z" clipRule="evenodd" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </main>
+  );
+}
