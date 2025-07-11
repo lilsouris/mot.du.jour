@@ -93,8 +93,14 @@ function Header() {
     <header className="border-b border-gray-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
         <Link href="/" className="flex items-center">
-          <div className="h-6 w-6 bg-orange-500 rounded-full flex items-center justify-center">
-            <span className="text-white font-bold text-sm">M</span>
+          <div className="h-6 w-6 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f97316" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M15.5 3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2V8.5L15.5 3Z"/>
+              <path d="M15 3v6h6"/>
+              <path d="M10 16s.8 1 2 1c1.3 0 2-1 2-1"/>
+              <path d="M8 13h0"/>
+              <path d="M16 13h0"/>
+            </svg>
           </div>
           <span className="ml-2 text-xl font-semibold text-gray-900">Mot du jour</span>
         </Link>

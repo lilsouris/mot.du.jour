@@ -38,3 +38,24 @@ Syntax error: /Users/tj-index/mot-du-jour/app/globals.css The `outline-ring/50` 
 ✅ Auth user found: c441ea84-d44c-414f-910c-dc0643ebed03 hithomasjay@gmail.com
 ✅ Returning user data
  GET /api/user 200 in 564ms
+ ✓ Compiled /connection in 352ms (1184 modules)
+ POST / 303 in 588ms
+ ✓ Compiled /api/user in 49ms (744 modules)
+🔍 API /user - Auth user check: {
+  authUser: false,
+  authError: AuthSessionMissingError: Auth session missing!
+      at eval (webpack-internal:///(rsc)/./node_modules/@supabase/auth-js/dist/module/GoTrueClient.js:1058:59)
+      at SupabaseAuthClient._useSession (webpack-internal:///(rsc)/./node_modules/@supabase/auth-js/dist/module/GoTrueClient.js:955:26)
+      at async SupabaseAuthClient._getUser (webpack-internal:///(rsc)/./node_modules/@supabase/auth-js/dist/module/GoTrueClient.js:1050:20)
+      at async eval (webpack-internal:///(rsc)/./node_modules/@supabase/auth-js/dist/module/GoTrueClient.js:1037:20)
+      at async eval (webpack-internal:///(rsc)/./node_modules/@supabase/auth-js/dist/module/GoTrueClient.js:900:28) {
+    __isAuthError: true,
+    status: 400,
+    code: undefined
+  }
+}
+❌ No authenticated user found
+ GET /api/user 401 in 147ms
+ ✓ Compiled /pricing in 291ms (1512 modules)
+ ✓ Compiled in 334ms (1389 modules)
+ ✓ Compiled in 82ms (586 modules)
