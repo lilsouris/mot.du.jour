@@ -149,7 +149,7 @@ export default function HomePage() {
                   <span className="text-gray-700">Suivi de progression</span>
                 </li>
               </ul>
-              <a href="/inscription">
+              <a href="/pricing">
                 <button className="mt-8 w-full bg-orange-500 text-white py-3 px-6 rounded-full font-semibold hover:bg-orange-600 transition-colors">
                   Commencer gratuitement
                 </button>
@@ -185,7 +185,7 @@ export default function HomePage() {
                   <span className="text-gray-700">Activation facile</span>
                 </li>
               </ul>
-              <a href="/inscription?plan=cadeau">
+              <a href="/pricing">
                 <button className="mt-8 w-full bg-orange-500 text-white py-3 px-6 rounded-full font-semibold hover:bg-orange-600 transition-colors">
                   Offrir maintenant
                 </button>
@@ -216,7 +216,7 @@ export default function HomePage() {
                   <span className="text-gray-700">Gestion parentale</span>
                 </li>
               </ul>
-              <a href="/inscription?plan=famille">
+              <a href="/pricing">
                 <button className="mt-8 w-full bg-orange-500 text-white py-3 px-6 rounded-full font-semibold hover:bg-orange-600 transition-colors">
                   Commencer gratuitement
                 </button>

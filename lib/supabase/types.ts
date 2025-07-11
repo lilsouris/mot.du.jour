@@ -18,6 +18,10 @@ export interface Database {
           phone_number: string | null
           phone_country: string | null
           role: string
+          stripe_customer_id: string | null
+          stripe_subscription_id: string | null
+          plan_name: string | null
+          subscription_status: string | null
           created_at: string
           updated_at: string
           deleted_at: string | null
@@ -30,6 +34,10 @@ export interface Database {
           phone_number?: string | null
           phone_country?: string | null
           role?: string
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          plan_name?: string | null
+          subscription_status?: string | null
           created_at?: string
           updated_at?: string
           deleted_at?: string | null
@@ -42,6 +50,10 @@ export interface Database {
           phone_number?: string | null
           phone_country?: string | null
           role?: string
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          plan_name?: string | null
+          subscription_status?: string | null
           created_at?: string
           updated_at?: string
           deleted_at?: string | null

@@ -34,11 +34,14 @@ export default function RootLayout({
     <html
       lang="fr"
       className={`bg-white dark:bg-gray-950 text-black dark:text-white ${manrope.className}`}
+      suppressHydrationWarning={true}
     >
       <body className="min-h-[100dvh] bg-gray-50">
         <SWRConfig
           value={{
-            fallback: {}
+            fallback: {},
+            refreshInterval: 0,
+            revalidateOnFocus: false
           }}
         >
           {children}
