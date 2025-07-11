@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { useActionState } from 'react';
+import { useTransition } from 'react';
 import { useState } from 'react';
 import { AlertTriangle, Shield, Trash2 } from 'lucide-react';
 
@@ -67,17 +67,25 @@ async function deleteAccountAction(prevState: ActionState, formData: FormData): 
 }
 
 export default function SecurityPage() {
-  const [passwordState, passwordAction, passwordPending] = useActionState<ActionState, FormData>(
-    updatePasswordAction,
-    {}
-  );
-
-  const [deleteState, deleteAction, deletePending] = useActionState<ActionState, FormData>(
-    deleteAccountAction,
-    {}
-  );
-
+  const [passwordPending, startPasswordTransition] = useTransition();
+  const [deletePending, startDeleteTransition] = useTransition();
+  const [passwordState, setPasswordState] = useState<ActionState>({});
+  const [deleteState, setDeleteState] = useState<ActionState>({});
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
+  const handlePasswordSubmit = (formData: FormData) => {
+    startPasswordTransition(async () => {
+      const result = await updatePasswordAction({}, formData);
+      setPasswordState(result);
+    });
+  };
+
+  const handleDeleteSubmit = (formData: FormData) => {
+    startDeleteTransition(async () => {
+      const result = await deleteAccountAction({}, formData);
+      setDeleteState(result);
+    });
+  };
 
   return (
     <section className="flex-1 p-4 lg:p-8">
@@ -93,7 +101,7 @@ export default function SecurityPage() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <form action={passwordAction} className="space-y-4">
+            <form action={handlePasswordSubmit} className="space-y-4">
               <div>
                 <Label htmlFor="currentPassword">Mot de passe actuel</Label>
                 <Input
@@ -179,7 +187,7 @@ export default function SecurityPage() {
                     Supprimer mon compte
                   </Button>
                 ) : (
-                  <form action={deleteAction} className="space-y-4">
+                  <form action={handleDeleteSubmit} className="space-y-4">
                     <div>
                       <Label htmlFor="password" className="text-red-700">
                         Confirmez avec votre mot de passe

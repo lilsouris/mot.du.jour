@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { useActionState } from 'react';
+import { useTransition } from 'react';
 import useSWR, { mutate } from 'swr';
 import { useState } from 'react';
 
@@ -30,28 +30,27 @@ const fetcher = (url: string) => fetch(url).then((res) => {
   return res.json();
 });
 
-// Placeholder update account function
-async function updateAccountAction(prevState: ActionState, formData: FormData): Promise<ActionState> {
-  const name = formData.get('name') as string;
-  const email = formData.get('email') as string;
-
-  // Simulate API call
-  await new Promise(resolve => setTimeout(resolve, 1000));
-
-  // For now, just return success
-  return {
-    success: 'Compte mis à jour avec succès.',
-    name,
-    email
-  };
-}
-
 export default function GeneralPage() {
   const { data: user } = useSWR('/api/user', fetcher);
-  const [state, formAction, pending] = useActionState<ActionState, FormData>(
-    updateAccountAction,
-    {}
-  );
+  const [isPending, startTransition] = useTransition();
+  const [state, setState] = useState<ActionState>({});
+
+  const handleSubmit = (formData: FormData) => {
+    startTransition(async () => {
+      const name = formData.get('name') as string;
+      const email = formData.get('email') as string;
+
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // For now, just return success
+      setState({
+        success: 'Compte mis à jour avec succès.',
+        name,
+        email
+      });
+    });
+  };
 
   if (!user) {
     return (
@@ -73,7 +72,7 @@ export default function GeneralPage() {
           <CardTitle>Informations du Compte</CardTitle>
         </CardHeader>
         <CardContent>
-          <form action={formAction} className="space-y-4">
+          <form action={handleSubmit} className="space-y-4">
             <div>
               <Label htmlFor="name">Nom</Label>
               <Input
@@ -83,7 +82,7 @@ export default function GeneralPage() {
                 defaultValue={state.name || user.name || ''}
                 placeholder="Votre nom complet"
                 required
-                disabled={pending}
+                disabled={isPending}
               />
             </div>
             
@@ -96,7 +95,7 @@ export default function GeneralPage() {
                 defaultValue={state.email || user.email || ''}
                 placeholder="votre.email@exemple.com"
                 required
-                disabled={pending}
+                disabled={isPending}
               />
             </div>
 
@@ -110,10 +109,10 @@ export default function GeneralPage() {
 
             <Button
               type="submit"
-              disabled={pending}
+              disabled={isPending}
               className="bg-orange-500 hover:bg-orange-600 text-white"
             >
-              {pending ? 'Mise à jour...' : 'Mettre à jour le compte'}
+              {isPending ? 'Mise à jour...' : 'Mettre à jour le compte'}
             </Button>
           </form>
         </CardContent>
