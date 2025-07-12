@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, BookOpen, Brain, MessageSquare } from 'lucide-react';
 import { PhoneVisuals } from './(dashboard)/phone-visuals';
+import { Header } from '@/components/header';
 
 export default async function RootPage() {
   const supabase = await createClient();
@@ -15,7 +16,9 @@ export default async function RootPage() {
 
   // Non-logged in users see the landing page
   return (
-    <main>
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <main>
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="lg:grid lg:grid-cols-12 lg:gap-8">
@@ -310,6 +313,7 @@ export default async function RootPage() {
           </div>
         </div>
       </footer>
-    </main>
+      </main>
+    </div>
   );
 }
