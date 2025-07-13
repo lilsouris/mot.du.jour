@@ -102,7 +102,7 @@ export function Header() {
               <path d="M16 13h0"/>
             </svg>
           </div>
-          <span className="ml-2 text-xl font-semibold text-gray-900">Mot du jour</span>
+          <span className="ml-2 text-xl font-semibold text-gray-900 hidden sm:block">Mot du jour</span>
         </Link>
         <div className="flex items-center space-x-4">
           <Suspense fallback={<div className="h-9" />}>
