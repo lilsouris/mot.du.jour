@@ -51,11 +51,12 @@ export const signIn = validatedAction(signInSchema, async (data, formData) => {
 const signUpSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
-  inviteId: z.string().optional()
+  inviteId: z.string().optional(),
+  plan: z.string().optional()
 });
 
 export const signUp = validatedAction(signUpSchema, async (data, formData) => {
-  const { email, password } = data;
+  const { email, password, plan } = data;
   const supabase = await createClient();
 
   console.log('🆕 Starting sign up process');
@@ -124,6 +125,22 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
   }
 
   console.log('✅ User record created in database');
+  
+  // If a plan was selected, redirect to the appropriate checkout
+  if (plan) {
+    console.log('💳 Redirecting to checkout for plan:', plan);
+    const priceIdMap = {
+      'personal': 'Personnel',
+      'gift': 'Cadeau',
+      'family': 'Famille'
+    };
+    
+    const priceId = priceIdMap[plan as keyof typeof priceIdMap];
+    if (priceId) {
+      redirect(`/pricing?priceId=${priceId}&autoCheckout=true`);
+    }
+  }
+  
   console.log('🏠 Redirecting to dashboard');
   
   // Don't catch redirect errors - they need to bubble up

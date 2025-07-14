@@ -56,7 +56,7 @@ export default async function RootPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-8 sm:gap-10 lg:grid-cols-3 lg:gap-8">
             <div className="text-center lg:text-left">
-              <div className="flex items-center justify-center lg:justify-start h-12 w-12 rounded-md bg-orange-500 text-white mx-auto lg:mx-0">
+              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white mx-auto lg:mx-0">
                 <Brain className="h-6 w-6" />
               </div>
               <div className="mt-4 lg:mt-5">
@@ -70,7 +70,7 @@ export default async function RootPage() {
             </div>
 
             <div className="text-center lg:text-left">
-              <div className="flex items-center justify-center lg:justify-start h-12 w-12 rounded-md bg-orange-500 text-white mx-auto lg:mx-0">
+              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white mx-auto lg:mx-0">
                 <MessageSquare className="h-6 w-6" />
               </div>
               <div className="mt-4 lg:mt-5">
@@ -84,7 +84,7 @@ export default async function RootPage() {
             </div>
 
             <div className="text-center lg:text-left">
-              <div className="flex items-center justify-center lg:justify-start h-12 w-12 rounded-md bg-orange-500 text-white mx-auto lg:mx-0">
+              <div className="flex items-center justify-center h-12 w-12 rounded-md bg-orange-500 text-white mx-auto lg:mx-0">
                 <BookOpen className="h-6 w-6" />
               </div>
               <div className="mt-4 lg:mt-5">
@@ -128,7 +128,7 @@ export default async function RootPage() {
       </section>
 
       {/* Pricing Section */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-white">
+      <section id="pricing" className="py-12 sm:py-16 lg:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 px-4 sm:px-0">
@@ -163,7 +163,7 @@ export default async function RootPage() {
                   <span className="text-sm sm:text-base text-gray-700">Suivi de progression</span>
                 </li>
               </ul>
-              <a href="/pricing">
+              <a href="/inscription?plan=personal">
                 <button className="mt-6 sm:mt-8 w-full bg-orange-500 text-white py-3 px-6 rounded-full text-sm sm:text-base font-semibold hover:bg-orange-600 transition-colors">
                   Commencer gratuitement
                 </button>
@@ -199,7 +199,7 @@ export default async function RootPage() {
                   <span className="text-sm sm:text-base text-gray-700">Activation facile</span>
                 </li>
               </ul>
-              <a href="/pricing">
+              <a href="/inscription?plan=gift">
                 <button className="mt-6 sm:mt-8 w-full bg-orange-500 text-white py-3 px-6 rounded-full text-sm sm:text-base font-semibold hover:bg-orange-600 transition-colors">
                   Offrir maintenant
                 </button>
@@ -230,7 +230,7 @@ export default async function RootPage() {
                   <span className="text-sm sm:text-base text-gray-700">Gestion parentale</span>
                 </li>
               </ul>
-              <a href="/pricing">
+              <a href="/inscription?plan=family">
                 <button className="mt-6 sm:mt-8 w-full bg-orange-500 text-white py-3 px-6 rounded-full text-sm sm:text-base font-semibold hover:bg-orange-600 transition-colors">
                   Commencer gratuitement
                 </button>

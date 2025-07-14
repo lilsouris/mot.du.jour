@@ -3,8 +3,35 @@
 import { Button } from '@/components/ui/button';
 import { checkoutAction } from '@/lib/payments/actions';
 import { ArrowRight } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 
 export default function PricingPage() {
+  const searchParams = useSearchParams();
+  const priceId = searchParams.get('priceId');
+  const autoCheckout = searchParams.get('autoCheckout');
+
+  useEffect(() => {
+    if (autoCheckout === 'true' && priceId) {
+      // Trigger checkout automatically
+      const form = document.createElement('form');
+      form.method = 'POST';
+      form.action = '/api/checkout';
+      
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'priceId';
+      input.value = priceId;
+      
+      form.appendChild(input);
+      document.body.appendChild(form);
+      
+      // Use checkoutAction instead of form submission
+      const formData = new FormData();
+      formData.append('priceId', priceId);
+      checkoutAction(formData);
+    }
+  }, [autoCheckout, priceId]);
   return (
     <main className="flex-1">
       {/* Header */}

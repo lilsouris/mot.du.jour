@@ -16,6 +16,7 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
   const redirect = searchParams.get('redirect');
   const priceId = searchParams.get('priceId');
   const inviteId = searchParams.get('inviteId');
+  const plan = searchParams.get('plan');
   const [pending, startTransition] = useTransition();
   const [state, setState] = useState<ActionState>({ error: '' });
 
@@ -45,6 +46,7 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
           <input type="hidden" name="redirect" value={redirect || ''} />
           <input type="hidden" name="priceId" value={priceId || ''} />
           <input type="hidden" name="inviteId" value={inviteId || ''} />
+          <input type="hidden" name="plan" value={plan || ''} />
           <div>
             <Label
               htmlFor="email"
@@ -134,7 +136,7 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
             <Link
               href={`${mode === 'signin' ? '/inscription' : '/connection'}${
                 redirect ? `?redirect=${redirect}` : ''
-              }${priceId ? `&priceId=${priceId}` : ''}`}
+              }${priceId ? `&priceId=${priceId}` : ''}${plan ? `&plan=${plan}` : ''}`}
               className="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-full shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
             >
               {mode === 'signin'
