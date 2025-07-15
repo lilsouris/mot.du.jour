@@ -52,7 +52,7 @@ export default async function RootPage() {
         </div>
       </section>
 
-      <section className="py-12 sm:py-16 bg-white w-full">
+      <section id="features" className="py-12 sm:py-16 bg-white w-full">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-8 sm:gap-10 lg:grid-cols-3 lg:gap-8">
             <div className="text-center lg:text-left">
@@ -260,10 +260,8 @@ export default async function RootPage() {
                 Produit
               </h4>
               <ul className="space-y-2">
-                <li><a href="#" className="text-gray-600 hover:text-gray-900 text-sm">Fonctionnalités</a></li>
-                <li><a href="#" className="text-gray-600 hover:text-gray-900 text-sm">Tarifs</a></li>
-                <li><a href="#" className="text-gray-600 hover:text-gray-900 text-sm">Télécharger</a></li>
-                <li><a href="#" className="text-gray-600 hover:text-gray-900 text-sm">FAQ</a></li>
+                <li><a href="#features" className="text-gray-600 hover:text-gray-900 text-sm">Fonctionnalités</a></li>
+                <li><a href="#pricing" className="text-gray-600 hover:text-gray-900 text-sm">Tarifs</a></li>
               </ul>
             </div>
 
@@ -273,9 +271,7 @@ export default async function RootPage() {
                 Support
               </h4>
               <ul className="space-y-2">
-                <li><a href="#" className="text-gray-600 hover:text-gray-900 text-sm">Centre d'aide</a></li>
                 <li><a href="#" className="text-gray-600 hover:text-gray-900 text-sm">Contact</a></li>
-                <li><a href="#" className="text-gray-600 hover:text-gray-900 text-sm">Statut</a></li>
               </ul>
             </div>
 
@@ -294,7 +290,7 @@ export default async function RootPage() {
 
           <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center text-center sm:text-left">
             <p className="text-gray-600 text-sm">
-              © 2024 Mot du jour. Tous droits réservés.
+              © 2025 Mot du jour. Tous droits réservés.
             </p>
             <div className="flex space-x-4 sm:space-x-6 mt-4 sm:mt-0 justify-center">
               <a href="#" className="text-gray-400 hover:text-gray-600">

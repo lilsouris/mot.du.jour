@@ -3,13 +3,14 @@
 import Link from 'next/link';
 import { useTransition } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { CircleIcon, Loader2 } from 'lucide-react';
 import { signIn, signUp } from './actions';
 import { ActionState } from '@/lib/auth/middleware';
+import { CountrySelector, countries, Country } from '@/components/country-selector';
 
 export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
   const searchParams = useSearchParams();
@@ -19,6 +20,15 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
   const plan = searchParams.get('plan');
   const [pending, startTransition] = useTransition();
   const [state, setState] = useState<ActionState>({ error: '' });
+  const [selectedCountry, setSelectedCountry] = useState<Country>(
+    countries.find(c => c.code === 'FR') || countries[0]
+  );
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleSubmit = (formData: FormData) => {
     startTransition(async () => {
@@ -68,6 +78,17 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
               />
             </div>
           </div>
+
+          {mode === 'signup' && mounted && (
+            <div>
+              <CountrySelector
+                selectedCountry={selectedCountry}
+                onCountryChange={setSelectedCountry}
+                phoneNumber={phoneNumber}
+                onPhoneNumberChange={setPhoneNumber}
+              />
+            </div>
+          )}
 
           <div>
             <Label

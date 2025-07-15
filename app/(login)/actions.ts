@@ -51,12 +51,14 @@ export const signIn = validatedAction(signInSchema, async (data, formData) => {
 const signUpSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
+  phoneNumber: z.string().optional(),
+  phoneCountry: z.string().optional(),
   inviteId: z.string().optional(),
   plan: z.string().optional()
 });
 
 export const signUp = validatedAction(signUpSchema, async (data, formData) => {
-  const { email, password, plan } = data;
+  const { email, password, phoneNumber, phoneCountry, plan } = data;
   const supabase = await createClient();
 
   console.log('🆕 Starting sign up process');
@@ -106,14 +108,22 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
 
   // Create user record in our database
   console.log('💾 Creating user record in database');
+  const userRecord: any = {
+    id: authData.user.id,
+    email,
+    name: email.split('@')[0], // Use part before @ as default name
+    role: 'owner'
+  };
+  
+  // Add phone number if provided
+  if (phoneNumber && phoneCountry) {
+    userRecord.phone_number = phoneNumber;
+    userRecord.phone_country = phoneCountry;
+  }
+  
   const { error: dbError } = await supabase
     .from('users')
-    .insert({
-      id: authData.user.id,
-      email,
-      name: email.split('@')[0], // Use part before @ as default name
-      role: 'owner'
-    });
+    .insert(userRecord);
 
   if (dbError) {
     console.error('❌ Database error:', dbError.message);
