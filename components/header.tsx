@@ -27,7 +27,11 @@ const fetcher = (url: string) => fetch(url).then((res) => {
 
 function UserMenu() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { data: user } = useSWR('/api/user', fetcher);
+  const { data: user } = useSWR('/api/user', fetcher, {
+    shouldRetryOnError: (error) => error.status !== 401,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: true
+  });
   const router = useRouter();
 
   async function handleSignOut() {

@@ -32,7 +32,14 @@ const fetcher = (url: string) => fetch(url).then((res) => {
 });
 
 export default function GeneralPage() {
-  const { data: user } = useSWR('/api/user', fetcher);
+  const { data: user } = useSWR('/api/user', fetcher, {
+    shouldRetryOnError: (error) => {
+      // Retry on network errors but not on 401 (unauthorized)
+      return error.status !== 401;
+    },
+    revalidateOnFocus: false,
+    revalidateOnReconnect: true
+  });
   const [isPending, startTransition] = useTransition();
   const [state, setState] = useState<ActionState>({});
   

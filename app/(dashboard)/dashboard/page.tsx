@@ -44,7 +44,11 @@ function SubscriptionSkeleton() {
 }
 
 function ManageSubscription() {
-  const { data: user } = useSWR('/api/user', fetcher);
+  const { data: user } = useSWR('/api/user', fetcher, {
+    shouldRetryOnError: (error) => error.status !== 401,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: true
+  });
   
   const isTeamPlan = user?.role === 'family' || user?.role === 'famille' || user?.plan_name?.toLowerCase().includes('family') || user?.plan_name?.toLowerCase().includes('famille');
   const cardTitle = isTeamPlan ? 'Abonnement Équipe' : 'Abonnement';
@@ -109,7 +113,11 @@ function TeamMembersSkeleton() {
 }
 
 function TeamMembers() {
-  const { data: user } = useSWR('/api/user', fetcher);
+  const { data: user } = useSWR('/api/user', fetcher, {
+    shouldRetryOnError: (error) => error.status !== 401,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: true
+  });
 
   const getUserDisplayName = (userData: any) => {
     return userData?.name || userData?.email || 'Utilisateur Inconnu';
@@ -164,7 +172,11 @@ function InviteTeamMemberSkeleton() {
 }
 
 function InviteTeamMember() {
-  const { data: user } = useSWR('/api/user', fetcher);
+  const { data: user } = useSWR('/api/user', fetcher, {
+    shouldRetryOnError: (error) => error.status !== 401,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: true
+  });
   const isOwner = user?.role === 'owner';
 
   // Placeholder invite function - you can implement this later
@@ -232,7 +244,11 @@ function InviteTeamMember() {
 }
 
 export default function TeamSettingsPage() {
-  const { data: user } = useSWR('/api/user', fetcher);
+  const { data: user } = useSWR('/api/user', fetcher, {
+    shouldRetryOnError: (error) => error.status !== 401,
+    revalidateOnFocus: false,
+    revalidateOnReconnect: true
+  });
   
   // Determine if user is in a family/famille plan
   const isTeamPlan = user?.role === 'family' || user?.role === 'famille' || user?.plan_name?.toLowerCase().includes('family') || user?.plan_name?.toLowerCase().includes('famille');

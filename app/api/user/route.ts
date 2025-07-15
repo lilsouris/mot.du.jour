@@ -19,19 +19,41 @@ export async function GET(request: NextRequest) {
 
     console.log('✅ Auth user found:', authUser.id, authUser.email);
 
-    // For now, just return the auth user data with some defaults
-    // We can enhance this later when the database schema is fixed
-    const userData = {
-      id: authUser.id,
-      email: authUser.email,
-      name: authUser.email?.split('@')[0] || null,
-      role: 'owner',
-      stripe_customer_id: null,
-      stripe_subscription_id: null,
-      plan_name: null,
-      subscription_status: null,
-      created_at: authUser.created_at
-    };
+    // Try to get user data from the database first
+    let userData = null;
+    try {
+      const { data: dbUser, error: dbError } = await supabase
+        .from('users')
+        .select('*')
+        .eq('id', authUser.id)
+        .single();
+      
+      if (!dbError && dbUser) {
+        console.log('✅ Found user in database');
+        userData = dbUser;
+      } else {
+        console.log('⚠️ User not found in database, using auth data:', dbError?.message);
+      }
+    } catch (dbError) {
+      console.log('⚠️ Database error, using auth data:', dbError);
+    }
+
+    // If no database user, return auth user data with defaults
+    if (!userData) {
+      userData = {
+        id: authUser.id,
+        email: authUser.email,
+        name: authUser.email?.split('@')[0] || null,
+        role: 'owner',
+        stripe_customer_id: null,
+        stripe_subscription_id: null,
+        plan_name: null,
+        subscription_status: null,
+        phone_number: null,
+        phone_country: null,
+        created_at: authUser.created_at
+      };
+    }
 
     console.log('✅ Returning user data');
     return NextResponse.json(userData);

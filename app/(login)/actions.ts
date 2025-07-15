@@ -144,6 +144,9 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
   // Log the account creation activity
   await logActivity(authData.user.id, 'account_created');
   
+  // Allow a small delay to ensure session is fully established
+  await new Promise(resolve => setTimeout(resolve, 100));
+  
   // If a plan was selected, redirect to the appropriate checkout
   if (plan) {
     console.log('💳 Redirecting to checkout for plan:', plan);
