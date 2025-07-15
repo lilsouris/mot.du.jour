@@ -4,9 +4,9 @@ import { Button } from '@/components/ui/button';
 import { checkoutAction } from '@/lib/payments/actions';
 import { ArrowRight } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, Suspense } from 'react';
 
-export default function PricingPage() {
+function PricingContent() {
   const searchParams = useSearchParams();
   const priceId = searchParams.get('priceId');
   const autoCheckout = searchParams.get('autoCheckout');
@@ -225,5 +225,13 @@ export default function PricingPage() {
         </div>
       </section>
     </main>
+  );
+}
+
+export default function PricingPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <PricingContent />
+    </Suspense>
   );
 }
