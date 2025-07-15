@@ -19,7 +19,7 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
   const inviteId = searchParams.get('inviteId');
   const plan = searchParams.get('plan');
   const [pending, startTransition] = useTransition();
-  const [state, setState] = useState<ActionState>({ error: '' });
+  const [state, setState] = useState<ActionState>({ error: '', email: '', password: '' });
   const [selectedCountry, setSelectedCountry] = useState<Country>(
     countries.find(c => c.code === 'FR') || countries[0]
   );
