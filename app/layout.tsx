@@ -33,7 +33,7 @@ export default function RootLayout({
   return (
     <html
       lang="fr"
-      className={`bg-white dark:bg-gray-950 text-black dark:text-white ${manrope.className}`}
+      className={`bg-white text-black ${manrope.className}`}
       suppressHydrationWarning={true}
     >
       <body className="min-h-[100dvh] bg-gray-50">
