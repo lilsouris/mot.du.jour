@@ -37,7 +37,7 @@ function SubscriptionSkeleton() {
   return (
     <Card className="mb-8 h-[140px]">
       <CardHeader>
-        <CardTitle>Abonnement Équipe</CardTitle>
+        <CardTitle>Abonnement</CardTitle>
       </CardHeader>
     </Card>
   );
@@ -45,11 +45,14 @@ function SubscriptionSkeleton() {
 
 function ManageSubscription() {
   const { data: user } = useSWR('/api/user', fetcher);
+  
+  const isTeamPlan = user?.role === 'family' || user?.role === 'famille' || user?.plan_name?.toLowerCase().includes('family') || user?.plan_name?.toLowerCase().includes('famille');
+  const cardTitle = isTeamPlan ? 'Abonnement Équipe' : 'Abonnement';
 
   return (
     <Card className="mb-8">
       <CardHeader>
-        <CardTitle>Abonnement Équipe</CardTitle>
+        <CardTitle>{cardTitle}</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
@@ -88,7 +91,7 @@ function TeamMembersSkeleton() {
   return (
     <Card className="mb-8 h-[140px]">
       <CardHeader>
-        <CardTitle>Membres de l'Équipe</CardTitle>
+        <CardTitle>Membres</CardTitle>
       </CardHeader>
       <CardContent>
         <div className="animate-pulse space-y-4 mt-1">
@@ -115,7 +118,7 @@ function TeamMembers() {
   return (
     <Card className="mb-8">
       <CardHeader>
-        <CardTitle>Membres de l'Équipe</CardTitle>
+        <CardTitle>Membres</CardTitle>
       </CardHeader>
       <CardContent>
         <ul className="space-y-4">
@@ -131,12 +134,16 @@ function TeamMembers() {
                 </AvatarFallback>
               </Avatar>
               <div>
-                <p className="font-medium">
-                  {getUserDisplayName(user)}
-                </p>
-                <p className="text-sm text-muted-foreground capitalize">
-                  {user?.role || 'propriétaire'}
-                </p>
+                {user?.name && (
+                  <p className="font-medium">
+                    {user.name}
+                  </p>
+                )}
+                {user?.phone_number && (
+                  <p className="text-sm text-muted-foreground">
+                    {user.phone_number}
+                  </p>
+                )}
               </div>
             </div>
           </li>
@@ -225,9 +232,16 @@ function InviteTeamMember() {
 }
 
 export default function TeamSettingsPage() {
+  const { data: user } = useSWR('/api/user', fetcher);
+  
+  // Determine if user is in a family/famille plan
+  const isTeamPlan = user?.role === 'family' || user?.role === 'famille' || user?.plan_name?.toLowerCase().includes('family') || user?.plan_name?.toLowerCase().includes('famille');
+  
+  const pageTitle = isTeamPlan ? 'Paramètres de l\'Équipe' : 'Paramètres';
+  
   return (
     <section className="flex-1 p-4 lg:p-8">
-      <h1 className="text-lg lg:text-2xl font-medium mb-6">Paramètres de l'Équipe</h1>
+      <h1 className="text-lg lg:text-2xl font-medium mb-6">{pageTitle}</h1>
       <Suspense fallback={<SubscriptionSkeleton />}>
         <ManageSubscription />
       </Suspense>

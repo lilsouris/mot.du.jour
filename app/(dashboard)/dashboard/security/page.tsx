@@ -57,7 +57,7 @@ export default function SecurityPage() {
           <CardContent>
             <form action={handlePasswordSubmit} className="space-y-4">
               <div>
-                <Label htmlFor="currentPassword">Mot de passe actuel</Label>
+                <Label htmlFor="currentPassword" className="mb-2">Mot de passe actuel</Label>
                 <Input
                   id="currentPassword"
                   name="currentPassword"
@@ -69,7 +69,7 @@ export default function SecurityPage() {
               </div>
               
               <div>
-                <Label htmlFor="newPassword">Nouveau mot de passe</Label>
+                <Label htmlFor="newPassword" className="mb-2">Nouveau mot de passe</Label>
                 <Input
                   id="newPassword"
                   name="newPassword"
@@ -82,7 +82,7 @@ export default function SecurityPage() {
               </div>
 
               <div>
-                <Label htmlFor="confirmPassword">Confirmer le nouveau mot de passe</Label>
+                <Label htmlFor="confirmPassword" className="mb-2">Confirmer le nouveau mot de passe</Label>
                 <Input
                   id="confirmPassword"
                   name="confirmPassword"
@@ -143,7 +143,7 @@ export default function SecurityPage() {
                 ) : (
                   <form action={handleDeleteSubmit} className="space-y-4">
                     <div>
-                      <Label htmlFor="confirmationPhrase" className="text-red-700">
+                      <Label htmlFor="confirmationPhrase" className="text-red-700 mb-2">
                         Tapez "supprimer mon compte" pour confirmer
                       </Label>
                       <Input
@@ -160,7 +160,7 @@ export default function SecurityPage() {
                     </div>
                     
                     <div>
-                      <Label htmlFor="password" className="text-red-700">
+                      <Label htmlFor="password" className="text-red-700 mb-2">
                         Confirmez avec votre mot de passe
                       </Label>
                       <Input

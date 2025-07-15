@@ -57,7 +57,7 @@ export default function DashboardLayout({
           </Button>
         </div>
 
-        <nav className="mt-5 px-2">
+        <nav className="px-2">
           <div className="space-y-1">
             {navigation.map((item) => {
               const isActive = pathname === item.href;
