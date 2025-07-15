@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { stripe } from '@/lib/payments/stripe';
 import { createClient } from '@/lib/supabase/server';
 import Stripe from 'stripe';
+import { logActivity } from '@/lib/activity/logger';
 
 export async function POST(request: NextRequest) {
   const body = await request.text();
@@ -37,12 +38,22 @@ export async function POST(request: NextRequest) {
           
           if (customerEmail) {
             // Update user with Stripe customer ID
-            await supabase
+            const { data: userData } = await supabase
               .from('users')
               .update({ 
                 stripe_customer_id: customerId 
               })
-              .eq('email', customerEmail);
+              .eq('email', customerEmail)
+              .select('id')
+              .single();
+            
+            // Log subscription creation activity
+            if (userData) {
+              await logActivity(userData.id, 'subscription_created', {
+                customer_id: customerId,
+                plan_name: 'Premium'
+              });
+            }
           }
         }
         break;
@@ -58,14 +69,26 @@ export async function POST(request: NextRequest) {
         const planName = subscription.items.data[0]?.price.nickname || 'Premium';
         
         // Update user subscription info
-        await supabase
+        const { data: userData } = await supabase
           .from('users')
           .update({
             stripe_subscription_id: subscription.id,
             plan_name: planName,
             subscription_status: status
           })
-          .eq('stripe_customer_id', customerId);
+          .eq('stripe_customer_id', customerId)
+          .select('id')
+          .single();
+        
+        // Log subscription activity
+        if (userData) {
+          const activityType = event.type === 'customer.subscription.created' ? 'subscription_created' : 'subscription_updated';
+          await logActivity(userData.id, activityType, {
+            subscription_id: subscription.id,
+            plan_name: planName,
+            status: status
+          });
+        }
         break;
       }
 
@@ -74,14 +97,23 @@ export async function POST(request: NextRequest) {
         const customerId = subscription.customer as string;
         
         // Update user to remove subscription
-        await supabase
+        const { data: userData } = await supabase
           .from('users')
           .update({
             stripe_subscription_id: null,
             plan_name: null,
             subscription_status: 'cancelled'
           })
-          .eq('stripe_customer_id', customerId);
+          .eq('stripe_customer_id', customerId)
+          .select('id')
+          .single();
+        
+        // Log subscription cancellation activity
+        if (userData) {
+          await logActivity(userData.id, 'subscription_cancelled', {
+            subscription_id: subscription.id
+          });
+        }
         break;
       }
 

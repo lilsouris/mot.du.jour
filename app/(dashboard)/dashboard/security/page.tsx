@@ -12,59 +12,12 @@ import {
 import { useTransition } from 'react';
 import { useState } from 'react';
 import { AlertTriangle, Shield, Trash2 } from 'lucide-react';
+import { updatePasswordAction, deleteAccountAction } from './actions';
 
 type ActionState = {
   error?: string;
   success?: string;
-  currentPassword?: string;
-  newPassword?: string;
-  confirmPassword?: string;
 };
-
-// Placeholder update password function
-async function updatePasswordAction(prevState: ActionState, formData: FormData): Promise<ActionState> {
-  const currentPassword = formData.get('currentPassword') as string;
-  const newPassword = formData.get('newPassword') as string;
-  const confirmPassword = formData.get('confirmPassword') as string;
-
-  // Basic validation
-  if (newPassword !== confirmPassword) {
-    return {
-      error: 'Le nouveau mot de passe et la confirmation ne correspondent pas.',
-      currentPassword,
-      newPassword,
-      confirmPassword
-    };
-  }
-
-  if (newPassword.length < 8) {
-    return {
-      error: 'Le mot de passe doit contenir au moins 8 caractères.',
-      currentPassword,
-      newPassword,
-      confirmPassword
-    };
-  }
-
-  // Simulate API call
-  await new Promise(resolve => setTimeout(resolve, 1000));
-
-  return {
-    success: 'Mot de passe mis à jour avec succès.'
-  };
-}
-
-// Placeholder delete account function
-async function deleteAccountAction(prevState: ActionState, formData: FormData): Promise<ActionState> {
-  const password = formData.get('password') as string;
-
-  // Simulate API call
-  await new Promise(resolve => setTimeout(resolve, 1000));
-
-  return {
-    success: 'Compte supprimé avec succès.'
-  };
-}
 
 export default function SecurityPage() {
   const [passwordPending, startPasswordTransition] = useTransition();
@@ -72,6 +25,7 @@ export default function SecurityPage() {
   const [passwordState, setPasswordState] = useState<ActionState>({});
   const [deleteState, setDeleteState] = useState<ActionState>({});
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [confirmationPhrase, setConfirmationPhrase] = useState('');
 
   const handlePasswordSubmit = (formData: FormData) => {
     startPasswordTransition(async () => {
@@ -189,6 +143,23 @@ export default function SecurityPage() {
                 ) : (
                   <form action={handleDeleteSubmit} className="space-y-4">
                     <div>
+                      <Label htmlFor="confirmationPhrase" className="text-red-700">
+                        Tapez "supprimer mon compte" pour confirmer
+                      </Label>
+                      <Input
+                        id="confirmationPhrase"
+                        name="confirmationPhrase"
+                        type="text"
+                        required
+                        disabled={deletePending}
+                        placeholder="supprimer mon compte"
+                        className="border-red-300 focus:border-red-500"
+                        value={confirmationPhrase}
+                        onChange={(e) => setConfirmationPhrase(e.target.value)}
+                      />
+                    </div>
+                    
+                    <div>
                       <Label htmlFor="password" className="text-red-700">
                         Confirmez avec votre mot de passe
                       </Label>
@@ -207,10 +178,14 @@ export default function SecurityPage() {
                       <div className="text-red-500 text-sm">{deleteState.error}</div>
                     )}
 
+                    {deleteState.success && (
+                      <div className="text-green-500 text-sm">{deleteState.success}</div>
+                    )}
+
                     <div className="flex space-x-3">
                       <Button
                         type="submit"
-                        disabled={deletePending}
+                        disabled={deletePending || confirmationPhrase !== 'supprimer mon compte'}
                         variant="destructive"
                       >
                         {deletePending ? 'Suppression...' : 'Confirmer la suppression'}
@@ -218,7 +193,10 @@ export default function SecurityPage() {
                       <Button
                         type="button"
                         variant="outline"
-                        onClick={() => setShowDeleteConfirm(false)}
+                        onClick={() => {
+                          setShowDeleteConfirm(false);
+                          setConfirmationPhrase('');
+                        }}
                         disabled={deletePending}
                       >
                         Annuler

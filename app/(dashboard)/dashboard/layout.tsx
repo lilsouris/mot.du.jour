@@ -15,8 +15,8 @@ import {
 import { cn } from '@/lib/utils';
 
 const navigation = [
-  { name: 'Équipe', href: '/dashboard', icon: Home },
-  { name: 'Général', href: '/dashboard/general', icon: Settings },
+  { name: 'Général', href: '/dashboard', icon: Home },
+  { name: 'Compte', href: '/dashboard/general', icon: Settings },
   { name: 'Activité', href: '/dashboard/activity', icon: Activity },
   { name: 'Sécurité', href: '/dashboard/security', icon: Shield },
 ];
@@ -46,7 +46,7 @@ export default function DashboardLayout({
         "fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0",
         sidebarOpen ? "translate-x-0" : "-translate-x-full"
       )}>
-        <div className="flex items-center justify-end h-16 px-4 border-b border-gray-200">
+        <div className="flex items-center justify-end h-16 px-4">
           <Button
             variant="ghost"
             size="icon"
@@ -92,7 +92,7 @@ export default function DashboardLayout({
       {/* Main content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         {/* Mobile menu button */}
-        <div className="lg:hidden flex items-center justify-start h-16 px-4 bg-white border-b border-gray-200">
+        <div className="lg:hidden flex items-center justify-start h-16 px-4 bg-white">
           <Button
             variant="ghost"
             size="icon"

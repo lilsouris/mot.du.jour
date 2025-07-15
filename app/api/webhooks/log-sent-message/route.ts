@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import crypto from 'crypto';
+import { logActivity } from '@/lib/activity/logger';
 
 export async function POST(request: NextRequest) {
   try {
@@ -55,6 +56,14 @@ export async function POST(request: NextRequest) {
     if (error) {
       console.error('Error logging message:', error);
       return NextResponse.json({ error: 'Failed to log message' }, { status: 500 });
+    }
+
+    // Log the message sent activity (only for successful messages)
+    if (status === 'sent') {
+      await logActivity(userIdStr, 'message_sent', {
+        phone_number: phone_number,
+        message_hash: messageHash
+      });
     }
 
     console.log(`Message logged for user ${userIdStr}: ${status}`);

@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { redirect } from 'next/navigation';
 import { validatedAction } from '@/lib/auth/middleware';
 import { createClient } from '@/lib/supabase/server';
+import { logActivity } from '@/lib/activity/logger';
 
 const signInSchema = z.object({
   email: z.string().email().min(3).max(255),
@@ -42,6 +43,10 @@ export const signIn = validatedAction(signInSchema, async (data, formData) => {
   }
 
   console.log('✅ Authentication successful!');
+  
+  // Log the login activity
+  await logActivity(authData.user.id, 'login');
+  
   console.log('🏠 Redirecting to dashboard');
   
   // Don't catch redirect errors - they need to bubble up
@@ -136,6 +141,9 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
 
   console.log('✅ User record created in database');
   
+  // Log the account creation activity
+  await logActivity(authData.user.id, 'account_created');
+  
   // If a plan was selected, redirect to the appropriate checkout
   if (plan) {
     console.log('💳 Redirecting to checkout for plan:', plan);
@@ -159,6 +167,15 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
 
 export async function signOut() {
   const supabase = await createClient();
+  
+  // Get current user before signing out
+  const { data: { user } } = await supabase.auth.getUser();
+  
+  if (user) {
+    // Log the logout activity
+    await logActivity(user.id, 'logout');
+  }
+  
   await supabase.auth.signOut();
   redirect('/connection');
 }

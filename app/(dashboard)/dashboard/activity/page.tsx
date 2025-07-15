@@ -12,74 +12,40 @@ import {
   LogOut, 
   Settings, 
   Shield,
-  Clock
+  Clock,
+  MessageCircle,
+  CreditCard
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useEffect, useState } from 'react';
+import { ActivityLog } from '@/lib/activity/logger';
 
-// Mock activity data - in a real app this would come from an API
-const mockActivities = [
-  {
-    id: 1,
-    action: 'Connexion',
-    type: 'sign_in',
-    timestamp: new Date(Date.now() - 1000 * 60 * 30), // 30 minutes ago
-    ipAddress: '192.168.1.1'
-  },
-  {
-    id: 2,
-    action: 'Compte mis à jour',
-    type: 'account_update',
-    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2), // 2 hours ago
-    ipAddress: '192.168.1.1'
-  },
-  {
-    id: 3,
-    action: 'Mot de passe modifié',
-    type: 'password_change',
-    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24), // 1 day ago
-    ipAddress: '192.168.1.1'
-  },
-  {
-    id: 4,
-    action: 'Inscription',
-    type: 'sign_up',
-    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 24 * 3), // 3 days ago
-    ipAddress: '192.168.1.1'
-  }
-];
+// Activity type mapping for icons and colors
+const activityTypeMap: Record<string, { icon: any; color: string }> = {
+  login: { icon: LogIn, color: 'text-blue-600 bg-blue-100' },
+  logout: { icon: LogOut, color: 'text-gray-600 bg-gray-100' },
+  password_change: { icon: Shield, color: 'text-purple-600 bg-purple-100' },
+  account_created: { icon: UserPlus, color: 'text-green-600 bg-green-100' },
+  account_updated: { icon: Settings, color: 'text-orange-600 bg-orange-100' },
+  account_deleted: { icon: UserPlus, color: 'text-red-600 bg-red-100' },
+  subscription_created: { icon: CreditCard, color: 'text-green-600 bg-green-100' },
+  subscription_updated: { icon: CreditCard, color: 'text-orange-600 bg-orange-100' },
+  subscription_cancelled: { icon: CreditCard, color: 'text-red-600 bg-red-100' },
+  message_sent: { icon: MessageCircle, color: 'text-blue-600 bg-blue-100' }
+};
 
 function getActivityIcon(type: string) {
-  switch (type) {
-    case 'sign_up':
-      return <UserPlus className="h-4 w-4" />;
-    case 'sign_in':
-      return <LogIn className="h-4 w-4" />;
-    case 'sign_out':
-      return <LogOut className="h-4 w-4" />;
-    case 'account_update':
-      return <Settings className="h-4 w-4" />;
-    case 'password_change':
-      return <Shield className="h-4 w-4" />;
-    default:
-      return <Clock className="h-4 w-4" />;
+  const config = activityTypeMap[type];
+  if (config) {
+    const IconComponent = config.icon;
+    return <IconComponent className="h-4 w-4" />;
   }
+  return <Clock className="h-4 w-4" />;
 }
 
 function getActivityColor(type: string) {
-  switch (type) {
-    case 'sign_up':
-      return 'text-green-600 bg-green-100';
-    case 'sign_in':
-      return 'text-blue-600 bg-blue-100';
-    case 'sign_out':
-      return 'text-gray-600 bg-gray-100';
-    case 'account_update':
-      return 'text-orange-600 bg-orange-100';
-    case 'password_change':
-      return 'text-purple-600 bg-purple-100';
-    default:
-      return 'text-gray-600 bg-gray-100';
-  }
+  const config = activityTypeMap[type];
+  return config?.color || 'text-gray-600 bg-gray-100';
 }
 
 function formatRelativeTime(date: Date) {
@@ -101,6 +67,47 @@ function formatRelativeTime(date: Date) {
 }
 
 export default function ActivityPage() {
+  const [activities, setActivities] = useState<ActivityLog[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchActivities() {
+      try {
+        const response = await fetch('/api/activity');
+        if (response.ok) {
+          const data = await response.json();
+          setActivities(data);
+        }
+      } catch (error) {
+        console.error('Error fetching activities:', error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchActivities();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="flex-1 p-4 lg:p-8">
+        <h1 className="text-lg lg:text-2xl font-medium mb-6">Journal d'Activité</h1>
+        
+        <Card>
+          <CardHeader>
+            <CardTitle>Activité Récente</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="text-center py-8 text-gray-500">
+              <Clock className="h-12 w-12 mx-auto mb-4 text-gray-300 animate-spin" />
+              <p>Chargement des activités...</p>
+            </div>
+          </CardContent>
+        </Card>
+      </section>
+    );
+  }
+
   return (
     <section className="flex-1 p-4 lg:p-8">
       <h1 className="text-lg lg:text-2xl font-medium mb-6">Journal d'Activité</h1>
@@ -111,31 +118,29 @@ export default function ActivityPage() {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {mockActivities.map((activity) => (
+            {activities.map((activity) => (
               <div
                 key={activity.id}
                 className="flex items-start space-x-4 p-4 border border-gray-200 rounded-lg"
               >
                 <div className={cn(
                   "flex items-center justify-center w-8 h-8 rounded-full",
-                  getActivityColor(activity.type)
+                  getActivityColor(activity.action)
                 )}>
-                  {getActivityIcon(activity.type)}
+                  {getActivityIcon(activity.action)}
                 </div>
                 
                 <div className="flex-1 min-w-0">
                   <p className="font-medium text-gray-900">
-                    {activity.action}
+                    {activity.description}
                   </p>
-                  <div className="flex items-center space-x-4 mt-1 text-sm text-gray-500">
-                    <span>{formatRelativeTime(activity.timestamp)}</span>
-                    <span>•</span>
-                    <span>IP: {activity.ipAddress}</span>
+                  <div className="flex items-center mt-1 text-sm text-gray-500">
+                    <span>{formatRelativeTime(new Date(activity.timestamp))}</span>
                   </div>
                 </div>
 
                 <div className="text-xs text-gray-400">
-                  {activity.timestamp.toLocaleString('fr-FR', {
+                  {new Date(activity.timestamp).toLocaleString('fr-FR', {
                     day: '2-digit',
                     month: '2-digit',
                     year: 'numeric',
@@ -147,7 +152,7 @@ export default function ActivityPage() {
             ))}
           </div>
 
-          {mockActivities.length === 0 && (
+          {activities.length === 0 && (
             <div className="text-center py-8 text-gray-500">
               <Clock className="h-12 w-12 mx-auto mb-4 text-gray-300" />
               <p>Aucune activité récente</p>
