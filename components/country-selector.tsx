@@ -348,7 +348,7 @@ export function CountrySelector({
           value={phoneNumber}
           onChange={(e) => onPhoneNumberChange(e.target.value)}
           placeholder="Entrez votre numéro"
-          className="flex-1 border-0 focus:ring-0 focus:border-0 rounded-none"
+          className="flex-1 border-0 focus:ring-0 focus:border-0 rounded-none text-gray-900"
           required
         />
       </div>
