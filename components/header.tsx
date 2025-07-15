@@ -59,9 +59,9 @@ function UserMenu() {
     <DropdownMenu open={isMenuOpen} onOpenChange={setIsMenuOpen}>
       <DropdownMenuTrigger>
         <Avatar className="cursor-pointer size-9">
-          <AvatarImage alt={user.name || ''} />
+          <AvatarImage alt={user?.name || ''} />
           <AvatarFallback>
-            {(user.email || user.name || 'U')
+            {(user?.email || user?.name || 'U')
               .split(' ')
               .map((n: string) => n[0])
               .join('')
