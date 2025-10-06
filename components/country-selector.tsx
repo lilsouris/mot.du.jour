@@ -296,12 +296,12 @@ export function CountrySelector({
       <Label htmlFor="phone" className="block text-sm font-medium text-gray-700">
         Numéro de téléphone
       </Label>
-      <div className="mt-1 flex rounded-full border border-gray-300 overflow-hidden">
+      <div className="mt-1 flex items-center rounded-full border border-gray-300 overflow-hidden">
         <div className="relative">
           <Button
             type="button"
             variant="ghost"
-            className="h-full px-3 py-2 flex items-center space-x-2 hover:bg-gray-50 rounded-none"
+            className="h-12 px-3 flex items-center space-x-2 hover:bg-gray-50 rounded-none"
             onClick={() => setIsOpen(!isOpen)}
           >
             <span className="text-lg">{selectedCountry.flag}</span>
@@ -348,7 +348,7 @@ export function CountrySelector({
           value={phoneNumber}
           onChange={(e) => onPhoneNumberChange(e.target.value)}
           placeholder="Entrez votre numéro"
-          className="flex-1 border-0 focus:ring-0 focus:border-0 rounded-none text-gray-900"
+          className="flex-1 h-12 border-0 focus:ring-0 focus:border-0 rounded-none text-gray-900 py-0"
           required
         />
       </div>
