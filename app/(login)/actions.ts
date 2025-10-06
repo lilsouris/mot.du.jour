@@ -74,6 +74,10 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
     phoneCountry: phoneCountry || null,
     plan: plan || null
   });
+  console.log('🔧 Supabase env present:', {
+    url: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
+    anonKey: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+  });
 
   // Check if user already exists
   const { data: existingUser } = await supabase
@@ -101,7 +105,7 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
     console.error('❌ Supabase auth error:', authError.message);
     console.error('🔎 Supabase auth error details:', authError);
     return {
-      error: 'Échec de la création de l\'utilisateur. Veuillez réessayer.',
+      error: `Échec de la création de l'utilisateur: ${authError.message}`,
       email,
       password
     };
@@ -117,6 +121,7 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
   }
 
   console.log('✅ Supabase auth user created:', authData.user.id);
+  console.log('🧾 Auth data:', authData);
 
   // Create user record in our database
   console.log('💾 Creating user record in database');
