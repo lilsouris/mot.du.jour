@@ -123,33 +123,9 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
   console.log('✅ Supabase auth user created:', authData.user.id);
   console.log('🧾 Auth data:', authData);
 
-  // Create user record in our database
-  console.log('💾 Creating user record in database');
-  const userRecord: any = {
-    id: authData.user.id,
-    email,
-    name: email.split('@')[0], // Use part before @ as default name
-    role: 'owner'
-  };
-  
-  // Add phone number if provided
-  if (phoneNumber && phoneCountry) {
-    userRecord.phone_number = phoneNumber;
-    userRecord.phone_country = phoneCountry;
-  }
-  
-  const { error: dbError } = await supabase
-    .from('users')
-    .insert(userRecord);
-
-  if (dbError) {
-    // Do not block signup if RLS/policies prevent immediate insert before session exists.
-    // We'll fall back to auth data where needed and create the row later.
-    console.warn('⚠️ Skipping DB user insert; will bootstrap later. Reason:', dbError.message);
-    console.warn('🔎 DB error details:', dbError);
-  }
-
-  console.log('✅ User record created in database');
+  // Skip inserting into public.users here to avoid RLS/trigger timing issues.
+  // We'll rely on auth data everywhere, and optionally backfill later via script.
+  console.log('ℹ️ Skipping public.users insert at signup (app uses auth profile).');
   
   // Log the account creation activity
   await logActivity(authData.user.id, 'account_created');
