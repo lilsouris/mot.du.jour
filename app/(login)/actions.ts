@@ -69,8 +69,7 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
   console.log('📝 Form data snapshot:', {
     email,
     phoneNumber: phoneNumber || null,
-    phoneCountry: phoneCountry || null,
-    plan: plan || null
+    phoneCountry: phoneCountry || null
   });
   console.log('🔧 Supabase env present:', {
     url: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
