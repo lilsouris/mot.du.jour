@@ -120,7 +120,8 @@ function TeamMembers() {
   });
 
   const getUserDisplayName = (userData: any) => {
-    return userData?.name || userData?.email || 'Utilisateur Inconnu';
+    const base = (userData?.name || userData?.email || 'Utilisateur Inconnu');
+    return String(base);
   };
 
   return (
@@ -134,7 +135,7 @@ function TeamMembers() {
             <div className="flex items-center space-x-4">
               <Avatar>
                 <AvatarFallback>
-                  {getUserDisplayName(user)
+                  {String(getUserDisplayName(user) || 'U')
                     .split(' ')
                     .map((n: string) => n[0])
                     .join('')
