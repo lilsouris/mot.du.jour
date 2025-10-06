@@ -135,11 +135,7 @@ function TeamMembers() {
             <div className="flex items-center space-x-4">
               <Avatar>
                 <AvatarFallback>
-                  {String(getUserDisplayName(user) || 'U')
-                    .split(' ')
-                    .map((n: string) => n[0])
-                    .join('')
-                    .toUpperCase()}
+                  {(user?.name?.[0] ?? user?.email?.[0] ?? 'U').toUpperCase()}
                 </AvatarFallback>
               </Avatar>
               <div>

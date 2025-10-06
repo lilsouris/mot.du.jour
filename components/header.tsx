@@ -65,11 +65,7 @@ function UserMenu() {
         <Avatar className="cursor-pointer size-9">
           <AvatarImage alt={String(user?.name || '')} />
           <AvatarFallback>
-            {String(user?.email || user?.name || 'U')
-              .split(' ')
-              .map((n: string) => n[0])
-              .join('')
-              .toUpperCase()}
+            {(user?.name?.[0] ?? user?.email?.[0] ?? 'U').toUpperCase()}
           </AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
