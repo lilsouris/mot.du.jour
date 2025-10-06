@@ -57,13 +57,11 @@ const signUpSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
   phoneNumber: z.string().optional(),
-  phoneCountry: z.string().optional(),
-  inviteId: z.string().optional(),
-  plan: z.string().optional()
+  phoneCountry: z.string().optional()
 });
 
 export const signUp = validatedAction(signUpSchema, async (data, formData) => {
-  const { email, password, phoneNumber, phoneCountry, plan } = data;
+  const { email, password, phoneNumber, phoneCountry } = data;
   const supabase = await createClient();
 
   console.log('🆕 Starting sign up process');
@@ -79,39 +77,25 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
     anonKey: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   });
 
-  // Check if user already exists
-  const { data: existingUser } = await supabase
-    .from('users')
-    .select('email')
-    .eq('email', email)
-    .single();
-
-  if (existingUser) {
-    console.log('❌ User already exists:', email);
-    return {
-      error: 'Un compte avec cet email existe déjà. Veuillez vous connecter.',
-      email,
-      password
-    };
-  }
-
-  console.log('🔐 Creating Supabase auth user');
-  const { data: authData, error: authError } = await supabase.auth.signUp({
-    email,
-    password,
-  });
+  console.log('🔐 Creating Supabase auth user (or detecting existing)');
+  const { data: authData, error: authError } = await supabase.auth.signUp({ email, password });
 
   if (authError) {
     console.error('❌ Supabase auth error:', authError.message);
     console.error('🔎 Supabase auth error details:', authError);
-    return {
-      error: `Échec de la création de l'utilisateur: ${authError.message}`,
-      email,
-      password
-    };
+    // If already registered, try signing in directly
+    if (authError.message?.toLowerCase().includes('already registered')) {
+      const { data: signInData, error: signInErr } = await supabase.auth.signInWithPassword({ email, password });
+      if (signInErr || !signInData.user) {
+        return { error: `Impossible de se connecter: ${signInErr?.message || 'inconnu'}`, email, password };
+      }
+      // proceed with upsert below using signInData
+    } else {
+      return { error: `Échec de la création de l'utilisateur: ${authError.message}`, email, password };
+    }
   }
 
-  if (!authData.user) {
+  if (!authData?.user) {
     console.error('❌ No user returned from Supabase signup');
     return {
       error: 'Échec de la création de l\'utilisateur. Veuillez réessayer.',
@@ -120,33 +104,25 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
     };
   }
 
-  console.log('✅ Supabase auth user created:', authData.user.id);
-  console.log('🧾 Auth data:', authData);
+  console.log('✅ Supabase auth user created or signed in:', authData.user.id);
 
-  // Skip inserting into public.users here to avoid RLS/trigger timing issues.
-  // We'll rely on auth data everywhere, and optionally backfill later via script.
-  console.log('ℹ️ Skipping public.users insert at signup (app uses auth profile).');
+  // Upsert into public.users (id serial, email, password_hash, role)
+  const userRow: any = {
+    email,
+    password_hash: 'supabase_auth',
+    role: 'owner',
+  };
+  const { error: upsertErr } = await supabase
+    .from('users')
+    .upsert(userRow, { onConflict: 'email' });
+
+  if (upsertErr) {
+    console.error('❌ users upsert error:', upsertErr.message);
+    // continue, do not block auth session
+  }
   
   // Log the account creation activity
   await logActivity(authData.user.id, 'account_created');
-  
-  // Allow a small delay to ensure session is fully established
-  await new Promise(resolve => setTimeout(resolve, 100));
-  
-  // If a plan was selected, redirect to the appropriate checkout
-  if (plan) {
-    console.log('💳 Redirecting to checkout for plan:', plan);
-    const priceIdMap = {
-      'personal': 'Personnel',
-      'gift': 'Cadeau',
-      'family': 'Famille'
-    };
-    
-    const priceId = priceIdMap[plan as keyof typeof priceIdMap];
-    if (priceId) {
-      redirect(`/pricing?priceId=${priceId}&autoCheckout=true`);
-    }
-  }
   
   console.log('🏠 Redirecting to dashboard');
   

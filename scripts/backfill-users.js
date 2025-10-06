@@ -36,8 +36,8 @@ async function main() {
   for (const au of authUsers.users) {
     const { data: row, error } = await supabase
       .from('users')
-      .select('id')
-      .eq('id', au.id)
+      .select('auth_user_id')
+      .eq('auth_user_id', au.id)
       .single();
 
     if (error && error.code !== 'PGRST116') {
@@ -47,7 +47,7 @@ async function main() {
 
     if (!row) {
       toInsert.push({
-        id: au.id,
+        auth_user_id: au.id,
         email: au.email,
         name: (au.email || '').split('@')[0] || null,
         role: 'owner'
