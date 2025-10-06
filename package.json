@@ -2,6 +2,7 @@
   "name": "mot-du-jour",
   "private": true,
   "scripts": {
+    "backfill:users": "node scripts/backfill-users.js",
     "dev": "next dev",
     "build": "next build",
     "start": "next start"
