@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/card';
 import { useTransition } from 'react';
 import { useState } from 'react';
-import { AlertTriangle, Shield, Trash2 } from 'lucide-react';
+import { AlertTriangle, Shield, Trash2, Eye, EyeOff } from 'lucide-react';
 import { updatePasswordAction, deleteAccountAction } from './actions';
 
 type ActionState = {
@@ -26,6 +26,9 @@ export default function SecurityPage() {
   const [deleteState, setDeleteState] = useState<ActionState>({});
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [confirmationPhrase, setConfirmationPhrase] = useState('');
+  const [showCurrent, setShowCurrent] = useState(false);
+  const [showNew, setShowNew] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const handlePasswordSubmit = (formData: FormData) => {
     startPasswordTransition(async () => {
@@ -58,40 +61,73 @@ export default function SecurityPage() {
             <form action={handlePasswordSubmit} className="space-y-4">
               <div>
                 <Label htmlFor="currentPassword" className="mb-2">Mot de passe actuel</Label>
-                <Input
-                  id="currentPassword"
-                  name="currentPassword"
-                  type="password"
-                  required
-                  disabled={passwordPending}
-                  placeholder="Entrez votre mot de passe actuel"
-                />
+                <div className="relative">
+                  <Input
+                    id="currentPassword"
+                    name="currentPassword"
+                    type={showCurrent ? 'text' : 'password'}
+                    required
+                    disabled={passwordPending}
+                    placeholder="Entrez votre mot de passe actuel"
+                    className="pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowCurrent(v => !v)}
+                    className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700"
+                    aria-label={showCurrent ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
+                  >
+                    {showCurrent ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                  </button>
+                </div>
               </div>
               
               <div>
                 <Label htmlFor="newPassword" className="mb-2">Nouveau mot de passe</Label>
-                <Input
-                  id="newPassword"
-                  name="newPassword"
-                  type="password"
-                  required
-                  minLength={8}
-                  disabled={passwordPending}
-                  placeholder="Entrez un nouveau mot de passe"
-                />
+                <div className="relative">
+                  <Input
+                    id="newPassword"
+                    name="newPassword"
+                    type={showNew ? 'text' : 'password'}
+                    required
+                    minLength={8}
+                    disabled={passwordPending}
+                    placeholder="Entrez un nouveau mot de passe"
+                    className="pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowNew(v => !v)}
+                    className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700"
+                    aria-label={showNew ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
+                  >
+                    {showNew ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                  </button>
+                </div>
               </div>
 
               <div>
                 <Label htmlFor="confirmPassword" className="mb-2">Confirmer le nouveau mot de passe</Label>
-                <Input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  required
-                  minLength={8}
-                  disabled={passwordPending}
-                  placeholder="Confirmez le nouveau mot de passe"
-                />
+                <div className="relative">
+                  <Input
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type={showConfirm ? 'text' : 'password'}
+                    required
+                    minLength={8}
+                    disabled={passwordPending}
+                    placeholder="Confirmez le nouveau mot de passe"
+                    className="pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirm(v => !v)}
+                    className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700"
+                    aria-label={showConfirm ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
+                  >
+                    {showConfirm ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                  </button>
+                </div>
               </div>
 
               {passwordState.error && (

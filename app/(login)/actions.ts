@@ -131,12 +131,9 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
     .insert(userRecord);
 
   if (dbError) {
-    console.error('❌ Database error:', dbError.message);
-    return {
-      error: 'Échec de la création de l\'utilisateur. Veuillez réessayer.',
-      email,
-      password
-    };
+    // Do not block signup if RLS/policies prevent immediate insert before session exists.
+    // We'll fall back to auth data where needed and create the row later.
+    console.warn('⚠️ Skipping DB user insert; will bootstrap later. Reason:', dbError.message);
   }
 
   console.log('✅ User record created in database');
