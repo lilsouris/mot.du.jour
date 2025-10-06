@@ -23,10 +23,12 @@ type ActionState = {
 
 const fetcher = (url: string) => fetch(url).then((res) => {
   if (res.status === 401) {
-    return null;
+    return null; // Return null for unauthenticated users instead of throwing
   }
   if (!res.ok) {
-    throw new Error('Network response was not ok');
+    const err: any = new Error('Network response was not ok');
+    err.status = res.status;
+    throw err;
   }
   return res.json();
 });
