@@ -49,11 +49,11 @@ function UserMenu() {
         >
           Tarifs
         </Link>
-        <Button asChild variant="outline" className="rounded-full border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white">
-          <Link href="/connection">Se connecter</Link>
-        </Button>
         <Button asChild variant="outline" className="rounded-full bg-orange-500 text-white border-orange-500 hover:bg-transparent hover:text-orange-500">
           <Link href="/inscription">S'inscrire</Link>
+        </Button>
+        <Button asChild variant="outline" className="rounded-full border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white">
+          <Link href="/connection">Se connecter</Link>
         </Button>
       </>
     );
