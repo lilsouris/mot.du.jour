@@ -35,7 +35,10 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
     startTransition(async () => {
       const action = mode === 'signin' ? signIn : signUp;
       const result = await action(state, formData);
-      setState(result);
+      if (result && typeof result === 'object') {
+        setState((prev) => ({ ...prev, ...result }));
+      }
+      // On successful redirect, code path won't continue; if it does, keep previous state
     });
   };
 
@@ -71,7 +74,7 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
                 name="email"
                 type="email"
                 autoComplete="email"
-                defaultValue={state.email || ''}
+                defaultValue={state?.email || ''}
                 required
                 maxLength={50}
                 className="appearance-none rounded-full relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-orange-500 focus:border-orange-500 focus:z-10 sm:text-sm"
@@ -106,7 +109,7 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
                 autoComplete={
                   mode === 'signin' ? 'current-password' : 'new-password'
                 }
-                defaultValue={state.password || ''}
+                defaultValue={state?.password || ''}
                 required
                 minLength={8}
                 maxLength={100}
@@ -130,7 +133,7 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
           </div>
 
           {state?.error && (
-            <div className="text-red-500 text-sm">{state.error}</div>
+            <div className="text-red-500 text-sm">{String(state.error)}</div>
           )}
 
           <div>
