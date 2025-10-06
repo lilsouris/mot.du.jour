@@ -68,6 +68,12 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
 
   console.log('🆕 Starting sign up process');
   console.log('📧 Attempting to sign up with email:', email);
+  console.log('📝 Form data snapshot:', {
+    email,
+    phoneNumber: phoneNumber || null,
+    phoneCountry: phoneCountry || null,
+    plan: plan || null
+  });
 
   // Check if user already exists
   const { data: existingUser } = await supabase
@@ -93,6 +99,7 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
 
   if (authError) {
     console.error('❌ Supabase auth error:', authError.message);
+    console.error('🔎 Supabase auth error details:', authError);
     return {
       error: 'Échec de la création de l\'utilisateur. Veuillez réessayer.',
       email,
@@ -134,6 +141,7 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
     // Do not block signup if RLS/policies prevent immediate insert before session exists.
     // We'll fall back to auth data where needed and create the row later.
     console.warn('⚠️ Skipping DB user insert; will bootstrap later. Reason:', dbError.message);
+    console.warn('🔎 DB error details:', dbError);
   }
 
   console.log('✅ User record created in database');

@@ -74,7 +74,7 @@ export default function SecurityPage() {
                   <button
                     type="button"
                     onClick={() => setShowCurrent(v => !v)}
-                    className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700"
+                    className="absolute inset-y-0 right-3 z-10 flex items-center text-gray-500 hover:text-gray-700"
                     aria-label={showCurrent ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
                   >
                     {showCurrent ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
@@ -98,7 +98,7 @@ export default function SecurityPage() {
                   <button
                     type="button"
                     onClick={() => setShowNew(v => !v)}
-                    className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700"
+                    className="absolute inset-y-0 right-3 z-10 flex items-center text-gray-500 hover:text-gray-700"
                     aria-label={showNew ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
                   >
                     {showNew ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
@@ -122,7 +122,7 @@ export default function SecurityPage() {
                   <button
                     type="button"
                     onClick={() => setShowConfirm(v => !v)}
-                    className="absolute inset-y-0 right-3 flex items-center text-gray-500 hover:text-gray-700"
+                    className="absolute inset-y-0 right-3 z-10 flex items-center text-gray-500 hover:text-gray-700"
                     aria-label={showConfirm ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
                   >
                     {showConfirm ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}

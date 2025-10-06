@@ -116,7 +116,7 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
               <button
                 type="button"
                 onClick={() => setShowPassword((v) => !v)}
-                className="absolute inset-y-0 right-3 flex items-center justify-center text-gray-500 hover:text-gray-700"
+                className="absolute inset-y-0 right-3 z-10 flex items-center justify-center text-gray-500 hover:text-gray-700"
                 aria-label={showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
                 title={showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
               >
