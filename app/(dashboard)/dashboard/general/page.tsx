@@ -132,6 +132,8 @@ export default function GeneralPage() {
 
   const handleSubmit = (formDataObj: FormData) => {
     startTransition(async () => {
+      // Ensure phoneCountry is included in form data
+      formDataObj.set('phoneCountry', selectedCountry.dialCode);
       const result = await updateAccountInfo({}, formDataObj);
       setState(result);
       if (result?.success) {
