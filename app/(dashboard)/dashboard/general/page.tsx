@@ -206,7 +206,6 @@ export default function GeneralPage() {
             </div>
             
             <div>
-              <Label className="mb-2">Numéro de téléphone</Label>
               <CountrySelector
                 selectedCountry={selectedCountry}
                 onCountryChange={handleCountryChange}
