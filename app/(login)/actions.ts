@@ -8,7 +8,7 @@ import { logActivity } from '@/lib/activity/logger';
 
 const signInSchema = z.object({
   email: z.string().email().min(3).max(255),
-  password: z.string().min(8).max(100)
+  password: z.string().min(8).max(100),
 });
 
 export const signIn = validatedAction(signInSchema, async (data, formData) => {
@@ -19,17 +19,18 @@ export const signIn = validatedAction(signInSchema, async (data, formData) => {
   console.log('📧 Attempting to sign in with email:', email);
 
   console.log('🔐 Attempting Supabase auth with email:', email);
-  const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
-    email,
-    password,
-  });
+  const { data: authData, error: authError } =
+    await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
 
   if (authError) {
     console.error('❌ Supabase auth error:', authError.message);
     return {
       error: 'Email ou mot de passe invalide. Veuillez réessayer.',
       email,
-      password
+      password,
     };
   }
 
@@ -38,17 +39,17 @@ export const signIn = validatedAction(signInSchema, async (data, formData) => {
     return {
       error: 'Email ou mot de passe invalide. Veuillez réessayer.',
       email,
-      password
+      password,
     };
   }
 
   console.log('✅ Authentication successful!');
-  
+
   // Log the login activity
   await logActivity(authData.user.id, 'login');
-  
+
   console.log('🏠 Redirecting to dashboard');
-  
+
   // Don't catch redirect errors - they need to bubble up
   redirect('/dashboard');
 });
@@ -58,7 +59,7 @@ const signUpSchema = z.object({
   password: z.string().min(8),
   phoneNumber: z.string().optional(),
   phoneCountry: z.string().optional(),
-  plan: z.string().optional()
+  plan: z.string().optional(),
 });
 
 export const signUp = validatedAction(signUpSchema, async (data, formData) => {
@@ -70,44 +71,59 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
   console.log('📝 Form data snapshot:', {
     email,
     phoneNumber: phoneNumber || null,
-    phoneCountry: phoneCountry || null
+    phoneCountry: phoneCountry || null,
   });
   console.log('🔧 Supabase env present:', {
     url: !!process.env.NEXT_PUBLIC_SUPABASE_URL,
-    anonKey: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    anonKey: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
   });
 
   console.log('🔐 Creating Supabase auth user (or detecting existing)');
-  const { data: authData, error: authError } = await supabase.auth.signUp({ email, password });
+  const { data: authData, error: authError } = await supabase.auth.signUp({
+    email,
+    password,
+  });
 
   if (authError) {
     console.error('❌ Supabase auth error:', authError.message);
     console.error('🔎 Supabase auth error details:', authError);
     // If already registered, try signing in directly
     if (authError.message?.toLowerCase().includes('already registered')) {
-      const { data: signInData, error: signInErr } = await supabase.auth.signInWithPassword({ email, password });
+      const { data: signInData, error: signInErr } =
+        await supabase.auth.signInWithPassword({ email, password });
       if (signInErr || !signInData.user) {
-        return { error: `Impossible de se connecter: ${signInErr?.message || 'inconnu'}`, email, password };
+        return {
+          error: `Impossible de se connecter: ${signInErr?.message || 'inconnu'}`,
+          email,
+          password,
+        };
       }
       // proceed with upsert below using signInData
     } else {
-      return { error: `Échec de la création de l'utilisateur: ${authError.message}`, email, password };
+      return {
+        error: `Échec de la création de l'utilisateur: ${authError.message}`,
+        email,
+        password,
+      };
     }
   }
 
   if (!authData?.user) {
     console.error('❌ No user returned from Supabase signup');
     return {
-      error: 'Échec de la création de l\'utilisateur. Veuillez réessayer.',
+      error: "Échec de la création de l'utilisateur. Veuillez réessayer.",
       email,
-      password
+      password,
     };
   }
 
   console.log('✅ Supabase auth user created or signed in:', authData.user.id);
 
   // Upsert into public.users (id serial, email, password_hash, role)
-  const roleFromPlan = (plan === 'personal' || plan === 'gift' || plan === 'family') ? plan : 'owner';
+  const roleFromPlan =
+    plan === 'personal' || plan === 'gift' || plan === 'family'
+      ? plan
+      : 'owner';
   const userRow: any = {
     email,
     password_hash: 'supabase_auth',
@@ -126,27 +142,29 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
     console.error('❌ users upsert error:', upsertErr.message);
     // continue, do not block auth session
   }
-  
+
   // Log the account creation activity
   await logActivity(authData.user.id, 'account_created');
-  
+
   console.log('🏠 Redirecting to dashboard');
-  
+
   // Don't catch redirect errors - they need to bubble up
   redirect('/dashboard');
 });
 
 export async function signOut() {
   const supabase = await createClient();
-  
+
   // Get current user before signing out
-  const { data: { user } } = await supabase.auth.getUser();
-  
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   if (user) {
     // Log the logout activity
     await logActivity(user.id, 'logout');
   }
-  
+
   await supabase.auth.signOut();
   redirect('/connection');
 }

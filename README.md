@@ -7,6 +7,7 @@ A French mental health and wellness application that delivers personalized daily
 ## Features
 
 ### Core Functionality
+
 - **Daily SMS Messages**: Personalized messages delivered via SMS to transform mental well-being
 - **AI-Powered Content**: Multiple AI providers (Claude, OpenAI) with web automation fallbacks
 - **Subscription Plans**: Personal (4.99€), Family (3.99€/user), and Gift (4.99€) tiers
@@ -14,18 +15,21 @@ A French mental health and wellness application that delivers personalized daily
 - **Browser Extension**: Chrome extension for manual message generation
 
 ### User Management
+
 - **Authentication**: Supabase Auth with secure session management
 - **Team Management**: Family plan support with invitations and role-based access
 - **User Profiles**: Phone number validation, subscription tracking, and preferences
 - **Activity Logs**: Comprehensive tracking of user actions and system events
 
 ### Dashboard Features
+
 - **Personal Dashboard**: Message history, subscription status, and account management
 - **Team Dashboard**: Family plan management with member invitations
 - **Security Settings**: Password management and account security
 - **Activity Tracking**: Real-time logs of user interactions
 
 ### Payment & Subscription
+
 - **Stripe Integration**: Secure payment processing with Customer Portal
 - **Multiple Plans**: Personal, Family, and Gift subscription options
 - **Trial Period**: 14-day free trial for new users
@@ -105,10 +109,12 @@ Open [http://localhost:3000](http://localhost:3000) to view the application.
 The application supports multiple AI providers with fallback mechanisms:
 
 ### Primary Providers
+
 - **Claude API**: Direct API integration with Anthropic's Claude
 - **OpenAI API**: GPT-4o-mini for message generation
 
 ### Fallback Providers
+
 - **Claude Web Automation**: Puppeteer-based web scraping
 - **Test Messages**: Pre-written fallback messages
 
@@ -202,36 +208,42 @@ mot-du-jour/
 ## Key Features
 
 ### 🤖 AI-Powered Message Generation
+
 - Multiple AI providers with intelligent fallbacks
 - Personalized content based on user preferences
 - Character limit optimization for SMS delivery
 - French language specialization
 
 ### 📱 SMS Delivery System
+
 - Daily automated message delivery
 - Twilio integration for global SMS support
 - Delivery status tracking and logging
 - Phone number validation and formatting
 
 ### 💳 Subscription Management
+
 - Stripe-powered payment processing
 - Multiple subscription tiers (Personal, Family, Gift)
 - 14-day free trial period
 - Customer portal for self-service management
 
 ### 👥 Team & Family Plans
+
 - Multi-user family subscriptions
 - Team invitation system
 - Role-based access control
 - Shared subscription management
 
 ### 🔐 Security & Authentication
+
 - Supabase Auth integration
 - Row-level security policies
 - Secure webhook validation
 - Session management with JWTs
 
 ### 📊 Analytics & Logging
+
 - Comprehensive activity tracking
 - Message delivery analytics
 - User engagement metrics

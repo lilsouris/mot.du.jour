@@ -1,20 +1,15 @@
 'use client';
 
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { 
-  UserPlus, 
-  LogIn, 
-  LogOut, 
-  Settings, 
+  UserPlus,
+  LogIn,
+  LogOut,
+  Settings,
   Shield,
   Clock,
   MessageCircle,
-  CreditCard
+  CreditCard,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
@@ -28,10 +23,19 @@ const activityTypeMap: Record<string, { icon: any; color: string }> = {
   account_created: { icon: UserPlus, color: 'text-green-600 bg-green-100' },
   account_updated: { icon: Settings, color: 'text-orange-600 bg-orange-100' },
   account_deleted: { icon: UserPlus, color: 'text-red-600 bg-red-100' },
-  subscription_created: { icon: CreditCard, color: 'text-green-600 bg-green-100' },
-  subscription_updated: { icon: CreditCard, color: 'text-orange-600 bg-orange-100' },
-  subscription_cancelled: { icon: CreditCard, color: 'text-red-600 bg-red-100' },
-  message_sent: { icon: MessageCircle, color: 'text-blue-600 bg-blue-100' }
+  subscription_created: {
+    icon: CreditCard,
+    color: 'text-green-600 bg-green-100',
+  },
+  subscription_updated: {
+    icon: CreditCard,
+    color: 'text-orange-600 bg-orange-100',
+  },
+  subscription_cancelled: {
+    icon: CreditCard,
+    color: 'text-red-600 bg-red-100',
+  },
+  message_sent: { icon: MessageCircle, color: 'text-blue-600 bg-blue-100' },
 };
 
 function getActivityIcon(type: string) {
@@ -51,7 +55,7 @@ function getActivityColor(type: string) {
 function formatRelativeTime(date: Date) {
   const now = new Date();
   const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-  
+
   if (diffInSeconds < 60) {
     return 'Il y a quelques secondes';
   } else if (diffInSeconds < 3600) {
@@ -91,8 +95,10 @@ export default function ActivityPage() {
   if (loading) {
     return (
       <section className="flex-1 p-4 lg:p-8">
-        <h1 className="text-lg lg:text-2xl font-medium mb-6">Journal d'Activité</h1>
-        
+        <h1 className="text-lg lg:text-2xl font-medium mb-6">
+          Journal d'Activité
+        </h1>
+
         <Card>
           <CardHeader>
             <CardTitle>Activité Récente</CardTitle>
@@ -110,32 +116,38 @@ export default function ActivityPage() {
 
   return (
     <section className="flex-1 p-4 lg:p-8">
-      <h1 className="text-lg lg:text-2xl font-medium mb-6">Journal d'Activité</h1>
-      
+      <h1 className="text-lg lg:text-2xl font-medium mb-6">
+        Journal d'Activité
+      </h1>
+
       <Card>
         <CardHeader>
           <CardTitle>Activité Récente</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {activities.map((activity) => (
+            {activities.map(activity => (
               <div
                 key={activity.id}
                 className="flex items-start space-x-4 p-4 border border-gray-200 rounded-lg"
               >
-                <div className={cn(
-                  "flex items-center justify-center w-8 h-8 rounded-full",
-                  getActivityColor(activity.action)
-                )}>
+                <div
+                  className={cn(
+                    'flex items-center justify-center w-8 h-8 rounded-full',
+                    getActivityColor(activity.action)
+                  )}
+                >
                   {getActivityIcon(activity.action)}
                 </div>
-                
+
                 <div className="flex-1 min-w-0">
                   <p className="font-medium text-gray-900">
                     {activity.description}
                   </p>
                   <div className="flex items-center mt-1 text-sm text-gray-500">
-                    <span>{formatRelativeTime(new Date(activity.timestamp))}</span>
+                    <span>
+                      {formatRelativeTime(new Date(activity.timestamp))}
+                    </span>
                   </div>
                 </div>
 
@@ -145,7 +157,7 @@ export default function ActivityPage() {
                     month: '2-digit',
                     year: 'numeric',
                     hour: '2-digit',
-                    minute: '2-digit'
+                    minute: '2-digit',
                   })}
                 </div>
               </div>

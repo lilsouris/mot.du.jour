@@ -7,26 +7,30 @@ import { createClient } from '@/lib/supabase/server';
 export async function checkoutAction(formData: FormData) {
   const priceId = formData.get('priceId') as string;
   const supabase = await createClient();
-  
+
   // Get current user for email
-  const { data: { user } } = await supabase.auth.getUser();
-  
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   if (!user) {
     redirect(`/inscription?redirect=checkout&priceId=${priceId}`);
   }
 
-  await createCheckoutSession({ 
+  await createCheckoutSession({
     priceId,
-    email: user.email 
+    email: user.email,
   });
 }
 
 export async function customerPortalAction() {
   const supabase = await createClient();
-  
+
   // Get current user
-  const { data: { user } } = await supabase.auth.getUser();
-  
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   if (!user) {
     redirect('/connection');
   }
@@ -42,6 +46,8 @@ export async function customerPortalAction() {
     redirect('/pricing');
   }
 
-  const portalSession = await createCustomerPortalSession(userData.stripe_customer_id);
+  const portalSession = await createCustomerPortalSession(
+    userData.stripe_customer_id
+  );
   redirect(portalSession.url);
 }

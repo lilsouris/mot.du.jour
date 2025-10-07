@@ -8,7 +8,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Numéro requis' }, { status: 400 });
     }
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -29,7 +31,9 @@ export async function POST(req: NextRequest) {
       joined_at: new Date().toISOString(),
     };
 
-    const { error: insertErr } = await supabase.from('team_members').insert(insertRow);
+    const { error: insertErr } = await supabase
+      .from('team_members')
+      .insert(insertRow);
     if (insertErr) {
       return NextResponse.json({ error: 'Insert failed' }, { status: 500 });
     }

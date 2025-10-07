@@ -17,15 +17,15 @@ function PricingContent() {
       const form = document.createElement('form');
       form.method = 'POST';
       form.action = '/api/checkout';
-      
+
       const input = document.createElement('input');
       input.type = 'hidden';
       input.name = 'priceId';
       input.value = priceId;
-      
+
       form.appendChild(input);
       document.body.appendChild(form);
-      
+
       // Use checkoutAction instead of form submission
       const formData = new FormData();
       formData.append('priceId', priceId);
@@ -55,19 +55,27 @@ function PricingContent() {
               <div className="text-center">
                 <h3 className="text-2xl font-bold text-gray-900">Personnel</h3>
                 <div className="mt-4 flex items-center justify-center">
-                  <span className="text-4xl font-bold text-gray-900">4,99€</span>
+                  <span className="text-4xl font-bold text-gray-900">
+                    4,99€
+                  </span>
                   <span className="ml-2 text-lg text-gray-500">/mois</span>
                 </div>
-                <p className="mt-2 text-sm text-gray-500">ou 49,99€ facturé annuellement</p>
+                <p className="mt-2 text-sm text-gray-500">
+                  ou 49,99€ facturé annuellement
+                </p>
               </div>
               <ul className="mt-8 space-y-4">
                 <li className="flex items-start">
                   <span className="text-green-500 mr-3">✓</span>
-                  <span className="text-gray-700">Messages quotidiens personnalisés</span>
+                  <span className="text-gray-700">
+                    Messages quotidiens personnalisés
+                  </span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-green-500 mr-3">✓</span>
-                  <span className="text-gray-700">Journal numérique illimité</span>
+                  <span className="text-gray-700">
+                    Journal numérique illimité
+                  </span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-green-500 mr-3">✓</span>
@@ -75,12 +83,18 @@ function PricingContent() {
                 </li>
                 <li className="flex items-start">
                   <span className="text-green-500 mr-3">✓</span>
-                  <span className="text-gray-700">14 jours d'essai gratuit</span>
+                  <span className="text-gray-700">
+                    14 jours d'essai gratuit
+                  </span>
                 </li>
               </ul>
               <form action={checkoutAction} className="mt-8">
-                <input type="hidden" name="priceId" value="price_personal_monthly" />
-                <Button 
+                <input
+                  type="hidden"
+                  name="priceId"
+                  value="price_personal_monthly"
+                />
+                <Button
                   type="submit"
                   className="w-full bg-orange-500 text-white py-3 px-6 rounded-full font-semibold hover:bg-orange-600 transition-colors"
                 >
@@ -100,10 +114,14 @@ function PricingContent() {
               <div className="text-center">
                 <h3 className="text-2xl font-bold text-gray-900">Cadeau</h3>
                 <div className="mt-4 flex items-center justify-center">
-                  <span className="text-4xl font-bold text-gray-900">4,99€</span>
+                  <span className="text-4xl font-bold text-gray-900">
+                    4,99€
+                  </span>
                   <span className="ml-2 text-lg text-gray-500">/mois</span>
                 </div>
-                <p className="mt-2 text-sm text-gray-500">ou 49,99€ facturé annuellement</p>
+                <p className="mt-2 text-sm text-gray-500">
+                  ou 49,99€ facturé annuellement
+                </p>
               </div>
               <ul className="mt-8 space-y-4">
                 <li className="flex items-start">
@@ -112,7 +130,9 @@ function PricingContent() {
                 </li>
                 <li className="flex items-start">
                   <span className="text-green-500 mr-3">✓</span>
-                  <span className="text-gray-700">Toutes les fonctionnalités personnelles</span>
+                  <span className="text-gray-700">
+                    Toutes les fonctionnalités personnelles
+                  </span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-green-500 mr-3">✓</span>
@@ -120,12 +140,18 @@ function PricingContent() {
                 </li>
                 <li className="flex items-start">
                   <span className="text-green-500 mr-3">✓</span>
-                  <span className="text-gray-700">14 jours d'essai gratuit</span>
+                  <span className="text-gray-700">
+                    14 jours d'essai gratuit
+                  </span>
                 </li>
               </ul>
               <form action={checkoutAction} className="mt-8">
-                <input type="hidden" name="priceId" value="price_gift_monthly" />
-                <Button 
+                <input
+                  type="hidden"
+                  name="priceId"
+                  value="price_gift_monthly"
+                />
+                <Button
                   type="submit"
                   className="w-full bg-orange-500 text-white py-3 px-6 rounded-full font-semibold hover:bg-orange-600 transition-colors"
                 >
@@ -140,19 +166,29 @@ function PricingContent() {
               <div className="text-center">
                 <h3 className="text-2xl font-bold text-gray-900">Famille</h3>
                 <div className="mt-4 flex items-center justify-center">
-                  <span className="text-4xl font-bold text-gray-900">3,99€</span>
-                  <span className="ml-2 text-lg text-gray-500">/utilisateur/mois</span>
+                  <span className="text-4xl font-bold text-gray-900">
+                    3,99€
+                  </span>
+                  <span className="ml-2 text-lg text-gray-500">
+                    /utilisateur/mois
+                  </span>
                 </div>
-                <p className="mt-2 text-sm text-gray-500">utilisateurs illimités</p>
+                <p className="mt-2 text-sm text-gray-500">
+                  utilisateurs illimités
+                </p>
               </div>
               <ul className="mt-8 space-y-4">
                 <li className="flex items-start">
                   <span className="text-green-500 mr-3">✓</span>
-                  <span className="text-gray-700">Comptes famille illimités</span>
+                  <span className="text-gray-700">
+                    Comptes famille illimités
+                  </span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-green-500 mr-3">✓</span>
-                  <span className="text-gray-700">Toutes les fonctionnalités personnelles</span>
+                  <span className="text-gray-700">
+                    Toutes les fonctionnalités personnelles
+                  </span>
                 </li>
                 <li className="flex items-start">
                   <span className="text-green-500 mr-3">✓</span>
@@ -160,12 +196,18 @@ function PricingContent() {
                 </li>
                 <li className="flex items-start">
                   <span className="text-green-500 mr-3">✓</span>
-                  <span className="text-gray-700">14 jours d'essai gratuit</span>
+                  <span className="text-gray-700">
+                    14 jours d'essai gratuit
+                  </span>
                 </li>
               </ul>
               <form action={checkoutAction} className="mt-8">
-                <input type="hidden" name="priceId" value="price_family_monthly" />
-                <Button 
+                <input
+                  type="hidden"
+                  name="priceId"
+                  value="price_family_monthly"
+                />
+                <Button
                   type="submit"
                   className="w-full bg-orange-500 text-white py-3 px-6 rounded-full font-semibold hover:bg-orange-600 transition-colors"
                 >
@@ -192,8 +234,8 @@ function PricingContent() {
                 Puis-je annuler à tout moment ?
               </h3>
               <p className="text-gray-600">
-                Oui, vous pouvez annuler votre abonnement à tout moment. 
-                Aucun engagement, aucune pénalité.
+                Oui, vous pouvez annuler votre abonnement à tout moment. Aucun
+                engagement, aucune pénalité.
               </p>
             </div>
             <div>
@@ -201,7 +243,8 @@ function PricingContent() {
                 L'essai gratuit est-il vraiment gratuit ?
               </h3>
               <p className="text-gray-600">
-                Absolument ! 14 jours d'accès complet sans aucune carte de crédit requise.
+                Absolument ! 14 jours d'accès complet sans aucune carte de
+                crédit requise.
               </p>
             </div>
             <div>
@@ -209,8 +252,9 @@ function PricingContent() {
                 Comment fonctionne le plan famille ?
               </h3>
               <p className="text-gray-600">
-                Chaque membre de la famille reçoit ses propres messages personnalisés. 
-                Gérez tous les comptes depuis un tableau de bord principal.
+                Chaque membre de la famille reçoit ses propres messages
+                personnalisés. Gérez tous les comptes depuis un tableau de bord
+                principal.
               </p>
             </div>
             <div>
@@ -218,7 +262,8 @@ function PricingContent() {
                 Puis-je changer de plan plus tard ?
               </h3>
               <p className="text-gray-600">
-                Oui, vous pouvez passer d'un plan à l'autre à tout moment depuis votre tableau de bord.
+                Oui, vous pouvez passer d'un plan à l'autre à tout moment depuis
+                votre tableau de bord.
               </p>
             </div>
           </div>

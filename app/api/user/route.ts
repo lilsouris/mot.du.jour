@@ -6,12 +6,18 @@ export const dynamic = 'force-dynamic';
 export async function GET(request: NextRequest) {
   try {
     const supabase = await createClient();
-    
+
     // Get the authenticated user from Supabase
-    const { data: { user: authUser }, error: authError } = await supabase.auth.getUser();
-    
-    console.log('🔍 API /user - Auth user check:', { authUser: !!authUser, authError });
-    
+    const {
+      data: { user: authUser },
+      error: authError,
+    } = await supabase.auth.getUser();
+
+    console.log('🔍 API /user - Auth user check:', {
+      authUser: !!authUser,
+      authError,
+    });
+
     if (authError || !authUser) {
       console.log('❌ No authenticated user found');
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -31,7 +37,7 @@ export async function GET(request: NextRequest) {
       subscription_status: null,
       phone_number: null,
       phone_country: null,
-      created_at: authUser.created_at
+      created_at: authUser.created_at,
     };
 
     // Try to enrich from public.users using email (most stable across our schema variants)
@@ -51,6 +57,9 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(userData);
   } catch (error) {
     console.error('💥 Unexpected error in /api/user:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
   }
 }

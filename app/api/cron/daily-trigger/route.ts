@@ -10,9 +10,12 @@ export async function GET(request: NextRequest) {
 
     // Trigger the Make.com webhook
     const makeWebhookUrl = process.env.MAKE_WEBHOOK_URL;
-    
+
     if (!makeWebhookUrl) {
-      return NextResponse.json({ error: 'Make webhook URL not configured' }, { status: 500 });
+      return NextResponse.json(
+        { error: 'Make webhook URL not configured' },
+        { status: 500 }
+      );
     }
 
     const response = await fetch(makeWebhookUrl, {
@@ -23,32 +26,40 @@ export async function GET(request: NextRequest) {
       body: JSON.stringify({
         trigger_type: 'daily_scheduled',
         timestamp: new Date().toISOString(),
-        source: 'vercel_cron'
-      })
+        source: 'vercel_cron',
+      }),
     });
 
     if (!response.ok) {
       console.error('Failed to trigger Make.com webhook:', response.status);
-      return NextResponse.json({ 
-        error: 'Failed to trigger webhook',
-        status: response.status 
-      }, { status: 500 });
+      return NextResponse.json(
+        {
+          error: 'Failed to trigger webhook',
+          status: response.status,
+        },
+        { status: 500 }
+      );
     }
 
-    console.log('Successfully triggered Make.com webhook at', new Date().toISOString());
-    
-    return NextResponse.json({ 
-      success: true, 
-      message: 'Daily webhook triggered successfully',
-      timestamp: new Date().toISOString()
-    });
+    console.log(
+      'Successfully triggered Make.com webhook at',
+      new Date().toISOString()
+    );
 
+    return NextResponse.json({
+      success: true,
+      message: 'Daily webhook triggered successfully',
+      timestamp: new Date().toISOString(),
+    });
   } catch (error) {
     console.error('Cron job error:', error);
-    return NextResponse.json({ 
-      error: 'Internal server error',
-      details: error instanceof Error ? error.message : 'Unknown error'
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        error: 'Internal server error',
+        details: error instanceof Error ? error.message : 'Unknown error',
+      },
+      { status: 500 }
+    );
   }
 }
 

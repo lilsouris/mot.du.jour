@@ -1,6 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 
-export type ActivityAction = 
+export type ActivityAction =
   | 'password_change'
   | 'login'
   | 'logout'
@@ -31,7 +31,7 @@ export const ActivityDescriptions: Record<ActivityAction, string> = {
   message_sent: 'Message envoyé',
   account_created: 'Compte créé',
   account_updated: 'Compte mis à jour',
-  account_deleted: 'Compte supprimé'
+  account_deleted: 'Compte supprimé',
 };
 
 export async function logActivity(
@@ -41,16 +41,14 @@ export async function logActivity(
 ): Promise<boolean> {
   try {
     const supabase = await createClient();
-    
-    const { error } = await supabase
-      .from('activity_logs_account')
-      .insert({
-        user_id: userId,
-        action,
-        description: ActivityDescriptions[action],
-        metadata,
-        timestamp: new Date().toISOString()
-      });
+
+    const { error } = await supabase.from('activity_logs_account').insert({
+      user_id: userId,
+      action,
+      description: ActivityDescriptions[action],
+      metadata,
+      timestamp: new Date().toISOString(),
+    });
 
     if (error) {
       console.error('Error logging activity:', error);
@@ -71,10 +69,10 @@ export async function getRecentActivities(
 ): Promise<ActivityLog[]> {
   try {
     const supabase = await createClient();
-    
+
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - daysBack);
-    
+
     const { data, error } = await supabase
       .from('activity_logs_account')
       .select('*')
@@ -99,12 +97,15 @@ export async function getRecentActivities(
 export async function getCurrentUserId(): Promise<string | null> {
   try {
     const supabase = await createClient();
-    const { data: { user }, error } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.getUser();
+
     if (error || !user) {
       return null;
     }
-    
+
     return user.id;
   } catch (error) {
     console.error('Error getting current user ID:', error);

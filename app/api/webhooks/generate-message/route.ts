@@ -5,7 +5,7 @@ export async function POST(request: NextRequest) {
     // Verify webhook secret
     const authHeader = request.headers.get('authorization');
     const expectedToken = process.env.WEBHOOK_SECRET;
-    
+
     if (!expectedToken || authHeader !== `Bearer ${expectedToken}`) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -14,9 +14,12 @@ export async function POST(request: NextRequest) {
     const { user_id, user_role, previous_messages_count = 0 } = body;
 
     if (!user_id) {
-      return NextResponse.json({ 
-        error: 'Missing required field: user_id' 
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          error: 'Missing required field: user_id',
+        },
+        { status: 400 }
+      );
     }
 
     const aiProvider = process.env.AI_PROVIDER || 'claude';
@@ -24,20 +27,41 @@ export async function POST(request: NextRequest) {
 
     try {
       if (aiProvider === 'claude') {
-        generatedMessage = await generateClaudeMessage(user_role, previous_messages_count);
+        generatedMessage = await generateClaudeMessage(
+          user_role,
+          previous_messages_count
+        );
       } else if (aiProvider === 'claude-web') {
-        generatedMessage = await generateClaudeWeb(user_role, previous_messages_count);
+        generatedMessage = await generateClaudeWeb(
+          user_role,
+          previous_messages_count
+        );
       } else if (aiProvider === 'openai') {
-        generatedMessage = await generateOpenAIMessage(user_role, previous_messages_count);
+        generatedMessage = await generateOpenAIMessage(
+          user_role,
+          previous_messages_count
+        );
       } else if (aiProvider === 'chatgpt-web') {
-        generatedMessage = await generateChatGPTWeb(user_role, previous_messages_count);
+        generatedMessage = await generateChatGPTWeb(
+          user_role,
+          previous_messages_count
+        );
       } else {
         // Fallback for testing
-        generatedMessage = generateTestMessage(user_role, previous_messages_count);
+        generatedMessage = generateTestMessage(
+          user_role,
+          previous_messages_count
+        );
       }
     } catch (error) {
-      console.error(`${aiProvider} error, falling back to test messages:`, error);
-      generatedMessage = generateTestMessage(user_role, previous_messages_count);
+      console.error(
+        `${aiProvider} error, falling back to test messages:`,
+        error
+      );
+      generatedMessage = generateTestMessage(
+        user_role,
+        previous_messages_count
+      );
     }
 
     return NextResponse.json({
@@ -45,21 +69,26 @@ export async function POST(request: NextRequest) {
       message: generatedMessage,
       user_id,
       provider: aiProvider,
-      generated_at: new Date().toISOString()
+      generated_at: new Date().toISOString(),
     });
-
   } catch (error) {
     console.error('Message generation webhook error:', error);
-    return NextResponse.json({ 
-      error: 'Failed to generate message',
-      details: error instanceof Error ? error.message : 'Unknown error'
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        error: 'Failed to generate message',
+        details: error instanceof Error ? error.message : 'Unknown error',
+      },
+      { status: 500 }
+    );
   }
 }
 
-async function generateClaudeMessage(userRole?: string, previousCount: number = 0): Promise<string> {
+async function generateClaudeMessage(
+  userRole?: string,
+  previousCount: number = 0
+): Promise<string> {
   const claudeApiKey = process.env.CLAUDE_API_KEY;
-  
+
   if (!claudeApiKey) {
     throw new Error('Claude API key not configured');
   }
@@ -89,7 +118,7 @@ IMPORTANT: Réponds UNIQUEMENT avec le message final, rien d'autre.`;
     headers: {
       'Content-Type': 'application/json',
       'x-api-key': claudeApiKey,
-      'anthropic-version': '2023-06-01'
+      'anthropic-version': '2023-06-01',
     },
     body: JSON.stringify({
       model: 'claude-3-haiku-20240307', // Fast and cost-effective
@@ -98,10 +127,10 @@ IMPORTANT: Réponds UNIQUEMENT avec le message final, rien d'autre.`;
       messages: [
         {
           role: 'user',
-          content: prompt
-        }
-      ]
-    })
+          content: prompt,
+        },
+      ],
+    }),
   });
 
   if (!response.ok) {
@@ -120,9 +149,12 @@ IMPORTANT: Réponds UNIQUEMENT avec le message final, rien d'autre.`;
   return cleanMessage(message);
 }
 
-async function generateOpenAIMessage(userRole?: string, previousCount: number = 0): Promise<string> {
+async function generateOpenAIMessage(
+  userRole?: string,
+  previousCount: number = 0
+): Promise<string> {
   const openaiApiKey = process.env.OPENAI_API_KEY;
-  
+
   if (!openaiApiKey) {
     throw new Error('OpenAI API key not configured');
   }
@@ -134,7 +166,7 @@ async function generateOpenAIMessage(userRole?: string, previousCount: number = 
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${openaiApiKey}`
+      Authorization: `Bearer ${openaiApiKey}`,
     },
     body: JSON.stringify({
       model: 'gpt-4o-mini',
@@ -143,14 +175,14 @@ async function generateOpenAIMessage(userRole?: string, previousCount: number = 
       messages: [
         {
           role: 'system',
-          content: `Tu es un assistant bienveillant spécialisé en santé mentale. ${roleContext} ${varietyPrompt} Génère un message quotidien court et positif en français (50-140 caractères) axé sur le bien-être mental, la pleine conscience ou la positivité. Le message doit être personnel, encourageant et adapté pour un SMS. Évite les platitudes génériques. Sois créatif et unique.`
+          content: `Tu es un assistant bienveillant spécialisé en santé mentale. ${roleContext} ${varietyPrompt} Génère un message quotidien court et positif en français (50-140 caractères) axé sur le bien-être mental, la pleine conscience ou la positivité. Le message doit être personnel, encourageant et adapté pour un SMS. Évite les platitudes génériques. Sois créatif et unique.`,
         },
         {
           role: 'user',
-          content: 'Génère un message unique de bien-être mental quotidien.'
-        }
-      ]
-    })
+          content: 'Génère un message unique de bien-être mental quotidien.',
+        },
+      ],
+    }),
   });
 
   if (!response.ok) {
@@ -171,13 +203,13 @@ async function generateOpenAIMessage(userRole?: string, previousCount: number = 
 function getRoleContext(userRole?: string): string {
   switch (userRole) {
     case 'Personnel':
-      return 'Tu t\'adresses à une personne cherchant un développement personnel quotidien.';
+      return "Tu t'adresses à une personne cherchant un développement personnel quotidien.";
     case 'Famille':
-      return 'Tu t\'adresses à quelqu\'un partageant ce bien-être avec sa famille.';
+      return "Tu t'adresses à quelqu'un partageant ce bien-être avec sa famille.";
     case 'Cadeau':
-      return 'Tu t\'adresses à quelqu\'un qui reçoit ces messages comme un cadeau bienveillant.';
+      return "Tu t'adresses à quelqu'un qui reçoit ces messages comme un cadeau bienveillant.";
     default:
-      return 'Tu t\'adresses à une personne souhaitant améliorer son bien-être quotidien.';
+      return "Tu t'adresses à une personne souhaitant améliorer son bien-être quotidien.";
   }
 }
 
@@ -185,64 +217,75 @@ function getVarietyPrompt(previousCount: number): string {
   if (previousCount > 50) {
     return 'Cette personne reçoit des messages depuis longtemps. Sois particulièrement créatif et évite les thèmes répétitifs.';
   } else if (previousCount > 10) {
-    return 'Cette personne a déjà reçu plusieurs messages. Assure-toi d\'être original.';
+    return "Cette personne a déjà reçu plusieurs messages. Assure-toi d'être original.";
   }
   return 'Génère un message engageant pour motiver cette personne.';
 }
 
-async function generateClaudeWeb(userRole?: string, previousCount: number = 0): Promise<string> {
+async function generateClaudeWeb(
+  userRole?: string,
+  previousCount: number = 0
+): Promise<string> {
   const serviceUrl = process.env.CLAUDE_SERVICE_URL || 'http://localhost:3001';
   const webhookSecret = process.env.WEBHOOK_SECRET;
-  
+
   if (!webhookSecret) {
     throw new Error('Webhook secret not configured');
   }
-  
+
   const response = await fetch(`${serviceUrl}/generate-message`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${webhookSecret}`
+      Authorization: `Bearer ${webhookSecret}`,
     },
     body: JSON.stringify({
       user_id: 'webhook-request',
       user_role: userRole,
-      previous_messages_count: previousCount
-    })
+      previous_messages_count: previousCount,
+    }),
   });
-  
+
   if (!response.ok) {
     const errorData = await response.text();
-    throw new Error(`Claude web service error: ${response.status} ${errorData}`);
+    throw new Error(
+      `Claude web service error: ${response.status} ${errorData}`
+    );
   }
-  
+
   const data = await response.json();
-  
+
   if (!data.success || !data.message) {
     throw new Error('Invalid response from Claude web service');
   }
-  
+
   return data.message;
 }
 
-async function generateChatGPTWeb(userRole?: string, previousCount: number = 0): Promise<string> {
-  // This would require a running puppeteer instance  
+async function generateChatGPTWeb(
+  userRole?: string,
+  previousCount: number = 0
+): Promise<string> {
+  // This would require a running puppeteer instance
   // For now, return a placeholder - implement based on your setup
   throw new Error('ChatGPT web automation not implemented - use test messages');
 }
 
-function generateTestMessage(userRole?: string, previousCount: number = 0): string {
+function generateTestMessage(
+  userRole?: string,
+  previousCount: number = 0
+): string {
   const testMessages = [
     "Aujourd'hui, respire profondément. Ton calme intérieur est ta force. 🌸",
-    "Chaque petite victoire compte. Célèbre tes progrès, même les plus discrets. ✨",
-    "Prends un moment pour toi. Tu mérites cette pause bien-être. 💙",
+    'Chaque petite victoire compte. Célèbre tes progrès, même les plus discrets. ✨',
+    'Prends un moment pour toi. Tu mérites cette pause bien-être. 💙',
     "La gratitude transforme ce que nous avons en suffisant. Merci pour aujourd'hui. 🙏",
     "Ton sourire a le pouvoir d'illuminer ta journée et celle des autres. 😊",
-    "Rappelle-toi : tu es plus fort que tes défis du moment. 💪",
-    "Une pensée positive peut changer toute ta journée. Choisis la bienveillance. 🌟",
+    'Rappelle-toi : tu es plus fort que tes défis du moment. 💪',
+    'Une pensée positive peut changer toute ta journée. Choisis la bienveillance. 🌟',
     "Prendre soin de soi n'est pas égoïste, c'est essentiel. 🌿",
     "Aujourd'hui, sois fier des petits pas que tu fais vers tes rêves. 🦋",
-    "Ton bien-être commence par l'acceptation de qui tu es maintenant. 💚"
+    "Ton bien-être commence par l'acceptation de qui tu es maintenant. 💚",
   ];
 
   // Use modulo to cycle through messages based on previous count

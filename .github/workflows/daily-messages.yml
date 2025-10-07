@@ -2,8 +2,8 @@ name: Random Daily Message Trigger
 
 on:
   schedule:
-    - cron: '0 8 * * *'  # Daily at 8 AM UTC
-  workflow_dispatch:  # Allow manual triggering
+    - cron: '0 8 * * *' # Daily at 8 AM UTC
+  workflow_dispatch: # Allow manual triggering
 
 jobs:
   trigger-random-messages:
@@ -16,18 +16,18 @@ jobs:
           RANDOM_SECONDS=$((RANDOM % 50400))
           echo "Random delay: $RANDOM_SECONDS seconds"
           echo "delay=$RANDOM_SECONDS" >> $GITHUB_OUTPUT
-          
+
           # Calculate target time for logging
           TARGET_TIME=$(date -d "+$RANDOM_SECONDS seconds" "+%Y-%m-%d %H:%M:%S")
           echo "Will execute at: $TARGET_TIME"
           echo "target_time=$TARGET_TIME" >> $GITHUB_OUTPUT
-          
+
       - name: Sleep Until Random Time
         run: |
           echo "Sleeping for ${{ steps.random_delay.outputs.delay }} seconds..."
           echo "Target execution time: ${{ steps.random_delay.outputs.target_time }}"
           sleep ${{ steps.random_delay.outputs.delay }}
-        
+
       - name: Trigger Make.com Daily Messages
         run: |
           echo "Triggering daily messages at $(date)"

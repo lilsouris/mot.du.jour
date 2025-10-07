@@ -7,7 +7,7 @@ import {
   CardContent,
   CardHeader,
   CardTitle,
-  CardFooter
+  CardFooter,
 } from '@/components/ui/card';
 import { customerPortalAction } from '@/lib/payments/actions';
 import { useTransition } from 'react';
@@ -23,15 +23,16 @@ type ActionState = {
   success?: string;
 };
 
-const fetcher = (url: string) => fetch(url).then((res) => {
-  if (res.status === 401) {
-    return null;
-  }
-  if (!res.ok) {
-    throw new Error('Network response was not ok');
-  }
-  return res.json();
-});
+const fetcher = (url: string) =>
+  fetch(url).then(res => {
+    if (res.status === 401) {
+      return null;
+    }
+    if (!res.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return res.json();
+  });
 
 function SubscriptionSkeleton() {
   return (
@@ -45,9 +46,9 @@ function SubscriptionSkeleton() {
 
 function ManageSubscription() {
   const { data: user } = useSWR('/api/user', fetcher, {
-    shouldRetryOnError: (error) => error.status !== 401,
+    shouldRetryOnError: error => error.status !== 401,
     revalidateOnFocus: false,
-    revalidateOnReconnect: true
+    revalidateOnReconnect: true,
   });
 
   const role = String(user?.role || '').toLowerCase();
@@ -55,10 +56,10 @@ function ManageSubscription() {
     role === 'personal' || role === 'personnel'
       ? 'Personnel'
       : role === 'gift'
-      ? 'Cadeau'
-      : role === 'family' || role === 'famille'
-      ? 'Famille'
-      : null;
+        ? 'Cadeau'
+        : role === 'family' || role === 'famille'
+          ? 'Famille'
+          : null;
 
   const hasPlan = Boolean(planFromRole);
   const subscribedSince = (() => {
@@ -93,10 +94,10 @@ function ManageSubscription() {
                 {hasPlan
                   ? `Abonné depuis ${subscribedSince || '—'}`
                   : user?.subscription_status === 'active'
-                  ? 'Facturation mensuelle'
-                  : user?.subscription_status === 'trialing'
-                  ? 'Période d\'essai'
-                  : 'Aucun abonnement actif'}
+                    ? 'Facturation mensuelle'
+                    : user?.subscription_status === 'trialing'
+                      ? "Période d'essai"
+                      : 'Aucun abonnement actif'}
               </p>
             </div>
             {hasPlan ? (
@@ -151,13 +152,13 @@ function TeamMembersSkeleton() {
 
 function TeamMembers() {
   const { data: user } = useSWR('/api/user', fetcher, {
-    shouldRetryOnError: (error) => error.status !== 401,
+    shouldRetryOnError: error => error.status !== 401,
     revalidateOnFocus: false,
-    revalidateOnReconnect: true
+    revalidateOnReconnect: true,
   });
 
   const getUserDisplayName = (userData: any) => {
-    const base = (userData?.name || userData?.email || 'Utilisateur Inconnu');
+    const base = userData?.name || userData?.email || 'Utilisateur Inconnu';
     return String(base);
   };
 
@@ -196,9 +197,9 @@ function InviteTeamMemberSkeleton() {
 
 function InviteTeamMember() {
   const { data: user } = useSWR('/api/user', fetcher, {
-    shouldRetryOnError: (error) => error.status !== 401,
+    shouldRetryOnError: error => error.status !== 401,
     revalidateOnFocus: false,
-    revalidateOnReconnect: true
+    revalidateOnReconnect: true,
   });
   const role = String(user?.role || '').toLowerCase();
   const isFamily = role === 'family' || role === 'famille';
@@ -210,43 +211,62 @@ function InviteTeamMember() {
         <CardTitle>Ajouter un numéro</CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={async (e) => {
-          e.preventDefault();
-          const form = e.currentTarget as HTMLFormElement;
-          const fd = new FormData(form);
-          const phone = (fd.get('phone') as string || '').trim();
-          if (!phone) return;
-          await fetch('/api/team-members', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ phone })
-          });
-          form.reset();
-        }} className="space-y-4">
+        <form
+          onSubmit={async e => {
+            e.preventDefault();
+            const form = e.currentTarget as HTMLFormElement;
+            const fd = new FormData(form);
+            const phone = ((fd.get('phone') as string) || '').trim();
+            if (!phone) return;
+            await fetch('/api/team-members', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ phone }),
+            });
+            form.reset();
+          }}
+          className="space-y-4"
+        >
           <div>
-            <Label htmlFor="phone" className="mb-2">Numéro de téléphone</Label>
-            <Input id="phone" name="phone" type="tel" placeholder="Ex: +33 6 12 34 56 78" required />
+            <Label htmlFor="phone" className="mb-2">
+              Numéro de téléphone
+            </Label>
+            <Input
+              id="phone"
+              name="phone"
+              type="tel"
+              placeholder="Ex: +33 6 12 34 56 78"
+              required
+            />
           </div>
-          <Button type="submit" className="bg-orange-500 hover:bg-orange-600 text-white">Ajouter</Button>
+          <Button
+            type="submit"
+            className="bg-orange-500 hover:bg-orange-600 text-white"
+          >
+            Ajouter
+          </Button>
         </form>
       </CardContent>
-      
     </Card>
   );
 }
 
 export default function TeamSettingsPage() {
   const { data: user } = useSWR('/api/user', fetcher, {
-    shouldRetryOnError: (error) => error.status !== 401,
+    shouldRetryOnError: error => error.status !== 401,
     revalidateOnFocus: false,
-    revalidateOnReconnect: true
+    revalidateOnReconnect: true,
   });
-  
+
   // Determine if user is in a family/famille plan
-  const isTeamPlan = user?.role === 'family' || user?.role === 'famille' || user?.plan_name?.toLowerCase().includes('family') || user?.plan_name?.toLowerCase().includes('famille');
-  
-  const pageTitle = isTeamPlan ? 'Paramètres de l\'Équipe' : 'Paramètres';
-  
+  const isTeamPlan =
+    user?.role === 'family' ||
+    user?.role === 'famille' ||
+    user?.plan_name?.toLowerCase().includes('family') ||
+    user?.plan_name?.toLowerCase().includes('famille');
+
+  const pageTitle = isTeamPlan ? "Paramètres de l'Équipe" : 'Paramètres';
+
   return (
     <section className="flex-1 p-4 lg:p-8">
       <h1 className="text-lg lg:text-2xl font-medium mb-6">{pageTitle}</h1>

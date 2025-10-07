@@ -8,29 +8,36 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuTrigger
+  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { signOut } from '@/app/(login)/actions';
 import { useRouter } from 'next/navigation';
 import useSWR, { mutate } from 'swr';
 
-const fetcher = (url: string) => fetch(url).then((res) => {
-  if (res.status === 401) {
-    return null; // Return null for unauthenticated users instead of throwing
-  }
-  if (!res.ok) {
-    throw new Error('Network response was not ok');
-  }
-  return res.json();
-});
+const fetcher = (url: string) =>
+  fetch(url).then(res => {
+    if (res.status === 401) {
+      return null; // Return null for unauthenticated users instead of throwing
+    }
+    if (!res.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return res.json();
+  });
 
-function UserMenu({ onlyWhenAuthenticated = false, onlyWhenUnauthenticated = false }: { onlyWhenAuthenticated?: boolean; onlyWhenUnauthenticated?: boolean }) {
+function UserMenu({
+  onlyWhenAuthenticated = false,
+  onlyWhenUnauthenticated = false,
+}: {
+  onlyWhenAuthenticated?: boolean;
+  onlyWhenUnauthenticated?: boolean;
+}) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { data: user } = useSWR('/api/user', fetcher, {
-    shouldRetryOnError: (error) => error.status !== 401,
+    shouldRetryOnError: error => error.status !== 401,
     revalidateOnFocus: false,
-    revalidateOnReconnect: true
+    revalidateOnReconnect: true,
   });
   const router = useRouter();
 
@@ -50,10 +57,18 @@ function UserMenu({ onlyWhenAuthenticated = false, onlyWhenUnauthenticated = fal
         >
           Tarifs
         </Link>
-        <Button asChild variant="outline" className="rounded-full border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white">
+        <Button
+          asChild
+          variant="outline"
+          className="rounded-full border-orange-500 text-orange-500 hover:bg-orange-500 hover:text-white"
+        >
           <Link href="/connection">Se connecter</Link>
         </Button>
-        <Button asChild variant="outline" className="rounded-full bg-orange-500 text-white border-orange-500 hover:bg-transparent hover:text-orange-500">
+        <Button
+          asChild
+          variant="outline"
+          className="rounded-full bg-orange-500 text-white border-orange-500 hover:bg-transparent hover:text-orange-500"
+        >
           <Link href="/inscription">S'inscrire</Link>
         </Button>
       </>
@@ -77,7 +92,7 @@ function UserMenu({ onlyWhenAuthenticated = false, onlyWhenUnauthenticated = fal
             <span>Tableau de bord</span>
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem 
+        <DropdownMenuItem
           className="w-full flex-1 cursor-pointer"
           onClick={handleSignOut}
         >
@@ -93,17 +108,34 @@ export function Header() {
   return (
     <header className="border-b border-gray-200 bg-white">
       <div className="w-full px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-        <a href="https://motdujour.thomasjay.fr/" className="flex items-center" target="_self" rel="noopener noreferrer">
+        <a
+          href="https://motdujour.thomasjay.fr/"
+          className="flex items-center"
+          target="_self"
+          rel="noopener noreferrer"
+        >
           <div className="h-6 w-6 flex items-center justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f97316" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M15.5 3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2V8.5L15.5 3Z"/>
-              <path d="M15 3v6h6"/>
-              <path d="M10 16s.8 1 2 1c1.3 0 2-1 2-1"/>
-              <path d="M8 13h0"/>
-              <path d="M16 13h0"/>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#f97316"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M15.5 3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2V8.5L15.5 3Z" />
+              <path d="M15 3v6h6" />
+              <path d="M10 16s.8 1 2 1c1.3 0 2-1 2-1" />
+              <path d="M8 13h0" />
+              <path d="M16 13h0" />
             </svg>
           </div>
-          <span className="ml-2 text-xl font-semibold text-gray-900 hidden sm:block">Mot du jour</span>
+          <span className="ml-2 text-xl font-semibold text-gray-900 hidden sm:block">
+            Mot du jour
+          </span>
         </a>
         <div className="flex items-center space-x-4">
           <Suspense fallback={<div className="h-9" />}>

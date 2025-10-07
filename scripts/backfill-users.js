@@ -22,16 +22,21 @@ async function main() {
     process.exit(1);
   }
 
-  const supabase = createClient(url, serviceKey, { auth: { persistSession: false } });
+  const supabase = createClient(url, serviceKey, {
+    auth: { persistSession: false },
+  });
 
   console.log('Fetching auth users...');
-  const { data: authUsers, error: authErr } = await supabase.auth.admin.listUsers();
+  const { data: authUsers, error: authErr } =
+    await supabase.auth.admin.listUsers();
   if (authErr) {
     console.error('Failed to list auth users:', authErr.message);
     process.exit(1);
   }
 
-  console.log(`Found ${authUsers.users.length} auth users. Checking public.users...`);
+  console.log(
+    `Found ${authUsers.users.length} auth users. Checking public.users...`
+  );
   let toInsert = [];
   for (const au of authUsers.users) {
     const { data: row, error } = await supabase
@@ -50,7 +55,7 @@ async function main() {
         auth_user_id: au.id,
         email: au.email,
         name: (au.email || '').split('@')[0] || null,
-        role: 'owner'
+        role: 'owner',
       });
     }
   }
@@ -62,7 +67,10 @@ async function main() {
   }
 
   if (dryRun) {
-    console.log('--dry-run specified, not inserting. Sample:', toInsert.slice(0, 3));
+    console.log(
+      '--dry-run specified, not inserting. Sample:',
+      toInsert.slice(0, 3)
+    );
     return;
   }
 
@@ -75,9 +83,7 @@ async function main() {
   console.log('Backfill completed. Inserted:', toInsert.length);
 }
 
-main().catch((e) => {
+main().catch(e => {
   console.error('Unexpected error:', e);
   process.exit(1);
 });
-
-

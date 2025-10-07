@@ -12,11 +12,16 @@ type ActionState = {
 
 const updatePasswordSchema = z.object({
   currentPassword: z.string().min(1, 'Mot de passe actuel requis'),
-  newPassword: z.string().min(8, 'Le nouveau mot de passe doit contenir au moins 8 caractères'),
-  confirmPassword: z.string().min(1, 'Confirmation du mot de passe requise')
+  newPassword: z
+    .string()
+    .min(8, 'Le nouveau mot de passe doit contenir au moins 8 caractères'),
+  confirmPassword: z.string().min(1, 'Confirmation du mot de passe requise'),
 });
 
-export async function updatePasswordAction(prevState: ActionState, formData: FormData): Promise<ActionState> {
+export async function updatePasswordAction(
+  prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
   try {
     const currentPassword = formData.get('currentPassword') as string;
     const newPassword = formData.get('newPassword') as string;
@@ -26,39 +31,44 @@ export async function updatePasswordAction(prevState: ActionState, formData: For
     const validation = updatePasswordSchema.safeParse({
       currentPassword,
       newPassword,
-      confirmPassword
+      confirmPassword,
     });
 
     if (!validation.success) {
       return {
-        error: validation.error.errors[0].message
+        error: validation.error.errors[0].message,
       };
     }
 
     if (newPassword !== confirmPassword) {
       return {
-        error: 'Le nouveau mot de passe et la confirmation ne correspondent pas.'
+        error:
+          'Le nouveau mot de passe et la confirmation ne correspondent pas.',
       };
     }
 
     const supabase = await createClient();
-    
+
     // Get current user
-    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
     if (userError || !user) {
       return {
-        error: 'Utilisateur non authentifié. Veuillez vous reconnecter.'
+        error: 'Utilisateur non authentifié. Veuillez vous reconnecter.',
       };
     }
 
     // Update password
     const { error: updateError } = await supabase.auth.updateUser({
-      password: newPassword
+      password: newPassword,
     });
 
     if (updateError) {
       return {
-        error: 'Erreur lors de la mise à jour du mot de passe. Veuillez réessayer.'
+        error:
+          'Erreur lors de la mise à jour du mot de passe. Veuillez réessayer.',
       };
     }
 
@@ -66,23 +76,25 @@ export async function updatePasswordAction(prevState: ActionState, formData: For
     await logActivity(user.id, 'password_change');
 
     return {
-      success: 'Mot de passe mis à jour avec succès.'
+      success: 'Mot de passe mis à jour avec succès.',
     };
-
   } catch (error) {
     console.error('Password update error:', error);
     return {
-      error: 'Une erreur inattendue s\'est produite. Veuillez réessayer.'
+      error: "Une erreur inattendue s'est produite. Veuillez réessayer.",
     };
   }
 }
 
 const deleteAccountSchema = z.object({
   password: z.string().min(1, 'Mot de passe requis'),
-  confirmationPhrase: z.string().min(1, 'Phrase de confirmation requise')
+  confirmationPhrase: z.string().min(1, 'Phrase de confirmation requise'),
 });
 
-export async function deleteAccountAction(prevState: ActionState, formData: FormData): Promise<ActionState> {
+export async function deleteAccountAction(
+  prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
   try {
     const password = formData.get('password') as string;
     const confirmationPhrase = formData.get('confirmationPhrase') as string;
@@ -90,41 +102,45 @@ export async function deleteAccountAction(prevState: ActionState, formData: Form
     // Validate input
     const validation = deleteAccountSchema.safeParse({
       password,
-      confirmationPhrase
+      confirmationPhrase,
     });
 
     if (!validation.success) {
       return {
-        error: validation.error.errors[0].message
+        error: validation.error.errors[0].message,
       };
     }
 
     // Validate confirmation phrase
     if (confirmationPhrase !== 'supprimer mon compte') {
       return {
-        error: 'Veuillez saisir exactement "supprimer mon compte" pour confirmer.'
+        error:
+          'Veuillez saisir exactement "supprimer mon compte" pour confirmer.',
       };
     }
 
     const supabase = await createClient();
-    
+
     // Get current user
-    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
     if (userError || !user) {
       return {
-        error: 'Utilisateur non authentifié. Veuillez vous reconnecter.'
+        error: 'Utilisateur non authentifié. Veuillez vous reconnecter.',
       };
     }
 
     // Verify password by attempting to sign in (this confirms the current password)
     const { error: authError } = await supabase.auth.signInWithPassword({
       email: user.email!,
-      password
+      password,
     });
 
     if (authError) {
       return {
-        error: 'Mot de passe incorrect. Veuillez réessayer.'
+        error: 'Mot de passe incorrect. Veuillez réessayer.',
       };
     }
 
@@ -138,44 +154,52 @@ export async function deleteAccountAction(prevState: ActionState, formData: Form
     if (deleteUserError) {
       console.error('Error deleting user data:', deleteUserError);
       return {
-        error: 'Erreur lors de la suppression des données utilisateur.'
+        error: 'Erreur lors de la suppression des données utilisateur.',
       };
     }
 
     // Delete authentication user
-    const { error: deleteAuthError } = await supabase.auth.admin.deleteUser(user.id);
+    const { error: deleteAuthError } = await supabase.auth.admin.deleteUser(
+      user.id
+    );
 
     if (deleteAuthError) {
       console.error('Error deleting auth user:', deleteAuthError);
       return {
-        error: 'Erreur lors de la suppression du compte d\'authentification.'
+        error: "Erreur lors de la suppression du compte d'authentification.",
       };
     }
 
     // Sign out and redirect
     await supabase.auth.signOut();
-    
+
     // Redirect to a goodbye page or home page
     redirect('/connection?message=Compte supprimé avec succès. Au revoir!');
-
   } catch (error) {
     console.error('Account deletion error:', error);
     return {
-      error: 'Une erreur inattendue s\'est produite lors de la suppression du compte.'
+      error:
+        "Une erreur inattendue s'est produite lors de la suppression du compte.",
     };
   }
 }
 
-export async function addTeamMemberAction(prevState: ActionState, formData: FormData): Promise<ActionState> {
+export async function addTeamMemberAction(
+  prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> {
   try {
-    const phoneNumber = (formData.get('phone') as string || '').trim();
+    const phoneNumber = ((formData.get('phone') as string) || '').trim();
     if (!phoneNumber) {
       return { error: 'Numéro requis' };
     }
 
     const supabase = await createClient();
 
-    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
     if (userError || !user) {
       return { error: 'Utilisateur non authentifié.' };
     }
@@ -197,13 +221,15 @@ export async function addTeamMemberAction(prevState: ActionState, formData: Form
       joined_at: new Date().toISOString(),
     };
 
-    const { error: insertErr } = await supabase.from('team_members').insert(insertRow);
+    const { error: insertErr } = await supabase
+      .from('team_members')
+      .insert(insertRow);
     if (insertErr) {
-      return { error: 'Erreur lors de l\'ajout du membre.' };
+      return { error: "Erreur lors de l'ajout du membre." };
     }
 
     return { success: 'Numéro ajouté.' };
   } catch (e) {
-    return { error: 'Une erreur inattendue s\'est produite.' };
+    return { error: "Une erreur inattendue s'est produite." };
   }
 }

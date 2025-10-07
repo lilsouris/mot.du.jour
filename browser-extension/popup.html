@@ -1,29 +1,44 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-  <style>
-    body { width: 300px; padding: 20px; }
-    button { width: 100%; padding: 10px; margin: 5px 0; }
-    .status { margin: 10px 0; font-size: 12px; }
-    .message { background: #f0f0f0; padding: 10px; margin: 10px 0; border-radius: 5px; }
-  </style>
-</head>
-<body>
-  <h3>Message Generator</h3>
-  
-  <label for="userRole">User Role:</label>
-  <select id="userRole">
-    <option value="Personnel">Personnel</option>
-    <option value="Famille">Famille</option>
-    <option value="Cadeau">Cadeau</option>
-  </select>
-  
-  <button id="generateBtn">Generate Message</button>
-  <button id="copyBtn" style="display:none;">Copy Message</button>
-  
-  <div id="status" class="status"></div>
-  <div id="message" class="message" style="display:none;"></div>
-  
-  <script src="popup.js"></script>
-</body>
+  <head>
+    <style>
+      body {
+        width: 300px;
+        padding: 20px;
+      }
+      button {
+        width: 100%;
+        padding: 10px;
+        margin: 5px 0;
+      }
+      .status {
+        margin: 10px 0;
+        font-size: 12px;
+      }
+      .message {
+        background: #f0f0f0;
+        padding: 10px;
+        margin: 10px 0;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h3>Message Generator</h3>
+
+    <label for="userRole">User Role:</label>
+    <select id="userRole">
+      <option value="Personnel">Personnel</option>
+      <option value="Famille">Famille</option>
+      <option value="Cadeau">Cadeau</option>
+    </select>
+
+    <button id="generateBtn">Generate Message</button>
+    <button id="copyBtn" style="display: none">Copy Message</button>
+
+    <div id="status" class="status"></div>
+    <div id="message" class="message" style="display: none"></div>
+
+    <script src="popup.js"></script>
+  </body>
 </html>

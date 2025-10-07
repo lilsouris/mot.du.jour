@@ -54,10 +54,15 @@ const countries: Country[] = [
   { code: 'CA', name: 'Canada', dialCode: '+1', flag: '🇨🇦' },
   { code: 'CC', name: 'Cocos Islands', dialCode: '+61', flag: '🇨🇨' },
   { code: 'CD', name: 'Congo - Kinshasa', dialCode: '+243', flag: '🇨🇩' },
-  { code: 'CF', name: 'Central African Republic', dialCode: '+236', flag: '🇨🇫' },
+  {
+    code: 'CF',
+    name: 'Central African Republic',
+    dialCode: '+236',
+    flag: '🇨🇫',
+  },
   { code: 'CG', name: 'Congo - Brazzaville', dialCode: '+242', flag: '🇨🇬' },
   { code: 'CH', name: 'Switzerland', dialCode: '+41', flag: '🇨🇭' },
-  { code: 'CI', name: 'Côte d\'Ivoire', dialCode: '+225', flag: '🇨🇮' },
+  { code: 'CI', name: "Côte d'Ivoire", dialCode: '+225', flag: '🇨🇮' },
   { code: 'CK', name: 'Cook Islands', dialCode: '+682', flag: '🇨🇰' },
   { code: 'CL', name: 'Chile', dialCode: '+56', flag: '🇨🇱' },
   { code: 'CM', name: 'Cameroon', dialCode: '+237', flag: '🇨🇲' },
@@ -103,13 +108,23 @@ const countries: Country[] = [
   { code: 'GP', name: 'Guadeloupe', dialCode: '+590', flag: '🇬🇵' },
   { code: 'GQ', name: 'Equatorial Guinea', dialCode: '+240', flag: '🇬🇶' },
   { code: 'GR', name: 'Greece', dialCode: '+30', flag: '🇬🇷' },
-  { code: 'GS', name: 'South Georgia & South Sandwich Islands', dialCode: '+500', flag: '🇬🇸' },
+  {
+    code: 'GS',
+    name: 'South Georgia & South Sandwich Islands',
+    dialCode: '+500',
+    flag: '🇬🇸',
+  },
   { code: 'GT', name: 'Guatemala', dialCode: '+502', flag: '🇬🇹' },
   { code: 'GU', name: 'Guam', dialCode: '+1', flag: '🇬🇺' },
   { code: 'GW', name: 'Guinea-Bissau', dialCode: '+245', flag: '🇬🇼' },
   { code: 'GY', name: 'Guyana', dialCode: '+592', flag: '🇬🇾' },
   { code: 'HK', name: 'Hong Kong', dialCode: '+852', flag: '🇭🇰' },
-  { code: 'HM', name: 'Heard & McDonald Islands', dialCode: '+672', flag: '🇭🇲' },
+  {
+    code: 'HM',
+    name: 'Heard & McDonald Islands',
+    dialCode: '+672',
+    flag: '🇭🇲',
+  },
   { code: 'HN', name: 'Honduras', dialCode: '+504', flag: '🇭🇳' },
   { code: 'HR', name: 'Croatia', dialCode: '+385', flag: '🇭🇷' },
   { code: 'HT', name: 'Haiti', dialCode: '+509', flag: '🇭🇹' },
@@ -119,7 +134,12 @@ const countries: Country[] = [
   { code: 'IL', name: 'Israel', dialCode: '+972', flag: '🇮🇱' },
   { code: 'IM', name: 'Isle of Man', dialCode: '+44', flag: '🇮🇲' },
   { code: 'IN', name: 'India', dialCode: '+91', flag: '🇮🇳' },
-  { code: 'IO', name: 'British Indian Ocean Territory', dialCode: '+246', flag: '🇮🇴' },
+  {
+    code: 'IO',
+    name: 'British Indian Ocean Territory',
+    dialCode: '+246',
+    flag: '🇮🇴',
+  },
   { code: 'IQ', name: 'Iraq', dialCode: '+964', flag: '🇮🇶' },
   { code: 'IR', name: 'Iran', dialCode: '+98', flag: '🇮🇷' },
   { code: 'IS', name: 'Iceland', dialCode: '+354', flag: '🇮🇸' },
@@ -193,7 +213,12 @@ const countries: Country[] = [
   { code: 'PH', name: 'Philippines', dialCode: '+63', flag: '🇵🇭' },
   { code: 'PK', name: 'Pakistan', dialCode: '+92', flag: '🇵🇰' },
   { code: 'PL', name: 'Poland', dialCode: '+48', flag: '🇵🇱' },
-  { code: 'PM', name: 'Saint Pierre and Miquelon', dialCode: '+508', flag: '🇵🇲' },
+  {
+    code: 'PM',
+    name: 'Saint Pierre and Miquelon',
+    dialCode: '+508',
+    flag: '🇵🇲',
+  },
   { code: 'PN', name: 'Pitcairn Islands', dialCode: '+64', flag: '🇵🇳' },
   { code: 'PR', name: 'Puerto Rico', dialCode: '+1', flag: '🇵🇷' },
   { code: 'PS', name: 'Palestine', dialCode: '+970', flag: '🇵🇸' },
@@ -229,7 +254,12 @@ const countries: Country[] = [
   { code: 'SZ', name: 'Eswatini', dialCode: '+268', flag: '🇸🇿' },
   { code: 'TC', name: 'Turks and Caicos Islands', dialCode: '+1', flag: '🇹🇨' },
   { code: 'TD', name: 'Chad', dialCode: '+235', flag: '🇹🇩' },
-  { code: 'TF', name: 'French Southern Territories', dialCode: '+262', flag: '🇹🇫' },
+  {
+    code: 'TF',
+    name: 'French Southern Territories',
+    dialCode: '+262',
+    flag: '🇹🇫',
+  },
   { code: 'TG', name: 'Togo', dialCode: '+228', flag: '🇹🇬' },
   { code: 'TH', name: 'Thailand', dialCode: '+66', flag: '🇹🇭' },
   { code: 'TJ', name: 'Tajikistan', dialCode: '+992', flag: '🇹🇯' },
@@ -250,7 +280,12 @@ const countries: Country[] = [
   { code: 'UY', name: 'Uruguay', dialCode: '+598', flag: '🇺🇾' },
   { code: 'UZ', name: 'Uzbekistan', dialCode: '+998', flag: '🇺🇿' },
   { code: 'VA', name: 'Vatican City', dialCode: '+39', flag: '🇻🇦' },
-  { code: 'VC', name: 'Saint Vincent and the Grenadines', dialCode: '+1', flag: '🇻🇨' },
+  {
+    code: 'VC',
+    name: 'Saint Vincent and the Grenadines',
+    dialCode: '+1',
+    flag: '🇻🇨',
+  },
   { code: 'VE', name: 'Venezuela', dialCode: '+58', flag: '🇻🇪' },
   { code: 'VG', name: 'British Virgin Islands', dialCode: '+1', flag: '🇻🇬' },
   { code: 'VI', name: 'U.S. Virgin Islands', dialCode: '+1', flag: '🇻🇮' },
@@ -272,11 +307,11 @@ interface CountrySelectorProps {
   onPhoneNumberChange: (phoneNumber: string) => void;
 }
 
-export function CountrySelector({ 
-  selectedCountry, 
-  onCountryChange, 
-  phoneNumber, 
-  onPhoneNumberChange 
+export function CountrySelector({
+  selectedCountry,
+  onCountryChange,
+  phoneNumber,
+  onPhoneNumberChange,
 }: CountrySelectorProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
@@ -286,14 +321,18 @@ export function CountrySelector({
     setMounted(true);
   }, []);
 
-  const filteredCountries = countries.filter(country =>
-    country.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    country.dialCode.includes(searchTerm)
+  const filteredCountries = countries.filter(
+    country =>
+      country.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      country.dialCode.includes(searchTerm)
   );
 
   return (
     <div>
-      <Label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+      <Label
+        htmlFor="phone"
+        className="block text-sm font-medium text-gray-700"
+      >
         Numéro de téléphone
       </Label>
       <div className="mt-1 flex items-center rounded-full border border-gray-300 overflow-hidden">
@@ -305,22 +344,24 @@ export function CountrySelector({
             onClick={() => setIsOpen(!isOpen)}
           >
             <span className="text-lg">{selectedCountry.flag}</span>
-            <span className="text-sm font-medium">{selectedCountry.dialCode}</span>
+            <span className="text-sm font-medium">
+              {selectedCountry.dialCode}
+            </span>
             <ChevronDown className="h-4 w-4" />
           </Button>
-          
+
           {mounted && isOpen && (
             <div className="absolute top-full left-0 z-50 w-80 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto">
               <div className="p-2">
                 <Input
                   placeholder="Rechercher un pays..."
                   value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onChange={e => setSearchTerm(e.target.value)}
                   className="w-full"
                 />
               </div>
               <div className="max-h-48 overflow-y-auto">
-                {filteredCountries.map((country) => (
+                {filteredCountries.map(country => (
                   <button
                     key={country.code}
                     type="button"
@@ -332,31 +373,35 @@ export function CountrySelector({
                     }}
                   >
                     <span className="text-lg">{country.flag}</span>
-                    <span className="text-sm font-medium">{country.dialCode}</span>
-                    <span className="text-sm text-gray-600">{country.name}</span>
+                    <span className="text-sm font-medium">
+                      {country.dialCode}
+                    </span>
+                    <span className="text-sm text-gray-600">
+                      {country.name}
+                    </span>
                   </button>
                 ))}
               </div>
             </div>
           )}
         </div>
-        
+
         <Input
           id="phone"
           name="phoneNumber"
           type="tel"
           value={phoneNumber}
-          onChange={(e) => onPhoneNumberChange(e.target.value)}
+          onChange={e => onPhoneNumberChange(e.target.value)}
           placeholder="Entrez votre numéro"
           className="flex-1 h-12 border-0 focus:ring-0 focus:border-0 rounded-none text-gray-900 py-0"
           required
         />
       </div>
-      
-      <input 
-        type="hidden" 
-        name="phoneCountry" 
-        value={selectedCountry.dialCode} 
+
+      <input
+        type="hidden"
+        name="phoneCountry"
+        value={selectedCountry.dialCode}
       />
     </div>
   );

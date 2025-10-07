@@ -11,7 +11,11 @@ import { Loader2, Eye, EyeOff } from 'lucide-react';
 import Image from 'next/image';
 import { signIn, signUp } from './actions';
 import { ActionState } from '@/lib/auth/middleware';
-import { CountrySelector, countries, Country } from '@/components/country-selector';
+import {
+  CountrySelector,
+  countries,
+  Country,
+} from '@/components/country-selector';
 
 export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
   const searchParams = useSearchParams();
@@ -20,7 +24,11 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
   const inviteId = searchParams.get('inviteId');
   const plan = searchParams.get('plan');
   const [pending, startTransition] = useTransition();
-  const [state, setState] = useState<ActionState>({ error: '', email: '', password: '' });
+  const [state, setState] = useState<ActionState>({
+    error: '',
+    email: '',
+    password: '',
+  });
   const [selectedCountry, setSelectedCountry] = useState<Country>(
     countries.find(c => c.code === 'FR') || countries[0]
   );
@@ -42,13 +50,16 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
   const handleSubmit = (formData: FormData) => {
     startTransition(async () => {
       if (mode === 'signup' && !selectedPlan) {
-        setState((prev) => ({ ...prev, error: 'Veuillez sélectionner une formule' }));
+        setState(prev => ({
+          ...prev,
+          error: 'Veuillez sélectionner une formule',
+        }));
         return;
       }
       const action = mode === 'signin' ? signIn : signUp;
       const result = await action(state, formData);
       if (result && typeof result === 'object') {
-        setState((prev) => ({ ...prev, ...result }));
+        setState(prev => ({ ...prev, ...result }));
       }
       // On successful redirect, code path won't continue; if it does, keep previous state
     });
@@ -58,7 +69,13 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
     <div className="min-h-[100dvh] flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         <div className="flex justify-center">
-          <Image src="/logo-clean.svg" alt="Mot du jour" width={120} height={27} priority />
+          <Image
+            src="/logo-clean.svg"
+            alt="Mot du jour"
+            width={120}
+            height={27}
+            priority
+          />
         </div>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
           {mode === 'signin'
@@ -76,13 +93,23 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
 
           {mode === 'signup' && (
             <div className="space-y-3">
-              <p className="text-sm text-gray-700">Choisissez votre formule <span className="text-red-500">*</span></p>
+              <p className="text-sm text-gray-700">
+                Choisissez votre formule <span className="text-red-500">*</span>
+              </p>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
                 {[
-                  { key: 'personal', title: 'Personnel', price: '4,99€ / mois' },
+                  {
+                    key: 'personal',
+                    title: 'Personnel',
+                    price: '4,99€ / mois',
+                  },
                   { key: 'gift', title: 'Cadeau', price: '4,99€ / mois' },
-                  { key: 'family', title: 'Famille', price: '3,99€ / utilisateur' },
-                ].map((p) => {
+                  {
+                    key: 'family',
+                    title: 'Famille',
+                    price: '3,99€ / utilisateur',
+                  },
+                ].map(p => {
                   const isActive = selectedPlan === p.key;
                   return (
                     <button
@@ -96,7 +123,9 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
                       }`}
                       aria-pressed={isActive}
                     >
-                      <div className="font-semibold text-gray-900">{p.title}</div>
+                      <div className="font-semibold text-gray-900">
+                        {p.title}
+                      </div>
                       <div className="text-sm text-gray-600">{p.price}</div>
                     </button>
                   );
@@ -161,10 +190,18 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
               />
               <button
                 type="button"
-                onClick={() => setShowPassword((v) => !v)}
+                onClick={() => setShowPassword(v => !v)}
                 className="absolute inset-y-0 right-3 z-10 flex items-center justify-center text-gray-500 hover:text-gray-700"
-                aria-label={showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
-                title={showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
+                aria-label={
+                  showPassword
+                    ? 'Masquer le mot de passe'
+                    : 'Afficher le mot de passe'
+                }
+                title={
+                  showPassword
+                    ? 'Masquer le mot de passe'
+                    : 'Afficher le mot de passe'
+                }
               >
                 {showPassword ? (
                   <EyeOff className="h-5 w-5" />
@@ -193,7 +230,7 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
               ) : mode === 'signin' ? (
                 'Se connecter'
               ) : (
-                'S\'inscrire'
+                "S'inscrire"
               )}
             </Button>
           </div>

@@ -8,34 +8,41 @@ export async function POST(request: NextRequest) {
     // Verify webhook secret
     const authHeader = request.headers.get('authorization');
     const expectedToken = process.env.WEBHOOK_SECRET;
-    
+
     if (!expectedToken || authHeader !== `Bearer ${expectedToken}`) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const body = await request.json();
-    const { 
-      user_id, 
-      phone_number, 
-      message_content, 
+    const {
+      user_id,
+      phone_number,
+      message_content,
       status = 'sent',
       twilio_sid = null,
-      error_message = null
+      error_message = null,
     } = body;
-    
-    // Convert user_id to string for UUID compatibility  
+
+    // Convert user_id to string for UUID compatibility
     const userIdStr = user_id.toString();
 
     if (!user_id || !phone_number || !message_content) {
-      return NextResponse.json({ 
-        error: 'Missing required fields: user_id, phone_number, message_content' 
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          error:
+            'Missing required fields: user_id, phone_number, message_content',
+        },
+        { status: 400 }
+      );
     }
 
     const supabase = await createClient();
 
     // Create hash of the message content
-    const messageHash = crypto.createHash('sha256').update(message_content.trim()).digest('hex');
+    const messageHash = crypto
+      .createHash('sha256')
+      .update(message_content.trim())
+      .digest('hex');
 
     // Insert the message log
     const { data, error } = await supabase
@@ -48,21 +55,24 @@ export async function POST(request: NextRequest) {
         status,
         twilio_sid,
         error_message,
-        sent_at: new Date().toISOString()
+        sent_at: new Date().toISOString(),
       })
       .select()
       .single();
 
     if (error) {
       console.error('Error logging message:', error);
-      return NextResponse.json({ error: 'Failed to log message' }, { status: 500 });
+      return NextResponse.json(
+        { error: 'Failed to log message' },
+        { status: 500 }
+      );
     }
 
     // Log the message sent activity (only for successful messages)
     if (status === 'sent') {
       await logActivity(userIdStr, 'message_sent', {
         phone_number: phone_number,
-        message_hash: messageHash
+        message_hash: messageHash,
       });
     }
 
@@ -73,12 +83,14 @@ export async function POST(request: NextRequest) {
       log_id: data.id,
       message_hash: messageHash,
       status,
-      sent_at: data.sent_at
+      sent_at: data.sent_at,
     });
-
   } catch (error) {
     console.error('Webhook error:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
   }
 }
 

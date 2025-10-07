@@ -7,27 +7,33 @@ export async function POST(request: NextRequest) {
     // Verify webhook secret
     const authHeader = request.headers.get('authorization');
     const expectedToken = process.env.WEBHOOK_SECRET;
-    
+
     if (!expectedToken || authHeader !== `Bearer ${expectedToken}`) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const body = await request.json();
     const { user_id, message_content } = body;
-    
+
     // Convert user_id to string for UUID compatibility
     const userIdStr = user_id.toString();
 
     if (!user_id || !message_content) {
-      return NextResponse.json({ 
-        error: 'Missing required fields: user_id, message_content' 
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          error: 'Missing required fields: user_id, message_content',
+        },
+        { status: 400 }
+      );
     }
 
     const supabase = await createClient();
 
     // Create hash of the message content
-    const messageHash = crypto.createHash('sha256').update(message_content.trim()).digest('hex');
+    const messageHash = crypto
+      .createHash('sha256')
+      .update(message_content.trim())
+      .digest('hex');
 
     // Check if this exact message was already sent to this user
     const { data: existingMessage, error } = await supabase
@@ -38,9 +44,13 @@ export async function POST(request: NextRequest) {
       .eq('status', 'sent')
       .single();
 
-    if (error && error.code !== 'PGRST116') { // PGRST116 = no rows returned
+    if (error && error.code !== 'PGRST116') {
+      // PGRST116 = no rows returned
       console.error('Error checking message history:', error);
-      return NextResponse.json({ error: 'Failed to check message history' }, { status: 500 });
+      return NextResponse.json(
+        { error: 'Failed to check message history' },
+        { status: 500 }
+      );
     }
 
     const messageExists = !!existingMessage;
@@ -58,7 +68,8 @@ export async function POST(request: NextRequest) {
       console.error('Error fetching user message history:', userMessagesError);
     }
 
-    const previousMessageHashes = userMessages?.map(msg => msg.message_hash) || [];
+    const previousMessageHashes =
+      userMessages?.map(msg => msg.message_hash) || [];
 
     return NextResponse.json({
       success: true,
@@ -66,12 +77,14 @@ export async function POST(request: NextRequest) {
       message_hash: messageHash,
       user_id: userIdStr,
       previous_messages_count: previousMessageHashes.length,
-      last_message_date: userMessages?.[0]?.sent_at || null
+      last_message_date: userMessages?.[0]?.sent_at || null,
     });
-
   } catch (error) {
     console.error('Webhook error:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
   }
 }
 
