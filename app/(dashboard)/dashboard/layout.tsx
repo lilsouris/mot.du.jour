@@ -18,7 +18,7 @@ const navigation = [
   { name: 'Général', href: '/dashboard', icon: Home },
   { name: 'Compte', href: '/dashboard/general', icon: Settings },
   { name: 'Activité', href: '/dashboard/activity', icon: Activity },
-  { name: 'Sécurité', href: '/dashboard/security', icon: Shield },
+  // { name: 'Sécurité', href: '/dashboard/security', icon: Shield },
 ];
 
 export default function DashboardLayout({
