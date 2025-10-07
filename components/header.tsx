@@ -104,17 +104,10 @@ export function Header() {
             </svg>
           </div>
           <span className="ml-2 text-xl font-semibold text-gray-900 hidden sm:block">Mot du jour</span>
-          {/* Authenticated avatar on the left */}
-          <span className="ml-4 hidden sm:inline-flex">
-            <Suspense fallback={<div className="h-9" />}>
-              <UserMenu onlyWhenAuthenticated />
-            </Suspense>
-          </span>
         </Link>
         <div className="flex items-center space-x-4">
-          {/* Auth buttons on the right when unauthenticated */}
           <Suspense fallback={<div className="h-9" />}>
-            <UserMenu onlyWhenUnauthenticated />
+            <UserMenu />
           </Suspense>
         </div>
       </div>
