@@ -93,7 +93,7 @@ export function Header() {
   return (
     <header className="border-b border-gray-200 bg-white">
       <div className="w-full px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-        <Link href="https://motdujour.thomasjay.fr/" className="flex items-center">
+        <a href="https://motdujour.thomasjay.fr/" className="flex items-center" target="_self" rel="noopener noreferrer">
           <div className="h-6 w-6 flex items-center justify-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f97316" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M15.5 3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2V8.5L15.5 3Z"/>
@@ -104,7 +104,7 @@ export function Header() {
             </svg>
           </div>
           <span className="ml-2 text-xl font-semibold text-gray-900 hidden sm:block">Mot du jour</span>
-        </Link>
+        </a>
         <div className="flex items-center space-x-4">
           <Suspense fallback={<div className="h-9" />}>
             <UserMenu />
