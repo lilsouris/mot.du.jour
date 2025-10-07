@@ -26,10 +26,17 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [mounted, setMounted] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (mode === 'signup') {
+      setSelectedPlan(plan || null);
+    }
+  }, [mode, plan]);
 
   const handleSubmit = (formData: FormData) => {
     startTransition(async () => {
@@ -60,7 +67,38 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
           <input type="hidden" name="redirect" value={redirect || ''} />
           <input type="hidden" name="priceId" value={priceId || ''} />
           <input type="hidden" name="inviteId" value={inviteId || ''} />
-          <input type="hidden" name="plan" value={plan || ''} />
+          <input type="hidden" name="plan" value={selectedPlan || ''} />
+
+          {mode === 'signup' && (
+            <div className="space-y-3">
+              <p className="text-sm text-gray-700">Choisissez votre formule</p>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                {[
+                  { key: 'personal', title: 'Personnel', price: '4,99€ / mois' },
+                  { key: 'gift', title: 'Cadeau', price: '4,99€ / mois' },
+                  { key: 'family', title: 'Famille', price: '3,99€ / utilisateur' },
+                ].map((p) => {
+                  const isActive = selectedPlan === p.key;
+                  return (
+                    <button
+                      key={p.key}
+                      type="button"
+                      onClick={() => setSelectedPlan(p.key)}
+                      className={`text-left rounded-xl border p-4 transition-colors ${
+                        isActive
+                          ? 'border-orange-500 ring-1 ring-orange-500 bg-orange-50'
+                          : 'border-gray-200 hover:bg-gray-50'
+                      }`}
+                      aria-pressed={isActive}
+                    >
+                      <div className="font-semibold text-gray-900">{p.title}</div>
+                      <div className="text-sm text-gray-600">{p.price}</div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          )}
           <div>
             <Label
               htmlFor="email"
