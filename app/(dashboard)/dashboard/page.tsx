@@ -14,7 +14,7 @@ import { useTransition } from 'react';
 import useSWR from 'swr';
 import { Suspense } from 'react';
 import { Input } from '@/components/ui/input';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+// removed: RadioGroup imports not needed
 import { Label } from '@/components/ui/label';
 import { Loader2 } from 'lucide-react';
 
@@ -204,24 +204,24 @@ function InviteTeamMember() {
   const isFamily = role === 'family' || role === 'famille';
   if (!isFamily) return null;
 
-  async function handleAddNumber(formData: FormData) {
-    'use server'
-  }
-
   return (
     <Card>
       <CardHeader>
         <CardTitle>Ajouter un numéro</CardTitle>
       </CardHeader>
       <CardContent>
-        <form action={async (fd) => {
+        <form onSubmit={async (e) => {
+          e.preventDefault();
+          const form = e.currentTarget as HTMLFormElement;
+          const fd = new FormData(form);
           const phone = (fd.get('phone') as string || '').trim();
           if (!phone) return;
-          const res = await fetch('/api/team-members', {
+          await fetch('/api/team-members', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ phone })
           });
+          form.reset();
         }} className="space-y-4">
           <div>
             <Label htmlFor="phone" className="mb-2">Numéro de téléphone</Label>
