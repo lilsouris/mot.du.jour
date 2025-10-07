@@ -61,6 +61,19 @@ function ManageSubscription() {
       : null;
 
   const hasPlan = Boolean(planFromRole);
+  const subscribedSince = (() => {
+    try {
+      return user?.created_at
+        ? new Date(user.created_at).toLocaleDateString('fr-FR', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+          })
+        : null;
+    } catch {
+      return null;
+    }
+  })();
   const isTeamPlan = role === 'family' || role === 'famille';
   const cardTitle = isTeamPlan ? 'Abonnement Équipe' : 'Abonnement';
 
@@ -77,7 +90,9 @@ function ManageSubscription() {
                 Plan Actuel: {planFromRole || user?.plan_name || 'Gratuit'}
               </p>
               <p className="text-sm text-muted-foreground">
-                {user?.subscription_status === 'active'
+                {hasPlan
+                  ? `Abonné depuis ${subscribedSince || '—'}`
+                  : user?.subscription_status === 'active'
                   ? 'Facturation mensuelle'
                   : user?.subscription_status === 'trialing'
                   ? 'Période d\'essai'
@@ -85,9 +100,9 @@ function ManageSubscription() {
               </p>
             </div>
             {hasPlan ? (
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-3">
                 <Button asChild variant="outline">
-                  <a href="/pricing">Changer de Plan</a>
+                  <a href="/pricing">Changer d'abonnement</a>
                 </Button>
                 <form action={customerPortalAction}>
                   <Button type="submit" variant="destructive">
