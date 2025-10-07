@@ -164,28 +164,17 @@ function TeamMembers() {
   return (
     <Card className="mb-8">
       <CardHeader>
-        <CardTitle>Membres</CardTitle>
+        <CardTitle>Membres de réception des messages</CardTitle>
       </CardHeader>
       <CardContent>
         <ul className="space-y-4">
           <li className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <Avatar>
-                <AvatarFallback>
-                  {(user?.name?.[0] ?? user?.email?.[0] ?? 'U').toUpperCase()}
-                </AvatarFallback>
-              </Avatar>
               <div>
-                {user?.name && (
-                  <p className="font-medium">
-                    {user.name}
-                  </p>
-                )}
-                {user?.phone_number && (
-                  <p className="text-sm text-muted-foreground">
-                    {user.phone_number}
-                  </p>
-                )}
+                <p className="font-medium">Numéro de téléphone</p>
+                <p className="text-sm text-muted-foreground">
+                  {user?.phone_number || 'Non renseigné'}
+                </p>
               </div>
             </div>
           </li>
