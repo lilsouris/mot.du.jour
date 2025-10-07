@@ -113,6 +113,11 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
     password_hash: 'supabase_auth',
     role: roleFromPlan,
   };
+  // Persist phone details if provided on signup
+  if (phoneNumber && phoneCountry) {
+    userRow.phone_number = phoneNumber;
+    userRow.phone_country = phoneCountry;
+  }
   const { error: upsertErr } = await supabase
     .from('users')
     .upsert(userRow, { onConflict: 'email' });

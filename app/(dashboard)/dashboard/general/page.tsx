@@ -13,6 +13,7 @@ import { useTransition } from 'react';
 import useSWR, { mutate } from 'swr';
 import { useState, useEffect } from 'react';
 import { CountrySelector, countries, Country } from '@/components/country-selector';
+import { updateAccountInfo } from './actions';
 import { AlertTriangle, Shield, Trash2, Eye, EyeOff } from 'lucide-react';
 import { updatePasswordAction, deleteAccountAction } from '../security/actions';
 
@@ -131,28 +132,12 @@ export default function GeneralPage() {
 
   const handleSubmit = (formDataObj: FormData) => {
     startTransition(async () => {
-      const name = formDataObj.get('name') as string;
-      const email = formDataObj.get('email') as string;
-      const phoneNumber = formDataObj.get('phoneNumber') as string;
-      const phoneCountry = formDataObj.get('phoneCountry') as string;
-
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      // For now, just return success
-      setState({
-        success: 'Compte mis à jour avec succès.',
-        name,
-        email
-      });
-      
-      // Update form data to match submitted values
-      setFormData({
-        name,
-        email,
-        phoneNumber,
-        phoneCountry
-      });
+      const result = await updateAccountInfo({}, formDataObj);
+      setState(result);
+      if (result?.success) {
+        // force refresh of /api/user cache
+        mutate('/api/user');
+      }
     });
   };
 
