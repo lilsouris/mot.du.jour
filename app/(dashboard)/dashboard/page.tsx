@@ -49,8 +49,19 @@ function ManageSubscription() {
     revalidateOnFocus: false,
     revalidateOnReconnect: true
   });
-  
-  const isTeamPlan = user?.role === 'family' || user?.role === 'famille' || user?.plan_name?.toLowerCase().includes('family') || user?.plan_name?.toLowerCase().includes('famille');
+
+  const role = String(user?.role || '').toLowerCase();
+  const planFromRole =
+    role === 'personal' || role === 'personnel'
+      ? 'Personnel'
+      : role === 'gift'
+      ? 'Cadeau'
+      : role === 'family' || role === 'famille'
+      ? 'Famille'
+      : null;
+
+  const hasPlan = Boolean(planFromRole);
+  const isTeamPlan = role === 'family' || role === 'famille';
   const cardTitle = isTeamPlan ? 'Abonnement Équipe' : 'Abonnement';
 
   return (
@@ -63,7 +74,7 @@ function ManageSubscription() {
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
             <div className="mb-4 sm:mb-0">
               <p className="font-medium">
-                Plan Actuel: {user?.plan_name || 'Gratuit'}
+                Plan Actuel: {planFromRole || user?.plan_name || 'Gratuit'}
               </p>
               <p className="text-sm text-muted-foreground">
                 {user?.subscription_status === 'active'
@@ -73,7 +84,18 @@ function ManageSubscription() {
                   : 'Aucun abonnement actif'}
               </p>
             </div>
-            {user?.stripe_customer_id ? (
+            {hasPlan ? (
+              <div className="flex items-center gap-2">
+                <Button asChild variant="outline">
+                  <a href="/pricing">Changer de Plan</a>
+                </Button>
+                <form action={customerPortalAction}>
+                  <Button type="submit" variant="destructive">
+                    Résilier
+                  </Button>
+                </form>
+              </div>
+            ) : user?.stripe_customer_id ? (
               <form action={customerPortalAction}>
                 <Button type="submit" variant="outline">
                   Gérer l'Abonnement
