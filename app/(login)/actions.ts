@@ -57,11 +57,12 @@ const signUpSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
   phoneNumber: z.string().optional(),
-  phoneCountry: z.string().optional()
+  phoneCountry: z.string().optional(),
+  plan: z.string().optional()
 });
 
 export const signUp = validatedAction(signUpSchema, async (data, formData) => {
-  const { email, password, phoneNumber, phoneCountry } = data;
+  const { email, password, phoneNumber, phoneCountry, plan } = data;
   const supabase = await createClient();
 
   console.log('🆕 Starting sign up process');
@@ -106,10 +107,11 @@ export const signUp = validatedAction(signUpSchema, async (data, formData) => {
   console.log('✅ Supabase auth user created or signed in:', authData.user.id);
 
   // Upsert into public.users (id serial, email, password_hash, role)
+  const roleFromPlan = (plan === 'personal' || plan === 'gift' || plan === 'family') ? plan : 'owner';
   const userRow: any = {
     email,
     password_hash: 'supabase_auth',
-    role: 'owner',
+    role: roleFromPlan,
   };
   const { error: upsertErr } = await supabase
     .from('users')
