@@ -25,7 +25,7 @@ const fetcher = (url: string) => fetch(url).then((res) => {
   return res.json();
 });
 
-function UserMenu() {
+function UserMenu({ onlyWhenAuthenticated = false, onlyWhenUnauthenticated = false }: { onlyWhenAuthenticated?: boolean; onlyWhenUnauthenticated?: boolean }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { data: user } = useSWR('/api/user', fetcher, {
     shouldRetryOnError: (error) => error.status !== 401,
@@ -41,6 +41,7 @@ function UserMenu() {
   }
 
   if (!user) {
+    if (onlyWhenAuthenticated) return null;
     return (
       <>
         <Link
@@ -92,7 +93,7 @@ export function Header() {
   return (
     <header className="border-b border-gray-200 bg-white">
       <div className="w-full px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-        <Link href="/" className="flex items-center">
+        <Link href="https://motdujour.thomasjay.fr/" className="flex items-center">
           <div className="h-6 w-6 flex items-center justify-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f97316" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <path d="M15.5 3H5a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2V8.5L15.5 3Z"/>
@@ -103,10 +104,17 @@ export function Header() {
             </svg>
           </div>
           <span className="ml-2 text-xl font-semibold text-gray-900 hidden sm:block">Mot du jour</span>
+          {/* Authenticated avatar on the left */}
+          <span className="ml-4 hidden sm:inline-flex">
+            <Suspense fallback={<div className="h-9" />}>
+              <UserMenu onlyWhenAuthenticated />
+            </Suspense>
+          </span>
         </Link>
         <div className="flex items-center space-x-4">
+          {/* Auth buttons on the right when unauthenticated */}
           <Suspense fallback={<div className="h-9" />}>
-            <UserMenu />
+            <UserMenu onlyWhenUnauthenticated />
           </Suspense>
         </div>
       </div>
