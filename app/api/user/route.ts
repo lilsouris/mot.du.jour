@@ -19,8 +19,8 @@ export async function GET(request: NextRequest) {
 
     console.log('✅ Auth user found:', authUser.id, authUser.email);
 
-    // Do not rely on public.users anymore; return a unified auth-backed profile.
-    const userData = {
+    // Build base profile from Auth
+    let userData: any = {
       id: authUser.id,
       email: authUser.email,
       name: authUser.email?.split('@')[0] || null,
@@ -33,6 +33,19 @@ export async function GET(request: NextRequest) {
       phone_country: null,
       created_at: authUser.created_at
     };
+
+    // Try to enrich from public.users using email (most stable across our schema variants)
+    try {
+      const { data: dbUser, error: dbError } = await supabase
+        .from('users')
+        .select('*')
+        .eq('email', authUser.email)
+        .single();
+
+      if (!dbError && dbUser) {
+        userData = { ...userData, ...dbUser };
+      }
+    } catch {}
 
     console.log('✅ Returning user data');
     return NextResponse.json(userData);
