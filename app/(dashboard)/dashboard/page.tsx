@@ -100,7 +100,7 @@ function ManageSubscription() {
               </p>
             </div>
             {hasPlan ? (
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-3 ml-auto mr-2">
                 <Button asChild variant="outline">
                   <a href="/pricing">Changer d'abonnement</a>
                 </Button>
@@ -111,13 +111,13 @@ function ManageSubscription() {
                 </form>
               </div>
             ) : user?.stripe_customer_id ? (
-              <form action={customerPortalAction}>
+              <form action={customerPortalAction} className="ml-auto mr-2">
                 <Button type="submit" variant="outline">
                   Gérer l'Abonnement
                 </Button>
               </form>
             ) : (
-              <Button asChild variant="outline">
+              <Button asChild variant="outline" className="ml-auto mr-2">
                 <a href="/pricing">Choisir un Plan</a>
               </Button>
             )}
