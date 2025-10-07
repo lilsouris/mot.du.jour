@@ -41,6 +41,10 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
 
   const handleSubmit = (formData: FormData) => {
     startTransition(async () => {
+      if (mode === 'signup' && !selectedPlan) {
+        setState((prev) => ({ ...prev, error: 'Veuillez sélectionner une formule' }));
+        return;
+      }
       const action = mode === 'signin' ? signIn : signUp;
       const result = await action(state, formData);
       if (result && typeof result === 'object') {
@@ -72,7 +76,7 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
 
           {mode === 'signup' && (
             <div className="space-y-3">
-              <p className="text-sm text-gray-700">Choisissez votre formule</p>
+              <p className="text-sm text-gray-700">Choisissez votre formule <span className="text-red-500">*</span></p>
               <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
                 {[
                   { key: 'personal', title: 'Personnel', price: '4,99€ / mois' },
@@ -105,7 +109,7 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
               htmlFor="email"
               className="block text-sm font-medium text-gray-700"
             >
-              Email
+              Email <span className="text-red-500">*</span>
             </Label>
             <div className="mt-1">
               <Input
@@ -138,7 +142,7 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
               htmlFor="password"
               className="block text-sm font-medium text-gray-700"
             >
-              Mot de passe
+              Mot de passe <span className="text-red-500">*</span>
             </Label>
             <div className="mt-1 relative">
               <Input
@@ -178,8 +182,8 @@ export function Login({ mode = 'signin' }: { mode?: 'signin' | 'signup' }) {
           <div>
             <Button
               type="submit"
-              className="w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-full shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500"
-              disabled={pending}
+              className="w-full flex justify-center items-center py-2 px-4 border border-transparent rounded-full shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50"
+              disabled={pending || (mode === 'signup' && !selectedPlan)}
             >
               {pending ? (
                 <>
