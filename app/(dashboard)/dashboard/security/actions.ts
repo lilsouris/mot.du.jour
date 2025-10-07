@@ -165,3 +165,45 @@ export async function deleteAccountAction(prevState: ActionState, formData: Form
     };
   }
 }
+
+export async function addTeamMemberAction(prevState: ActionState, formData: FormData): Promise<ActionState> {
+  try {
+    const phoneNumber = (formData.get('phone') as string || '').trim();
+    if (!phoneNumber) {
+      return { error: 'Numéro requis' };
+    }
+
+    const supabase = await createClient();
+
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    if (userError || !user) {
+      return { error: 'Utilisateur non authentifié.' };
+    }
+
+    // Upsert team by owner user id (simple single-team model)
+    const { data: teamRow } = await supabase
+      .from('teams')
+      .upsert({ owner_id: user.id }, { onConflict: 'owner_id' })
+      .select('id')
+      .single();
+
+    const teamId = teamRow?.id;
+
+    const insertRow: any = {
+      user_id: user.id,
+      team_id: teamId,
+      role: 'member',
+      phone_number: phoneNumber,
+      joined_at: new Date().toISOString(),
+    };
+
+    const { error: insertErr } = await supabase.from('team_members').insert(insertRow);
+    if (insertErr) {
+      return { error: 'Erreur lors de l\'ajout du membre.' };
+    }
+
+    return { success: 'Numéro ajouté.' };
+  } catch (e) {
+    return { error: 'Une erreur inattendue s\'est produite.' };
+  }
+}

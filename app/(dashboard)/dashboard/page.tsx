@@ -16,7 +16,7 @@ import { Suspense } from 'react';
 import { Input } from '@/components/ui/input';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
-import { Loader2, PlusCircle } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 
 type ActionState = {
   error?: string;
@@ -200,68 +200,37 @@ function InviteTeamMember() {
     revalidateOnFocus: false,
     revalidateOnReconnect: true
   });
-  const isOwner = user?.role === 'owner';
+  const role = String(user?.role || '').toLowerCase();
+  const isFamily = role === 'family' || role === 'famille';
+  if (!isFamily) return null;
 
-  // Placeholder invite function - you can implement this later
-  const handleInvite = async (formData: FormData) => {
-    console.log('Invite functionality - to be implemented');
-  };
+  async function handleAddNumber(formData: FormData) {
+    'use server'
+  }
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Inviter un Membre de l'Équipe</CardTitle>
+        <CardTitle>Ajouter un numéro</CardTitle>
       </CardHeader>
       <CardContent>
-        <form action={handleInvite} className="space-y-4">
+        <form action={async (fd) => {
+          const phone = (fd.get('phone') as string || '').trim();
+          if (!phone) return;
+          const res = await fetch('/api/team-members', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ phone })
+          });
+        }} className="space-y-4">
           <div>
-            <Label htmlFor="email" className="mb-2">
-              Email
-            </Label>
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              placeholder="Entrez l'email"
-              required
-              disabled={!isOwner}
-            />
+            <Label htmlFor="phone" className="mb-2">Numéro de téléphone</Label>
+            <Input id="phone" name="phone" type="tel" placeholder="Ex: +33 6 12 34 56 78" required />
           </div>
-          <div>
-            <Label>Rôle</Label>
-            <RadioGroup
-              defaultValue="member"
-              name="role"
-              className="flex space-x-4"
-              disabled={!isOwner}
-            >
-              <div className="flex items-center space-x-2 mt-2">
-                <RadioGroupItem value="member" id="member" />
-                <Label htmlFor="member">Membre</Label>
-              </div>
-              <div className="flex items-center space-x-2 mt-2">
-                <RadioGroupItem value="owner" id="owner" />
-                <Label htmlFor="owner">Propriétaire</Label>
-              </div>
-            </RadioGroup>
-          </div>
-          <Button
-            type="submit"
-            className="bg-orange-500 hover:bg-orange-600 text-white"
-            disabled={!isOwner}
-          >
-            <PlusCircle className="mr-2 h-4 w-4" />
-            Inviter un Membre
-          </Button>
+          <Button type="submit" className="bg-orange-500 hover:bg-orange-600 text-white">Ajouter</Button>
         </form>
       </CardContent>
-      {!isOwner && (
-        <CardFooter>
-          <p className="text-sm text-muted-foreground">
-            Vous devez être propriétaire de l'équipe pour inviter de nouveaux membres.
-          </p>
-        </CardFooter>
-      )}
+      
     </Card>
   );
 }
