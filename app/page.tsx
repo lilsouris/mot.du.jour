@@ -1,20 +1,9 @@
-import { redirect } from 'next/navigation';
-import { createClient } from '@/lib/supabase/server';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, BookOpen, Brain, MessageSquare } from 'lucide-react';
 import { PhoneVisuals } from './(dashboard)/phone-visuals';
 import { Header } from '@/components/header';
 
 export default async function RootPage() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (user) {
-    // Logged in users go to dashboard
-    redirect('/dashboard');
-  }
 
   // Non-logged in users see the landing page
   return (

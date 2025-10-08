@@ -78,7 +78,7 @@ function UserMenu({
   return (
     <DropdownMenu open={isMenuOpen} onOpenChange={setIsMenuOpen}>
       <DropdownMenuTrigger>
-        <Avatar className="cursor-pointer size-9">
+        <Avatar className="cursor-pointer size-9 border-2 border-orange-500 rounded-full">
           <AvatarImage alt={String(user?.name || '')} />
           <AvatarFallback>
             {(user?.name?.[0] ?? user?.email?.[0] ?? 'U').toUpperCase()}

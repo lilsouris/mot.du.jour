@@ -101,7 +101,7 @@ function ManageSubscription() {
               </p>
             </div>
             {hasPlan ? (
-              <div className="flex items-center gap-3 ml-auto mr-2">
+              <div className="flex items-center gap-3 ml-auto">
                 <Button asChild variant="outline">
                   <a href="/pricing">Changer d'abonnement</a>
                 </Button>
@@ -112,13 +112,13 @@ function ManageSubscription() {
                 </form>
               </div>
             ) : user?.stripe_customer_id ? (
-              <form action={customerPortalAction} className="ml-auto mr-2">
+              <form action={customerPortalAction} className="ml-auto">
                 <Button type="submit" variant="outline">
                   Gérer l'Abonnement
                 </Button>
               </form>
             ) : (
-              <Button asChild variant="outline" className="ml-auto mr-2">
+              <Button asChild variant="outline" className="ml-auto">
                 <a href="/pricing">Choisir un Plan</a>
               </Button>
             )}
@@ -171,11 +171,21 @@ function TeamMembers() {
         <ul className="space-y-4">
           <li className="flex items-center justify-between">
             <div className="flex items-center space-x-4">
-              <div>
-                <p className="font-medium">Numéro de téléphone</p>
-                <p className="text-sm text-muted-foreground">
-                  {user?.phone_number || 'Non renseigné'}
-                </p>
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
+                  <span className="text-orange-600 text-lg">📱</span>
+                </div>
+                <div>
+                  <p className="font-semibold text-gray-900">
+                    {user?.phone_number && user?.phone_country 
+                      ? `${user.phone_country} ${user.phone_number}`
+                      : 'Non renseigné'
+                    }
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    {user?.phone_number ? 'Numéro de réception' : 'Aucun numéro configuré'}
+                  </p>
+                </div>
               </div>
             </div>
           </li>
