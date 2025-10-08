@@ -175,10 +175,10 @@ function TeamMembers() {
                 <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
                   <span className="text-orange-600 text-lg">📱</span>
                 </div>
-                <div>
+                <div className="bg-orange-50 px-3 py-2 rounded-lg">
                   <p className="font-semibold text-gray-900">
                     {user?.phone_number && user?.phone_country 
-                      ? `${user.phone_country} ${user.phone_number}`
+                      ? `+${user.phone_country} ${user.phone_number}`
                       : 'Non renseigné'
                     }
                   </p>
